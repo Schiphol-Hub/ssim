@@ -9,7 +9,6 @@ setup(
     author='Rok Mihevc',
     author_email='rok.mihevc@gmail.com',
     url='https://github.com/rok/ssim',
-    download_url='https://github.com/rok/ssim/archive/0.1.0.tar.gz',
     keywords=['parsing', 'ssim', 'data'],
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
