@@ -5,7 +5,8 @@ setup(
     packages=['ssim'],
     package_dir={'ssim': 'ssim'},
     version='0.1.1',
-    description='A parser for ssim',
+    description='IATA SSIM (Standard Schedules Information Manual) file parser is a tool to read the standard IATA '
+                'file format.',
     author='Rok Mihevc',
     author_email='rok.mihevc@gmail.com',
     url='https://github.com/rok/ssim',
@@ -14,5 +15,6 @@ setup(
         'Development Status :: 2 - Pre-Alpha',
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Programming Language :: Python :: 3.6'
-    ]
+    ],
+    requires=['python-dateutil']
 )

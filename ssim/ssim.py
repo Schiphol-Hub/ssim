@@ -1,5 +1,6 @@
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
+from dateutil.rrule import rrule, WEEKLY
 
 # For email parsing see: emailregex.com
 header_pattern = (
@@ -122,7 +123,7 @@ def _parse_slotfile(text):
         for row_pattern in row_patterns:
             try:
                 parsed_rows.append(re.search(row_pattern, row).groupdict())
-            except:
+            except Exception:
                 pass
 
     return parsed_rows, header, footer
@@ -193,3 +194,44 @@ def read(slotfile, year_prefix='20'):
     slots = _process_slots(slots, header, year_prefix)
 
     return slots, header, footer
+
+
+def _expand_slot(slot):
+    """
+    Expands slots into individual flights.
+
+    Parameters
+    ----------.
+    slot: dict, description of a slot.
+
+    Returns
+    -------
+    slot: dict, describing slots as a list of flights.
+    """
+
+    weekdays = [int(weekday) - 1 for weekday in list(slot['days_of_operation'].replace('0',''))]
+
+    # Expand arriving flights
+    try:
+        arrival_start_date = \
+            datetime.strptime(slot['start_date_of_operation'] + slot['scheduled_time_of_arrival_utc'], '%Y-%m-%d%H%M')
+        arrival_end_date = datetime.strptime(slot['end_date_of_operation'], '%Y-%m-%d')
+
+        dates = rrule(freq=WEEKLY, dtstart=arrival_start_date, until=arrival_end_date, byweekday=weekdays)
+        slot['arrival_flights'] = [x.strftime('%Y-%m-%d %H:%M') for x in dates]
+    except Exception:
+        pass
+
+    # Expand departing flights
+    try:
+        departure_start_date = \
+            datetime.strptime(slot['start_date_of_operation'] + slot['scheduled_time_of_departure_utc'], '%Y-%m-%d%H%M') \
+            + timedelta(days=int(slot['overnight_indicator']))
+        departure_end_date = datetime.strptime(slot['end_date_of_operation'], '%Y-%m-%d')
+
+        dates = rrule(freq=WEEKLY, dtstart=departure_start_date, until=departure_end_date, byweekday=weekdays)
+        slot['departure_flights'] = [x.strftime('%Y-%m-%d %H:%M') for x in dates]
+    except Exception:
+        pass
+
+    return slot
