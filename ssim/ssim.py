@@ -95,7 +95,7 @@ def _add_year(dt):
 
 def _parse_slotfile(text):
     """
-    Parses a SSIM message and returns it as a dicts.
+    Parses a ssim message and returns it as a dicts.
 
     Parameters
     ----------.
@@ -130,7 +130,7 @@ def _parse_slotfile(text):
 
 def _process_slots(slots, header, year_prefix='20'):
     """
-    Processes parsed SSIM messages to insert the correct start
+    Processes parsed ssim messages to insert the correct start
     and end dates.
 
     Parameters
@@ -172,7 +172,7 @@ def _process_slots(slots, header, year_prefix='20'):
 
 def read(slotfile, year_prefix='20'):
     """
-    Parses and processes a valid SSIM file.
+    Parses and processes a valid ssim file.
 
     Parameters
     ----------.

@@ -1,4 +1,4 @@
-from ssim import _process_slots
+from ssim.ssim import _process_slots
 
 
 def test_process_slots(slotfiles):

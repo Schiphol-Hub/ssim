@@ -1,4 +1,4 @@
-from ssim import _parse_slotfile
+from ssim.ssim import _parse_slotfile
 
 
 def test_parse_slotfile(slotfiles):
