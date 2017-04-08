@@ -15,6 +15,7 @@ Usage example
     import ssim
 
     slots, header, footer = ssim.read('slotfile_example.SCR')
+    flights = ssim.expand_slots(slots)
 
 
 Authors
