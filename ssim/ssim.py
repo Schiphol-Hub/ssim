@@ -171,6 +171,82 @@ def _process_slots(slots, header, year_prefix='20'):
     return processed_slots
 
 
+def _update_dict(d, entry):
+    new_d = d.copy()
+    new_d.update(entry)
+    return new_d
+
+
+def _expand_slot(slot):
+    """
+    Expands slot into individual flights.
+
+    Parameters
+    ----------.
+    slot: dict, description of a slot.
+
+    Returns
+    -------
+    slot: list of dicts, representing flights described by the slot.
+    """
+
+    weekdays = [int(weekday) - 1 for weekday in list(slot['days_of_operation'].replace('0', ''))]
+    expanded_slot = []
+
+    # Expand arriving flights
+    try:
+        arrival_slot = {
+            'action_code': slot['action_code'],
+            'ad': 'A',
+            'prefix': slot['arrival_flight_prefix'],
+            'suffix': slot['arrival_flight_suffix'],
+            'aircraft_type_3_letter': slot['aircraft_type_3_letter'],
+            'type_of_flight': slot['arrival_type_of_flight'],
+            'destination': slot['origin_of_flight'],
+            'seats': slot['seat_number']
+
+        }
+        arrival_start_date = \
+            datetime.strptime(slot['start_date_of_operation'] + slot['scheduled_time_of_arrival_utc'], '%Y-%m-%d%H%M')
+        arrival_end_date = datetime.strptime(slot['end_date_of_operation'], '%Y-%m-%d')
+
+        dates = rrule(freq=WEEKLY, dtstart=arrival_start_date, until=arrival_end_date, byweekday=weekdays)
+        arrival_slot['flight_datetime'] = [x.strftime('%Y-%m-%d %H:%M') for x in dates]
+
+        expanded_slot = expanded_slot + [arrival_slot]
+
+    except Exception:
+        pass
+
+    # Expand departing flights
+    try:
+        departure_slot = {
+            'action_code': slot['action_code'],
+            'ad': 'D',
+            'prefix': slot['departure_flight_prefix'],
+            'suffix': slot['departure_flight_suffix'],
+            'aircraft_type_3_letter': slot['aircraft_type_3_letter'],
+            'type_of_flight': slot['departure_type_of_flight'],
+            'destination': slot['destination_of_flight'],
+            'seats': slot['seat_number']
+        }
+        departure_start_date = \
+            datetime.strptime(slot['start_date_of_operation'] + slot['scheduled_time_of_departure_utc'], '%Y-%m-%d%H%M') \
+            + timedelta(days=int(slot['overnight_indicator']))
+        departure_end_date = datetime.strptime(slot['end_date_of_operation'], '%Y-%m-%d') \
+                             + timedelta(days=int(slot['overnight_indicator']))
+
+        dates = rrule(freq=WEEKLY, dtstart=departure_start_date, until=departure_end_date, byweekday=weekdays)
+        departure_slot['flight_datetime'] = [x.strftime('%Y-%m-%d %H:%M') for x in dates]
+
+        expanded_slot = expanded_slot + [departure_slot]
+
+    except Exception:
+        pass
+
+    return expanded_slot
+
+
 def read(slotfile, year_prefix='20'):
     """
     Parses and processes a valid ssim file.
@@ -196,42 +272,24 @@ def read(slotfile, year_prefix='20'):
     return slots, header, footer
 
 
-def _expand_slot(slot):
+def expand_slots(slots):
     """
-    Expands slots into individual flights.
-
+    Expands a list of slots into flights.
+    
     Parameters
     ----------.
-    slot: dict, description of a slot.
-
+    slots : list, a list of slot dicts.
+    
     Returns
     -------
-    slot: dict, describing slots as a list of flights.
+    flights : list, a list of flight dicts.
     """
 
-    weekdays = [int(weekday) - 1 for weekday in list(slot['days_of_operation'].replace('0',''))]
+    flights = []
 
-    # Expand arriving flights
-    try:
-        arrival_start_date = \
-            datetime.strptime(slot['start_date_of_operation'] + slot['scheduled_time_of_arrival_utc'], '%Y-%m-%d%H%M')
-        arrival_end_date = datetime.strptime(slot['end_date_of_operation'], '%Y-%m-%d')
+    for slot in slots:
+        expanded_slot = _expand_slot(slot)
+        flights = flights + \
+            [_update_dict(x, {'flight_datetime': f_dt}) for x in expanded_slot for f_dt in x['flight_datetime']]
 
-        dates = rrule(freq=WEEKLY, dtstart=arrival_start_date, until=arrival_end_date, byweekday=weekdays)
-        slot['arrival_flights'] = [x.strftime('%Y-%m-%d %H:%M') for x in dates]
-    except Exception:
-        pass
-
-    # Expand departing flights
-    try:
-        departure_start_date = \
-            datetime.strptime(slot['start_date_of_operation'] + slot['scheduled_time_of_departure_utc'], '%Y-%m-%d%H%M') \
-            + timedelta(days=int(slot['overnight_indicator']))
-        departure_end_date = datetime.strptime(slot['end_date_of_operation'], '%Y-%m-%d')
-
-        dates = rrule(freq=WEEKLY, dtstart=departure_start_date, until=departure_end_date, byweekday=weekdays)
-        slot['departure_flights'] = [x.strftime('%Y-%m-%d %H:%M') for x in dates]
-    except Exception:
-        pass
-
-    return slot
+    return flights

@@ -1,1 +1,1 @@
-from .ssim import read
+from .ssim import read, expand_slots
