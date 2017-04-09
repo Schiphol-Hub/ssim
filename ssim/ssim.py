@@ -208,7 +208,8 @@ def _expand_slot(slot):
         }
         arrival_start_date = \
             datetime.strptime(slot['start_date_of_operation'] + slot['scheduled_time_of_arrival_utc'], '%Y-%m-%d%H%M')
-        arrival_end_date = datetime.strptime(slot['end_date_of_operation'], '%Y-%m-%d')
+        arrival_end_date = \
+            datetime.strptime(slot['end_date_of_operation'] + slot['scheduled_time_of_arrival_utc'], '%Y-%m-%d%H%M')
 
         dates = rrule(freq=WEEKLY, dtstart=arrival_start_date, until=arrival_end_date, byweekday=weekdays)
         arrival_slot['flight_datetime'] = [x.strftime('%Y-%m-%d %H:%M') for x in dates]
@@ -233,7 +234,8 @@ def _expand_slot(slot):
         departure_start_date = \
             datetime.strptime(slot['start_date_of_operation']+slot['scheduled_time_of_departure_utc'], '%Y-%m-%d%H%M') \
             + timedelta(days=int(slot['overnight_indicator']))
-        departure_end_date = datetime.strptime(slot['end_date_of_operation'], '%Y-%m-%d') \
+        departure_end_date = \
+            datetime.strptime(slot['end_date_of_operation']+slot['scheduled_time_of_departure_utc'], '%Y-%m-%d%H%M') \
             + timedelta(days=int(slot['overnight_indicator']))
 
         dates = rrule(freq=WEEKLY, dtstart=departure_start_date, until=departure_end_date, byweekday=weekdays)
