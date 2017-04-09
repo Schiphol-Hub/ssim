@@ -6,10 +6,22 @@ Introduction
 ------------
 IATA SSIM (Standard Schedules Information Manual) file parser is a tool to read the standard IATA file format.
 
+Installation
+------------
+
+.. code-block:: bash
+
+    pip install ssim
 
 Usage example
 -------------
 
+Using in command line:
+.. code-block:: bash
+
+    ssim -i slotfile_example.SCR -o flights.csv
+
+Using with python:
 .. code-block:: python
 
     import ssim
