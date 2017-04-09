@@ -15,5 +15,10 @@ setup(
         'Development Status :: 2 - Pre-Alpha',
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Programming Language :: Python :: 3.6'
-    ]
+    ],
+    entry_points={
+        'console_scripts': [
+            'ssim = ssim.__main__:main'
+        ]
+    }
 )

@@ -231,10 +231,10 @@ def _expand_slot(slot):
             'seats': slot['seat_number']
         }
         departure_start_date = \
-            datetime.strptime(slot['start_date_of_operation'] + slot['scheduled_time_of_departure_utc'], '%Y-%m-%d%H%M') \
+            datetime.strptime(slot['start_date_of_operation']+slot['scheduled_time_of_departure_utc'], '%Y-%m-%d%H%M') \
             + timedelta(days=int(slot['overnight_indicator']))
         departure_end_date = datetime.strptime(slot['end_date_of_operation'], '%Y-%m-%d') \
-                             + timedelta(days=int(slot['overnight_indicator']))
+            + timedelta(days=int(slot['overnight_indicator']))
 
         dates = rrule(freq=WEEKLY, dtstart=departure_start_date, until=departure_end_date, byweekday=weekdays)
         departure_slot['flight_datetime'] = [x.strftime('%Y-%m-%d %H:%M') for x in dates]
@@ -278,11 +278,11 @@ def expand_slots(slots):
     
     Parameters
     ----------.
-    slots : list, a list of slot dicts.
+    :param slots: list, a list of slot dicts.
     
     Returns
     -------
-    flights : list, a list of flight dicts.
+    :return: flights: list, a list of flight dicts.
     """
 
     flights = []
