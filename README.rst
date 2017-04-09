@@ -17,11 +17,13 @@ Usage example
 -------------
 
 Using in command line:
+
 .. code-block:: bash
 
     ssim -i slotfile_example.SCR -o flights.csv
 
 Using with python:
+
 .. code-block:: python
 
     import ssim
