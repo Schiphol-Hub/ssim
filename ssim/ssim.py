@@ -9,6 +9,7 @@ header_pattern = (
     '(?P<season>\w+)\s*\n'
     '(?P<export_date>\w+)\s*\n'
     '(?P<origin>\w+)\n'
+    '(REYT/\n){0,1}'
 )
 footer_pattern = (
     '(?P<special_information>SI [A-Za-z0-9 ()\.:=]+)\n'
@@ -84,13 +85,55 @@ arrival_row_pattern = (
     '\n*'
 )
 
+arrival_row_pattern_nl = (
+    '(?P<action_code>[A-Z])'
+    '(?P<arrival_flight_prefix>[A-Z]{2,3})'
+    '(?P<arrival_flight_suffix>\d+[A-Z]*)'
+    '\s'
+    '(?P<start_date_of_operation>\d{2}[A-Z]{3})'
+    '(?P<end_date_of_operation>\d{2}[A-Z]{3}|)'
+    '\s'
+    '(?P<days_of_operation>\d{7}|)'
+    '\s{0,1}'
+    '(?P<seat_number>\d{3})'
+    '(?P<aircraft_type_3_letter>\w{3})'
+    '\s'
+    '(?P<origin_of_flight>[A-Z]{3})'
+    '(?P<origin_of_flight_2>[A-Z]{3})'
+    '(?P<scheduled_time_of_arrival_utc>\d{4})'
+    '\s'
+    '(?P<arrival_type_of_flight>[A-Z])'
+)
+
+departure_row_pattern_nl = (
+    '(?P<action_code>[A-Z])'
+    '\s'
+    '(?P<departure_flight_prefix>[A-Z]{2,3})'
+    '(?P<departure_flight_suffix>\d+[A-Z]*)'
+    '\s'
+    '(?P<start_date_of_operation>\d{2}[A-Z]{3})'
+    '(?P<end_date_of_operation>\d{2}[A-Z]{3}|)'
+    '\s'
+    '(?P<days_of_operation>\d{7}|)'
+    '\s{0,1}'
+    '(?P<seat_number>\d{3})'
+    '(?P<aircraft_type_3_letter>\w{3})'
+    '\s'
+    '(?P<scheduled_time_of_departure_utc>\d{4})'
+    '(?P<destination_of_flight>[A-Z]{3})'
+    '(?P<destination_of_flight_2>[A-Z]{3})'
+    '\s'
+    '(?P<departure_type_of_flight>[A-Z])'
+)
+
 row_patterns = [re.compile(arrival_row_pattern),
                 re.compile(departure_row_pattern),
-                re.compile(return_row_pattern)]
+                re.compile(return_row_pattern),
+                re.compile(arrival_row_pattern_nl),
+                re.compile(departure_row_pattern_nl)]
 
 
 def _add_year(dt):
-
     return datetime(dt.year + 1, dt.month, dt.day)
 
 
@@ -113,9 +156,19 @@ def _parse_slotfile(text):
     footer_match = re.search(footer_pattern, text)
 
     header = header_match.groupdict()
-    footer = footer_match.groupdict()
 
-    rows = text[header_match.end():footer_match.start()].splitlines()
+    try:
+        footer = footer_match.groupdict()
+    except Exception:
+        footer = {}
+        pass
+
+    try:
+        rows = text[header_match.end():footer_match.start()].splitlines()
+    except Exception:
+        rows = text[header_match.end():].splitlines()
+        pass
+
 
     parsed_rows = []
 
@@ -150,6 +203,9 @@ def _process_slots(slots, header, year_prefix='20'):
     processed_slots = []
 
     for slot in slots:
+        if slot['end_date_of_operation'] == '':
+            slot['end_date_of_operation'] = slot['start_date_of_operation']
+            slot['weekdays'] = '1234567'
 
         slot['start_date_of_operation'] = \
             datetime.strptime(slot['start_date_of_operation'] + year, '%d%b%Y')
@@ -232,10 +288,10 @@ def _expand_slot(slot):
             'seats': slot['seat_number']
         }
         departure_start_date = \
-            datetime.strptime(slot['start_date_of_operation']+slot['scheduled_time_of_departure_utc'], '%Y-%m-%d%H%M') \
+            datetime.strptime(slot['start_date_of_operation'] + slot['scheduled_time_of_departure_utc'], '%Y-%m-%d%H%M') \
             + timedelta(days=int(slot['overnight_indicator']))
         departure_end_date = \
-            datetime.strptime(slot['end_date_of_operation']+slot['scheduled_time_of_departure_utc'], '%Y-%m-%d%H%M') \
+            datetime.strptime(slot['end_date_of_operation'] + slot['scheduled_time_of_departure_utc'], '%Y-%m-%d%H%M') \
             + timedelta(days=int(slot['overnight_indicator']))
 
         dates = rrule(freq=WEEKLY, dtstart=departure_start_date, until=departure_end_date, byweekday=weekdays)
@@ -292,6 +348,6 @@ def expand_slots(slots):
     for slot in slots:
         expanded_slot = _expand_slot(slot)
         flights = flights + \
-            [_update_dict(x, {'flight_datetime': f_dt}) for x in expanded_slot for f_dt in x['flight_datetime']]
+                  [_update_dict(x, {'flight_datetime': f_dt}) for x in expanded_slot for f_dt in x['flight_datetime']]
 
     return flights
