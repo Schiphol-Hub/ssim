@@ -8,7 +8,8 @@ def slotfiles():
     slotfiles_files = glob('test/data/slots_*.yml')
     slotfiles_files = [
         'test/data/slots_austria.yml',
-        'test/data/slots_belgium.yml'
+        'test/data/slots_belgium.yml',
+        'test/data/slots_netherlands.yml'
     ]
     slotfile_list = []
     for slotfile in slotfiles_files:

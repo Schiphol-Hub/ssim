@@ -98,8 +98,8 @@ arrival_row_pattern_nl = (
     '(?P<seat_number>\d{3})'
     '(?P<aircraft_type_3_letter>\w{3})'
     '\s'
+    '(?P<previous_stop_of_flight>[A-Z]{3})'
     '(?P<origin_of_flight>[A-Z]{3})'
-    '(?P<origin_of_flight_2>[A-Z]{3})'
     '(?P<scheduled_time_of_arrival_utc>\d{4})'
     '\s'
     '(?P<arrival_type_of_flight>[A-Z])'
@@ -120,8 +120,8 @@ departure_row_pattern_nl = (
     '(?P<aircraft_type_3_letter>\w{3})'
     '\s'
     '(?P<scheduled_time_of_departure_utc>\d{4})'
+    '(?P<next_stop_of_flight>[A-Z]{3})'
     '(?P<destination_of_flight>[A-Z]{3})'
-    '(?P<destination_of_flight_2>[A-Z]{3})'
     '\s'
     '(?P<departure_type_of_flight>[A-Z])'
 )
@@ -205,7 +205,7 @@ def _process_slots(slots, header, year_prefix='20'):
     for slot in slots:
         if slot['end_date_of_operation'] == '':
             slot['end_date_of_operation'] = slot['start_date_of_operation']
-            slot['weekdays'] = '1234567'
+            # slot['weekdays'] = '1234567'
 
         slot['start_date_of_operation'] = \
             datetime.strptime(slot['start_date_of_operation'] + year, '%d%b%Y')

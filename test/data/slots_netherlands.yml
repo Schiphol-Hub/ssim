@@ -1,0 +1,126 @@
+raw_data: |
+  SIR
+  /
+  S17
+  31MAR
+  AMS
+  REYT/
+  HHV246 07APR05MAY 0000500 18973H RMFRMF0000 C
+  H BCS1444 15AUG10OCT 0200000 00073P 0010EMAEMA H
+  HHV5684 26MAR 18973H ACEACE0000 J
+  H KL3106 26MAR 186738 0015SAWSAW J
+
+header:
+  email:
+  export_date: '31MAR'
+  file_type: 'SIR'
+  origin: 'AMS'
+  season: 'S17'
+
+slots:
+  - action_code: 'H'
+    arrival_flight_prefix: 'HV'
+    arrival_flight_suffix: '246'
+    start_date_of_operation: '07APR'
+    end_date_of_operation: '05MAY'
+    days_of_operation: '0000500'
+    seat_number: '189'
+    aircraft_type_3_letter: '73H'
+    origin_of_flight: 'RMF'
+    previous_stop_of_flight: 'RMF'
+    scheduled_time_of_arrival_utc: '0000'
+    arrival_type_of_flight: 'C'
+
+  - action_code: 'H'
+    departure_flight_prefix: 'BCS'
+    departure_flight_suffix: '1444'
+    start_date_of_operation: '15AUG'
+    end_date_of_operation: '10OCT'
+    days_of_operation: '0200000'
+    seat_number: '000'
+    aircraft_type_3_letter: '73P'
+    scheduled_time_of_departure_utc: '0010'
+    destination_of_flight: 'EMA'
+    next_stop_of_flight: 'EMA'
+    departure_type_of_flight: 'H'
+
+  - action_code: 'H'
+    arrival_flight_prefix: 'HV'
+    arrival_flight_suffix: '5684'
+    start_date_of_operation: '26MAR'
+    end_date_of_operation: ''
+    days_of_operation: ''
+    seat_number: '189'
+    aircraft_type_3_letter: '73H'
+    origin_of_flight: 'ACE'
+    previous_stop_of_flight: 'ACE'
+    scheduled_time_of_arrival_utc: '0000'
+    arrival_type_of_flight: 'J'
+
+  - action_code: 'H'
+    departure_flight_prefix: 'KL'
+    departure_flight_suffix: '3106'
+    start_date_of_operation: '26MAR'
+    end_date_of_operation: ''
+    days_of_operation: ''
+    seat_number: '186'
+    aircraft_type_3_letter: '738'
+    scheduled_time_of_departure_utc: '0015'
+    destination_of_flight: 'SAW'
+    next_stop_of_flight: 'SAW'
+    departure_type_of_flight: 'J'
+
+processed_slots:
+  - action_code: 'H'
+    arrival_flight_prefix: 'HV'
+    arrival_flight_suffix: '246'
+    start_date_of_operation: '2017-04-07'
+    end_date_of_operation: '2017-05-05'
+    days_of_operation: '0000500'
+    seat_number: '189'
+    aircraft_type_3_letter: '73H'
+    origin_of_flight: 'RMF'
+    previous_stop_of_flight: 'RMF'
+    scheduled_time_of_arrival_utc: '0000'
+    arrival_type_of_flight: 'C'
+
+  - action_code: 'H'
+    departure_flight_prefix: 'BCS'
+    departure_flight_suffix: '1444'
+    start_date_of_operation: '2017-08-15'
+    end_date_of_operation: '2017-10-10'
+    days_of_operation: '0200000'
+    seat_number: '000'
+    aircraft_type_3_letter: '73P'
+    destination_of_flight: 'EMA'
+    next_stop_of_flight: 'EMA'
+    scheduled_time_of_departure_utc: '0010'
+    departure_type_of_flight: 'H'
+
+  - action_code: 'H'
+    arrival_flight_prefix: 'HV'
+    arrival_flight_suffix: '5684'
+    start_date_of_operation: '2017-03-26'
+    end_date_of_operation: '2017-03-26'
+    days_of_operation: ''
+    seat_number: '189'
+    aircraft_type_3_letter: '73H'
+    scheduled_time_of_arrival_utc: '0000'
+    origin_of_flight: 'ACE'
+    previous_stop_of_flight: 'ACE'
+    arrival_type_of_flight: 'J'
+
+  - action_code: 'H'
+    departure_flight_prefix: 'KL'
+    departure_flight_suffix: '3106'
+    start_date_of_operation: '2017-03-26'
+    end_date_of_operation: '2017-03-26'
+    days_of_operation: ''
+    seat_number: '186'
+    aircraft_type_3_letter: '738'
+    scheduled_time_of_departure_utc: '0015'
+    destination_of_flight: 'SAW'
+    next_stop_of_flight: 'SAW'
+    departure_type_of_flight: 'J'
+
+footer: {}
