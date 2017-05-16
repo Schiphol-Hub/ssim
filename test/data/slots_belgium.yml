@@ -4,7 +4,7 @@ raw_data: |
   S08
   10DEC
   BRU
-  NXY123 XY124 01JUL30SEP 1234500 120319 CDG0700 07501CDG JJ
+  NXY123 XY124 01JUL30SEP 1234500 120319 CDG0700 07501CDG JJ2
   NABC1234 08JUN08JUN 0000007 150319 LNZ0900 C
   N ABC1234 09JUN09JUN 1000000 150319 0900LNZ C
   SI = Special Information (e.g. database ABC)
@@ -34,7 +34,9 @@ slots:
     overnight_indicator: '1'
     destination_of_flight: 'CDG'
     arrival_type_of_flight: 'J'
+    arrival_frequency_rate: null
     departure_type_of_flight: 'J'
+    departure_frequency_rate: '2'
 
   - action_code: 'N'
     arrival_flight_prefix: 'ABC'
@@ -47,6 +49,7 @@ slots:
     origin_of_flight: 'LNZ'
     scheduled_time_of_arrival_utc: '0900'
     arrival_type_of_flight: 'C'
+    arrival_frequency_rate: null
 
   - action_code: 'N'
     departure_flight_prefix: 'ABC'
@@ -59,6 +62,7 @@ slots:
     scheduled_time_of_departure_utc: '0900'
     destination_of_flight: 'LNZ'
     departure_type_of_flight: 'C'
+    departure_frequency_rate: null
 
 processed_slots:
   - action_code: 'N'
@@ -77,7 +81,9 @@ processed_slots:
     overnight_indicator: '1'
     destination_of_flight: 'CDG'
     arrival_type_of_flight: 'J'
+    arrival_frequency_rate: null
     departure_type_of_flight: 'J'
+    departure_frequency_rate: '2'
 
   - action_code: 'N'
     arrival_flight_prefix: 'ABC'
@@ -90,6 +96,7 @@ processed_slots:
     origin_of_flight: 'LNZ'
     scheduled_time_of_arrival_utc: '0900'
     arrival_type_of_flight: 'C'
+    arrival_frequency_rate: null
 
   - action_code: 'N'
     departure_flight_prefix: 'ABC'
@@ -102,6 +109,7 @@ processed_slots:
     scheduled_time_of_departure_utc: '0900'
     destination_of_flight: 'LNZ'
     departure_type_of_flight: 'C'
+    departure_frequency_rate: null
 
 footer:
   special_information: 'SI = Special Information (e.g. database ABC)'

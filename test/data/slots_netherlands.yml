@@ -5,7 +5,7 @@ raw_data: |
   31MAR
   AMS
   REYT/
-  HHV246 07APR05MAY 0000500 18973H RMFRMF0000 C
+  HHV246 07APR05MAY 0000500 18973H RMFRMF0000 C2
   H BCS1444 15AUG10OCT 0200000 00073P 0010EMAEMA H
   HHV5684 26MAR 18973H ACEACE0000 J
   H KL3106 26MAR 186738 0015SAWSAW J
@@ -30,6 +30,7 @@ slots:
     previous_stop_of_flight: 'RMF'
     scheduled_time_of_arrival_utc: '0000'
     arrival_type_of_flight: 'C'
+    arrival_frequency_rate: '2'
 
   - action_code: 'H'
     departure_flight_prefix: 'BCS'
@@ -43,6 +44,7 @@ slots:
     destination_of_flight: 'EMA'
     next_stop_of_flight: 'EMA'
     departure_type_of_flight: 'H'
+    departure_frequency_rate: null
 
   - action_code: 'H'
     arrival_flight_prefix: 'HV'
@@ -56,6 +58,7 @@ slots:
     previous_stop_of_flight: 'ACE'
     scheduled_time_of_arrival_utc: '0000'
     arrival_type_of_flight: 'J'
+    arrival_frequency_rate: null
 
   - action_code: 'H'
     departure_flight_prefix: 'KL'
@@ -69,6 +72,7 @@ slots:
     destination_of_flight: 'SAW'
     next_stop_of_flight: 'SAW'
     departure_type_of_flight: 'J'
+    departure_frequency_rate: null
 
 processed_slots:
   - action_code: 'H'
@@ -83,6 +87,7 @@ processed_slots:
     previous_stop_of_flight: 'RMF'
     scheduled_time_of_arrival_utc: '0000'
     arrival_type_of_flight: 'C'
+    arrival_frequency_rate: '2'
 
   - action_code: 'H'
     departure_flight_prefix: 'BCS'
@@ -96,6 +101,7 @@ processed_slots:
     next_stop_of_flight: 'EMA'
     scheduled_time_of_departure_utc: '0010'
     departure_type_of_flight: 'H'
+    departure_frequency_rate: null
 
   - action_code: 'H'
     arrival_flight_prefix: 'HV'
@@ -109,6 +115,7 @@ processed_slots:
     origin_of_flight: 'ACE'
     previous_stop_of_flight: 'ACE'
     arrival_type_of_flight: 'J'
+    arrival_frequency_rate: null
 
   - action_code: 'H'
     departure_flight_prefix: 'KL'
@@ -122,5 +129,6 @@ processed_slots:
     destination_of_flight: 'SAW'
     next_stop_of_flight: 'SAW'
     departure_type_of_flight: 'J'
+    departure_frequency_rate: null
 
 footer: {}

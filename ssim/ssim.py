@@ -40,7 +40,9 @@ return_row_pattern = (
     '(?P<destination_of_flight>[A-Z]{3})'
     '\s'
     '(?P<arrival_type_of_flight>[A-Z])'
+    '(?P<arrival_frequency_rate>\d){0,1}'
     '(?P<departure_type_of_flight>[A-Z])'
+    '(?P<departure_frequency_rate>\d){0,1}'
     '\n*'
 )
 
@@ -62,6 +64,7 @@ departure_row_pattern = (
     '(?P<destination_of_flight>[A-Z]{3})'
     '\s'
     '(?P<departure_type_of_flight>[A-Z])'
+    '(?P<departure_frequency_rate>\d){0,1}'
     '\n*'
 )
 
@@ -82,6 +85,7 @@ arrival_row_pattern = (
     '(?P<scheduled_time_of_arrival_utc>\d{4})'
     '\s'
     '(?P<arrival_type_of_flight>[A-Z])'
+    '(?P<arrival_frequency_rate>\d){0,1}'
     '\n*'
 )
 
@@ -103,6 +107,7 @@ arrival_row_pattern_nl = (
     '(?P<scheduled_time_of_arrival_utc>\d{4})'
     '\s'
     '(?P<arrival_type_of_flight>[A-Z])'
+    '(?P<arrival_frequency_rate>\d){0,1}'
 )
 
 departure_row_pattern_nl = (
@@ -124,6 +129,7 @@ departure_row_pattern_nl = (
     '(?P<destination_of_flight>[A-Z]{3})'
     '\s'
     '(?P<departure_type_of_flight>[A-Z])'
+    '(?P<departure_frequency_rate>\d){0,1}'
 )
 
 row_patterns = [re.compile(arrival_row_pattern),
@@ -205,7 +211,6 @@ def _process_slots(slots, header, year_prefix='20'):
     for slot in slots:
         if slot['end_date_of_operation'] == '':
             slot['end_date_of_operation'] = slot['start_date_of_operation']
-            # slot['weekdays'] = '1234567'
 
         slot['start_date_of_operation'] = \
             datetime.strptime(slot['start_date_of_operation'] + year, '%d%b%Y')
@@ -267,7 +272,12 @@ def _expand_slot(slot):
         arrival_end_date = \
             datetime.strptime(slot['end_date_of_operation'] + slot['scheduled_time_of_arrival_utc'], '%Y-%m-%d%H%M')
 
-        dates = rrule(freq=WEEKLY, dtstart=arrival_start_date, until=arrival_end_date, byweekday=weekdays)
+        if slot['arrival_frequency_rate']:
+            dates = rrule(freq=WEEKLY, interval=int(slot['arrival_frequency_rate']),
+                      dtstart=arrival_start_date, until=arrival_end_date, byweekday=weekdays)
+        else:
+            dates = rrule(freq=WEEKLY, dtstart=arrival_start_date, until=arrival_end_date, byweekday=weekdays)
+
         arrival_slot['flight_datetime'] = [x.strftime('%Y-%m-%d %H:%M') for x in dates]
 
         expanded_slot = expanded_slot + [arrival_slot]
@@ -299,7 +309,13 @@ def _expand_slot(slot):
                 datetime.strptime(slot['start_date_of_operation'] + slot['scheduled_time_of_departure_utc'], '%Y-%m-%d%H%M')
             departure_end_date = \
                 datetime.strptime(slot['end_date_of_operation'] + slot['scheduled_time_of_departure_utc'], '%Y-%m-%d%H%M')
-        dates = rrule(freq=WEEKLY, dtstart=departure_start_date, until=departure_end_date, byweekday=weekdays)
+
+        if slot['departure_frequency_rate']:
+            dates = rrule(freq=WEEKLY, interval=int(slot['departure_frequency_rate']),
+                      dtstart=departure_start_date, until=departure_end_date, byweekday=weekdays)
+        else:
+            dates = rrule(freq=WEEKLY, dtstart=departure_start_date, until=departure_end_date, byweekday=weekdays)
+
         departure_slot['flight_datetime'] = [x.strftime('%Y-%m-%d %H:%M') for x in dates]
 
         expanded_slot = expanded_slot + [departure_slot]

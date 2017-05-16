@@ -28,6 +28,7 @@ slots:
     origin_of_flight: 'LNZ'
     scheduled_time_of_arrival_utc: '0900'
     arrival_type_of_flight: 'C'
+    arrival_frequency_rate: null
 
   - action_code: 'N'
     departure_flight_prefix: 'ABC'
@@ -40,6 +41,7 @@ slots:
     scheduled_time_of_departure_utc: '1200'
     destination_of_flight: 'LNZ'
     departure_type_of_flight: 'C'
+    departure_frequency_rate: null
 
   - action_code: 'N'
     arrival_flight_prefix: 'ABC'
@@ -57,7 +59,9 @@ slots:
     overnight_indicator: null
     destination_of_flight: 'LNZ'
     arrival_type_of_flight: 'C'
+    arrival_frequency_rate: null
     departure_type_of_flight: 'C'
+    departure_frequency_rate: null
 
 processed_slots:
   - action_code: 'N'
@@ -71,6 +75,7 @@ processed_slots:
     origin_of_flight: 'LNZ'
     scheduled_time_of_arrival_utc: '0900'
     arrival_type_of_flight: 'C'
+    arrival_frequency_rate: null
 
   - action_code: 'N'
     departure_flight_prefix: 'ABC'
@@ -83,6 +88,7 @@ processed_slots:
     scheduled_time_of_departure_utc: '1200'
     destination_of_flight: 'LNZ'
     departure_type_of_flight: 'C'
+    departure_frequency_rate: null
 
   - action_code: 'N'
     arrival_flight_prefix: 'ABC'
@@ -100,7 +106,9 @@ processed_slots:
     overnight_indicator: null
     destination_of_flight: 'LNZ'
     arrival_type_of_flight: 'C'
+    arrival_frequency_rate: null
     departure_type_of_flight: 'C'
+    departure_frequency_rate: null
 
 footer:
   special_information: 'SI free text'
