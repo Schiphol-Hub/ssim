@@ -1,7 +1,7 @@
 import re
 from datetime import datetime, timedelta
 from dateutil.rrule import rrule, WEEKLY
-testing = 'ja'
+
 # For email parsing see: emailregex.com
 header_pattern = (
     '^(?P<file_type>SCR|SIR)\s*\n'
