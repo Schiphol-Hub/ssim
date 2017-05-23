@@ -279,6 +279,7 @@ def _expand_slot(slot):
             dates = rrule(freq=WEEKLY, dtstart=arrival_start_date, until=arrival_end_date, byweekday=weekdays)
 
         arrival_slot['flight_datetime'] = [x.strftime('%Y-%m-%d %H:%M') for x in dates]
+        arrival_slot['count'] = len(arrival_slot['flight_datetime'])
 
         expanded_slot = expanded_slot + [arrival_slot]
 
@@ -317,6 +318,7 @@ def _expand_slot(slot):
             dates = rrule(freq=WEEKLY, dtstart=departure_start_date, until=departure_end_date, byweekday=weekdays)
 
         departure_slot['flight_datetime'] = [x.strftime('%Y-%m-%d %H:%M') for x in dates]
+        departure_slot['count'] = len(departure_slot['flight_datetime'])
 
         expanded_slot = expanded_slot + [departure_slot]
 
@@ -363,12 +365,24 @@ def expand_slots(slots):
     -------
     :return: flights: list, a list of flight dicts.
     """
-
-    flights = []
-
+    
+    #determine how big the list should be
+    slot_count = 0
     for slot in slots:
         expanded_slot = _expand_slot(slot)
-        flights = flights + \
-                  [_update_dict(x, {'flight_datetime': f_dt}) for x in expanded_slot for f_dt in x['flight_datetime']]
+        for xcounter in expanded_slot:
+            slot_count+=xcounter['count']
 
+    #preallocate list
+    flights = [None]*slot_count
+    index_array = 0
+    
+    #add flights to list
+    for slot in slots:
+        expanded_slot = _expand_slot(slot)
+        flights_to_add = [_update_dict(x, {'flight_datetime': f_dt}) for x in expanded_slot for f_dt in x['flight_datetime']]
+        
+        flights[index_array:index_array+len(flights_to_add)]= flights_to_add
+        index_array += len(flights_to_add)
+    
     return flights
