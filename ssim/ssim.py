@@ -369,28 +369,41 @@ def read(slotfile, year_prefix='20', debug=False):
     return slots, header, footer
 
 
-def expand_slots(slots,debug=False):
+def expand_slots(slots, debug=False):
     """
     Expands a list of slots into flights.
     TODO: This function could be parellalized.
-    
+
     Parameters
     ----------.
     :param slots: list, a list of slot dicts.
-    
+
     Returns
     -------
     :return: flights: list, a list of flight dicts.
     """
 
-    flights = []
-
+    # determine how big the list should be
+    slot_count = 0
     for slot in slots:
-        expanded_slot = _expand_slot(slot,debug)
+        expanded_slot = ssim.ssim._expand_slot(slot)
+        for xcounter in expanded_slot:
+            slot_count += xcounter['count']
+
+    # preallocate list
+    flights = [None] * slot_count
+    index_array = 0
+
+    # add flights to list
+    for slot in slots:
+        expanded_slot = ssim.ssim._expand_slot(slot, debug=True)
         try:
-            flights = flights + \
-                [_update_dict(x, {'flight_datetime': f_dt}) for x in expanded_slot for f_dt in x['flight_datetime']]
+            flights_to_add = [_update_dict(x, {'flight_datetime': f_dt})
+                              for x in expanded_slot for f_dt in x['flight_datetime']]
+
+            flights[index_array:index_array + len(flights_to_add)] = flights_to_add
+            index_array += len(flights_to_add)
         except Exception:
-            flights = flights + [expanded_slot]
+            pass
 
     return flights
