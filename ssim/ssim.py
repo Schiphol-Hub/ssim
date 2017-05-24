@@ -139,18 +139,13 @@ row_patterns = [re.compile(arrival_row_pattern),
                 re.compile(departure_row_pattern_nl)]
 
 
-def _add_year(dt):
-    return datetime(dt.year + 1, dt.month, dt.day)
-
-
-def _parse_slotfile(text, debug=False):
+def _parse_slotfile(text):
     """
     Parses a ssim message and returns it as a dicts.
 
     Parameters
     ----------.
-    text : string
-    debug : boolean
+    :type text: string
 
     Returns
     -------
@@ -166,9 +161,8 @@ def _parse_slotfile(text, debug=False):
 
     try:
         footer = footer_match.groupdict()
-    except Exception:
+    except AttributeError:
         footer = {}
-        pass
 
     rows = text.splitlines()
     parsed_rows = []
@@ -179,18 +173,16 @@ def _parse_slotfile(text, debug=False):
         for row_pattern in row_patterns:
             try:
                 parsed_row = re.search(row_pattern, row).groupdict()
-            except Exception:
+            except AttributeError:
                 pass
 
-        if debug:
-            parsed_row['raw'] = row
-
+        parsed_row['raw'] = row
         parsed_rows.append(parsed_row)
 
     return parsed_rows, header, footer
 
 
-def _process_slots(slots, header, year_prefix='20', debug=False):
+def _process_slots(slots, header, year_prefix='20'):
     """
     Processes parsed ssim messages to insert the correct start
     and end dates.
@@ -222,20 +214,24 @@ def _process_slots(slots, header, year_prefix='20', debug=False):
 
             if 'W' in season:
                 if slot['end_date_of_operation'].month < 6:
-                    slot['end_date_of_operation'] = _add_year(slot['end_date_of_operation'])
+                    slot['end_date_of_operation'] = \
+                        datetime(slot['end_date_of_operation'].year + 1,
+                                 slot['end_date_of_operation'].month,
+                                 slot['end_date_of_operation'].day)
 
                     if slot['start_date_of_operation'].month < 6:
-                        slot['start_date_of_operation'] = _add_year(slot['start_date_of_operation'])
+                        slot['start_date_of_operation'] = \
+                            datetime(slot['start_date_of_operation'].year + 1,
+                                     slot['start_date_of_operation'].month,
+                                     slot['start_date_of_operation'].day)
 
             slot['start_date_of_operation'] = slot['start_date_of_operation'].strftime('%Y-%m-%d')
             slot['end_date_of_operation'] = slot['end_date_of_operation'].strftime('%Y-%m-%d')
 
             processed_slots.append(slot)
 
-        except Exception:
-            if debug:
-                processed_slots.append(slot)
-            pass
+        except KeyError:
+            processed_slots.append(slot)
 
     return processed_slots
 
@@ -246,7 +242,7 @@ def _update_dict(d, entry):
     return new_d
 
 
-def _expand_slot(slot,debug=False):
+def _expand_slot(slot):
     """
     Expands slot into individual flights.
 
@@ -258,11 +254,11 @@ def _expand_slot(slot,debug=False):
     -------
     slot: list of dicts, representing flights described by the slot.
     """
+
     try:
         weekdays = [int(weekday) - 1 for weekday in list(slot['days_of_operation'].replace('0', ''))]
-    except Exception:
-        if debug:
-            return slot
+    except KeyError:
+        return [slot]
 
     expanded_slot = []
 
@@ -276,10 +272,9 @@ def _expand_slot(slot,debug=False):
             'aircraft_type_3_letter': slot['aircraft_type_3_letter'],
             'type_of_flight': slot['arrival_type_of_flight'],
             'destination': slot['origin_of_flight'],
-            'seats': slot['seat_number']
+            'seats': slot['seat_number'],
+            'raw': slot['raw']
         }
-        if debug:
-            arrival_slot['raw'] = slot['raw']
 
         arrival_start_date = \
             datetime.strptime(slot['start_date_of_operation'] + slot['scheduled_time_of_arrival_utc'], '%Y-%m-%d%H%M')
@@ -288,7 +283,7 @@ def _expand_slot(slot,debug=False):
 
         if slot['arrival_frequency_rate']:
             dates = rrule(freq=WEEKLY, interval=int(slot['arrival_frequency_rate']),
-                      dtstart=arrival_start_date, until=arrival_end_date, byweekday=weekdays)
+                          dtstart=arrival_start_date, until=arrival_end_date, byweekday=weekdays)
         else:
             dates = rrule(freq=WEEKLY, dtstart=arrival_start_date, until=arrival_end_date, byweekday=weekdays)
 
@@ -296,7 +291,7 @@ def _expand_slot(slot,debug=False):
 
         expanded_slot = expanded_slot + [arrival_slot]
 
-    except Exception:
+    except KeyError:
         pass
 
     # Expand departing flights
@@ -309,27 +304,30 @@ def _expand_slot(slot,debug=False):
             'aircraft_type_3_letter': slot['aircraft_type_3_letter'],
             'type_of_flight': slot['departure_type_of_flight'],
             'destination': slot['destination_of_flight'],
-            'seats': slot['seat_number']
+            'seats': slot['seat_number'],
+            'raw': slot['raw']
         }
-        if debug:
-            departure_slot['raw'] = slot['raw']
 
         if 'overnight_indicator' in slot:
             departure_start_date = \
-                datetime.strptime(slot['start_date_of_operation'] + slot['scheduled_time_of_departure_utc'], '%Y-%m-%d%H%M') \
+                datetime.strptime(slot['start_date_of_operation'] + slot['scheduled_time_of_departure_utc'],
+                                  '%Y-%m-%d%H%M') \
                 + timedelta(days=int(slot['overnight_indicator']))
             departure_end_date = \
-                datetime.strptime(slot['end_date_of_operation'] + slot['scheduled_time_of_departure_utc'], '%Y-%m-%d%H%M') \
+                datetime.strptime(slot['end_date_of_operation'] + slot['scheduled_time_of_departure_utc'],
+                                  '%Y-%m-%d%H%M') \
                 + timedelta(days=int(slot['overnight_indicator']))
         else:
             departure_start_date = \
-                datetime.strptime(slot['start_date_of_operation'] + slot['scheduled_time_of_departure_utc'], '%Y-%m-%d%H%M')
+                datetime.strptime(slot['start_date_of_operation'] + slot['scheduled_time_of_departure_utc'],
+                                  '%Y-%m-%d%H%M')
             departure_end_date = \
-                datetime.strptime(slot['end_date_of_operation'] + slot['scheduled_time_of_departure_utc'], '%Y-%m-%d%H%M')
+                datetime.strptime(slot['end_date_of_operation'] + slot['scheduled_time_of_departure_utc'],
+                                  '%Y-%m-%d%H%M')
 
         if slot['departure_frequency_rate']:
             dates = rrule(freq=WEEKLY, interval=int(slot['departure_frequency_rate']),
-                      dtstart=departure_start_date, until=departure_end_date, byweekday=weekdays)
+                          dtstart=departure_start_date, until=departure_end_date, byweekday=weekdays)
         else:
             dates = rrule(freq=WEEKLY, dtstart=departure_start_date, until=departure_end_date, byweekday=weekdays)
 
@@ -337,13 +335,15 @@ def _expand_slot(slot,debug=False):
 
         expanded_slot = expanded_slot + [departure_slot]
 
-    except Exception:
+    except KeyError:
         pass
+
+    expanded_slot = [_update_dict(x, {'flight_datetime': f_dt}) for x in expanded_slot for f_dt in x['flight_datetime']]
 
     return expanded_slot
 
 
-def read(slotfile, year_prefix='20', debug=False):
+def read(slotfile, year_prefix='20'):
     """
     Parses and processes a valid ssim file.
 
@@ -362,17 +362,15 @@ def read(slotfile, year_prefix='20', debug=False):
     with open(slotfile) as f:
         text = f.read()
 
-
-    slots, header, footer = _parse_slotfile(text, debug)
-    slots = _process_slots(slots, header, year_prefix, debug)
+    slots, header, footer = _parse_slotfile(text)
+    slots = _process_slots(slots, header, year_prefix)
 
     return slots, header, footer
 
 
-def expand_slots(slots, debug=False):
+def expand_slots(slots):
     """
     Expands a list of slots into flights.
-    TODO: This function could be parellalized.
 
     Parameters
     ----------.
@@ -380,30 +378,10 @@ def expand_slots(slots, debug=False):
 
     Returns
     -------
-    :return: flights: list, a list of flight dicts.
+    :return: flattened_flights: list, a list of flight dicts.
     """
 
-    # determine how big the list should be
-    slot_count = 0
-    for slot in slots:
-        expanded_slot = ssim.ssim._expand_slot(slot)
-        for xcounter in expanded_slot:
-            slot_count += xcounter['count']
+    flights = map(_expand_slot, slots)
+    flattened_flights = [item for sublist in flights for item in sublist]
 
-    # preallocate list
-    flights = [None] * slot_count
-    index_array = 0
-
-    # add flights to list
-    for slot in slots:
-        expanded_slot = ssim.ssim._expand_slot(slot, debug=True)
-        try:
-            flights_to_add = [_update_dict(x, {'flight_datetime': f_dt})
-                              for x in expanded_slot for f_dt in x['flight_datetime']]
-
-            flights[index_array:index_array + len(flights_to_add)] = flights_to_add
-            index_array += len(flights_to_add)
-        except Exception:
-            pass
-
-    return flights
+    return flattened_flights

@@ -18,6 +18,12 @@ header:
   season: 'S08'
 
 slots:
+  - raw: 'SCR'
+  - raw: '/someone@example.com'
+  - raw: 'S08'
+  - raw: '10DEC'
+  - raw: 'BRU'
+
   - action_code: 'N'
     arrival_flight_prefix: 'XY'
     arrival_flight_suffix: '123'
@@ -37,6 +43,7 @@ slots:
     arrival_frequency_rate: null
     departure_type_of_flight: 'J'
     departure_frequency_rate: '2'
+    raw: 'NXY123 XY124 01JUL30SEP 1234500 120319 CDG0700 07501CDG JJ2'
 
   - action_code: 'N'
     arrival_flight_prefix: 'ABC'
@@ -50,6 +57,7 @@ slots:
     scheduled_time_of_arrival_utc: '0900'
     arrival_type_of_flight: 'C'
     arrival_frequency_rate: null
+    raw: 'NABC1234 08JUN08JUN 0000007 150319 LNZ0900 C'
 
   - action_code: 'N'
     departure_flight_prefix: 'ABC'
@@ -63,8 +71,15 @@ slots:
     destination_of_flight: 'LNZ'
     departure_type_of_flight: 'C'
     departure_frequency_rate: null
+    raw: 'N ABC1234 09JUN09JUN 1000000 150319 0900LNZ C'
 
 processed_slots:
+  - raw: 'SCR'
+  - raw: '/someone@example.com'
+  - raw: 'S08'
+  - raw: '10DEC'
+  - raw: 'BRU'
+
   - action_code: 'N'
     arrival_flight_prefix: 'XY'
     arrival_flight_suffix: '123'
@@ -84,6 +99,7 @@ processed_slots:
     arrival_frequency_rate: null
     departure_type_of_flight: 'J'
     departure_frequency_rate: '2'
+    raw: 'NXY123 XY124 01JUL30SEP 1234500 120319 CDG0700 07501CDG JJ2'
 
   - action_code: 'N'
     arrival_flight_prefix: 'ABC'
@@ -97,6 +113,7 @@ processed_slots:
     scheduled_time_of_arrival_utc: '0900'
     arrival_type_of_flight: 'C'
     arrival_frequency_rate: null
+    raw: 'NABC1234 08JUN08JUN 0000007 150319 LNZ0900 C'
 
   - action_code: 'N'
     departure_flight_prefix: 'ABC'
@@ -110,6 +127,7 @@ processed_slots:
     destination_of_flight: 'LNZ'
     departure_type_of_flight: 'C'
     departure_frequency_rate: null
+    raw: 'N ABC1234 09JUN09JUN 1000000 150319 0900LNZ C'
 
 footer:
   special_information: 'SI = Special Information (e.g. database ABC)'

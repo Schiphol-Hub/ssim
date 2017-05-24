@@ -18,6 +18,13 @@ header:
   season: 'S17'
 
 slots:
+  - raw: 'SIR'
+  - raw: '/'
+  - raw: 'S17'
+  - raw: '31MAR'
+  - raw: 'AMS'
+  - raw: 'REYT/'
+
   - action_code: 'H'
     arrival_flight_prefix: 'HV'
     arrival_flight_suffix: '246'
@@ -31,6 +38,7 @@ slots:
     scheduled_time_of_arrival_utc: '0000'
     arrival_type_of_flight: 'C'
     arrival_frequency_rate: '2'
+    raw: 'HHV246 07APR05MAY 0000500 18973H RMFRMF0000 C2'
 
   - action_code: 'H'
     departure_flight_prefix: 'BCS'
@@ -45,6 +53,7 @@ slots:
     next_stop_of_flight: 'EMA'
     departure_type_of_flight: 'H'
     departure_frequency_rate: null
+    raw: 'H BCS1444 15AUG10OCT 0200000 00073P 0010EMAEMA H'
 
   - action_code: 'H'
     arrival_flight_prefix: 'HV'
@@ -59,6 +68,7 @@ slots:
     scheduled_time_of_arrival_utc: '0000'
     arrival_type_of_flight: 'J'
     arrival_frequency_rate: null
+    raw: 'HHV5684 26MAR 18973H ACEACE0000 J'
 
   - action_code: 'H'
     departure_flight_prefix: 'KL'
@@ -73,8 +83,16 @@ slots:
     next_stop_of_flight: 'SAW'
     departure_type_of_flight: 'J'
     departure_frequency_rate: null
+    raw: 'H KL3106 26MAR 186738 0015SAWSAW J'
 
 processed_slots:
+  - raw: 'SIR'
+  - raw: '/'
+  - raw: 'S17'
+  - raw: '31MAR'
+  - raw: 'AMS'
+  - raw: 'REYT/'
+
   - action_code: 'H'
     arrival_flight_prefix: 'HV'
     arrival_flight_suffix: '246'
@@ -88,6 +106,7 @@ processed_slots:
     scheduled_time_of_arrival_utc: '0000'
     arrival_type_of_flight: 'C'
     arrival_frequency_rate: '2'
+    raw: 'HHV246 07APR05MAY 0000500 18973H RMFRMF0000 C2'
 
   - action_code: 'H'
     departure_flight_prefix: 'BCS'
@@ -102,6 +121,7 @@ processed_slots:
     scheduled_time_of_departure_utc: '0010'
     departure_type_of_flight: 'H'
     departure_frequency_rate: null
+    raw: 'H BCS1444 15AUG10OCT 0200000 00073P 0010EMAEMA H'
 
   - action_code: 'H'
     arrival_flight_prefix: 'HV'
@@ -116,6 +136,7 @@ processed_slots:
     previous_stop_of_flight: 'ACE'
     arrival_type_of_flight: 'J'
     arrival_frequency_rate: null
+    raw: 'HHV5684 26MAR 18973H ACEACE0000 J'
 
   - action_code: 'H'
     departure_flight_prefix: 'KL'
@@ -130,5 +151,6 @@ processed_slots:
     next_stop_of_flight: 'SAW'
     departure_type_of_flight: 'J'
     departure_frequency_rate: null
+    raw: 'H KL3106 26MAR 186738 0015SAWSAW J'
 
 footer: {}

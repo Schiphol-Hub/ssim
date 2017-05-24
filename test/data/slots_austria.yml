@@ -17,6 +17,11 @@ header:
   season: 'W07'
 
 slots:
+  - raw: 'SCR'
+  - raw: 'W07'
+  - raw: '07FEB'
+  - raw: 'VIE'
+
   - action_code: 'N'
     arrival_flight_prefix: 'ABC'
     arrival_flight_suffix: '1234'
@@ -29,6 +34,7 @@ slots:
     scheduled_time_of_arrival_utc: '0900'
     arrival_type_of_flight: 'C'
     arrival_frequency_rate: null
+    raw: 'NABC1234 08FEB08FEB 0000500 150319 LNZ0900 C'
 
   - action_code: 'N'
     departure_flight_prefix: 'ABC'
@@ -42,6 +48,7 @@ slots:
     destination_of_flight: 'LNZ'
     departure_type_of_flight: 'C'
     departure_frequency_rate: null
+    raw: 'N ABC5678 09FEB09FEB 0000060 150319 1200LNZ C'
 
   - action_code: 'N'
     arrival_flight_prefix: 'ABC'
@@ -62,8 +69,14 @@ slots:
     arrival_frequency_rate: null
     departure_type_of_flight: 'C'
     departure_frequency_rate: null
+    raw: 'NABC1234 ABC5678 10FEB10FEB 0000007 150319 LNZ1430 1455LNZ CC'
 
 processed_slots:
+  - raw: 'SCR'
+  - raw: 'W07'
+  - raw: '07FEB'
+  - raw: 'VIE'
+
   - action_code: 'N'
     arrival_flight_prefix: 'ABC'
     arrival_flight_suffix: '1234'
@@ -76,6 +89,7 @@ processed_slots:
     scheduled_time_of_arrival_utc: '0900'
     arrival_type_of_flight: 'C'
     arrival_frequency_rate: null
+    raw: 'NABC1234 08FEB08FEB 0000500 150319 LNZ0900 C'
 
   - action_code: 'N'
     departure_flight_prefix: 'ABC'
@@ -89,6 +103,7 @@ processed_slots:
     destination_of_flight: 'LNZ'
     departure_type_of_flight: 'C'
     departure_frequency_rate: null
+    raw: 'N ABC5678 09FEB09FEB 0000060 150319 1200LNZ C'
 
   - action_code: 'N'
     arrival_flight_prefix: 'ABC'
@@ -109,6 +124,7 @@ processed_slots:
     arrival_frequency_rate: null
     departure_type_of_flight: 'C'
     departure_frequency_rate: null
+    raw: 'NABC1234 ABC5678 10FEB10FEB 0000007 150319 LNZ1430 1455LNZ CC'
 
 footer:
   special_information: 'SI free text'
