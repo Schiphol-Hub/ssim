@@ -18,6 +18,7 @@ slot:
   scheduled_time_of_departure_utc: '0600'
   seat_number: '37'
   start_date_of_operation: '2008-10-24'
+  additional_information: null
   raw: 'NBD615 BD616 24OCT26OCT 1234567 37ER3 LBA1905 0600LBA JJ'
 
 flights:
@@ -30,6 +31,7 @@ flights:
     seats: '37'
     suffix: '615'
     type_of_flight: 'J'
+    additional_information: null
     raw: 'NBD615 BD616 24OCT26OCT 1234567 37ER3 LBA1905 0600LBA JJ'
   - action_code: 'N'
     ad: 'A'
@@ -40,6 +42,7 @@ flights:
     seats: '37'
     suffix: '615'
     type_of_flight: 'J'
+    additional_information: null
     raw: 'NBD615 BD616 24OCT26OCT 1234567 37ER3 LBA1905 0600LBA JJ'
   - action_code: 'N'
     ad: 'A'
@@ -50,6 +53,7 @@ flights:
     seats: '37'
     suffix: '615'
     type_of_flight: 'J'
+    additional_information: null
     raw: 'NBD615 BD616 24OCT26OCT 1234567 37ER3 LBA1905 0600LBA JJ'
   - action_code: 'N'
     ad: 'D'
@@ -60,6 +64,7 @@ flights:
     seats: '37'
     suffix: '616'
     type_of_flight: 'J'
+    additional_information: null
     raw: 'NBD615 BD616 24OCT26OCT 1234567 37ER3 LBA1905 0600LBA JJ'
   - action_code: 'N'
     ad: 'D'
@@ -70,6 +75,7 @@ flights:
     seats: '37'
     suffix: '616'
     type_of_flight: 'J'
+    additional_information: null
     raw: 'NBD615 BD616 24OCT26OCT 1234567 37ER3 LBA1905 0600LBA JJ'
   - action_code: 'N'
     ad: 'D'
@@ -80,4 +86,5 @@ flights:
     seats: '37'
     suffix: '616'
     type_of_flight: 'J'
+    additional_information: null
     raw: 'NBD615 BD616 24OCT26OCT 1234567 37ER3 LBA1905 0600LBA JJ'

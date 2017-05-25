@@ -2,6 +2,9 @@ import re
 from datetime import datetime, timedelta
 from dateutil.rrule import rrule, WEEKLY
 
+preprocessing_pattern = '(\n/\s*)(\w[AD].\d+ \w*[AD]*.{0,1}\d*)(\s*/\n)'
+preprocessing_replace = r' /\2/\n'
+
 # For email parsing see: emailregex.com
 header_pattern = (
     '^(?P<file_type>SCR|SIR)\s*\n'
@@ -43,6 +46,8 @@ return_row_pattern = (
     '(?P<arrival_frequency_rate>\d){0,1}'
     '(?P<departure_type_of_flight>[A-Z])'
     '(?P<departure_frequency_rate>\d){0,1}'
+    '\s{0,1}'
+    '(?P<additional_information>.+){0,1}'
     '\n*'
 )
 
@@ -65,6 +70,8 @@ departure_row_pattern = (
     '\s'
     '(?P<departure_type_of_flight>[A-Z])'
     '(?P<departure_frequency_rate>\d){0,1}'
+    '\s{0,1}'
+    '(?P<additional_information>.+){0,1}'
     '\n*'
 )
 
@@ -86,6 +93,8 @@ arrival_row_pattern = (
     '\s'
     '(?P<arrival_type_of_flight>[A-Z])'
     '(?P<arrival_frequency_rate>\d){0,1}'
+    '\s{0,1}'
+    '(?P<additional_information>.+){0,1}'
     '\n*'
 )
 
@@ -108,6 +117,8 @@ arrival_row_pattern_nl = (
     '\s'
     '(?P<arrival_type_of_flight>[A-Z])'
     '(?P<arrival_frequency_rate>\d){0,1}'
+    '\s{0,1}'
+    '(?P<additional_information>.+){0,1}'
 )
 
 departure_row_pattern_nl = (
@@ -130,6 +141,8 @@ departure_row_pattern_nl = (
     '\s'
     '(?P<departure_type_of_flight>[A-Z])'
     '(?P<departure_frequency_rate>\d){0,1}'
+    '\s{0,1}'
+    '(?P<additional_information>.+){0,1}'
 )
 
 row_patterns = [re.compile(arrival_row_pattern),
@@ -153,7 +166,7 @@ def _parse_slotfile(text):
     header: dict, describing the header of the slotfile.
     footer: dict, describing the footer of the slotfile.
     """
-
+    text = re.sub(preprocessing_pattern, preprocessing_replace, text)
     header_match = re.search(header_pattern, text)
     footer_match = re.search(footer_pattern, text)
 
@@ -273,6 +286,7 @@ def _expand_slot(slot):
             'type_of_flight': slot['arrival_type_of_flight'],
             'destination': slot['origin_of_flight'],
             'seats': slot['seat_number'],
+            'additional_information': slot['additional_information'],
             'raw': slot['raw']
         }
 
@@ -305,6 +319,7 @@ def _expand_slot(slot):
             'type_of_flight': slot['departure_type_of_flight'],
             'destination': slot['destination_of_flight'],
             'seats': slot['seat_number'],
+            'additional_information': slot['additional_information'],
             'raw': slot['raw']
         }
 

@@ -1,7 +1,7 @@
 import pytest
 from glob import glob
 import yaml
-path_to_data = 'data/'
+path_to_data = 'test/data/'
 
 @pytest.fixture
 def slotfiles():
