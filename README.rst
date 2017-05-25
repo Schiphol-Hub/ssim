@@ -36,7 +36,7 @@ Authors
 -------
 
 Rok.Mihevc_
-Ramon.Van.Schaik_
+Ramon.Van.Schaik
 
 License
 -------
