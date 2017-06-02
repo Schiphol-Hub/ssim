@@ -7,7 +7,7 @@ preprocessing_replace = r' /\2/\n'
 
 # For email parsing see: emailregex.com
 header_pattern = (
-    '^(?P<file_type>SCR|SIR)\s*\n'
+    '^(?P<file_type>\w+)\s*\n'
     '/{0,1}(?P<email>[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+){0,1}\n{0,1}'
     '(?P<season>\w+)\s*\n'
     '(?P<export_date>\w+)\s*\n'
