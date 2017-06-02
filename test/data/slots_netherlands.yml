@@ -20,12 +20,6 @@ header:
   season: 'S17'
 
 slots:
-  - raw: 'SIR'
-  - raw: '/'
-  - raw: 'S17'
-  - raw: '31MAR'
-  - raw: 'AMS'
-  - raw: 'REYT/'
 
   - action_code: 'H'
     arrival_flight_prefix: 'HV'
@@ -92,12 +86,6 @@ slots:
     raw: 'H KL3106 26MAR 186738 0015SAWSAW J'
 
 processed_slots:
-  - raw: 'SIR'
-  - raw: '/'
-  - raw: 'S17'
-  - raw: '31MAR'
-  - raw: 'AMS'
-  - raw: 'REYT/'
 
   - action_code: 'H'
     arrival_flight_prefix: 'HV'

@@ -177,7 +177,13 @@ def _parse_slotfile(text):
     except AttributeError:
         footer = {}
 
-    rows = text.splitlines()
+    try:
+        rows_text = text[header_match.end():footer_match.start()]
+    except AttributeError:
+        rows_text = text[header_match.end():]
+        pass
+
+    rows = rows_text.splitlines()
     parsed_rows = []
 
     for row in rows:

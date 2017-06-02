@@ -17,10 +17,6 @@ header:
   season: 'W07'
 
 slots:
-  - raw: 'SCR'
-  - raw: 'W07'
-  - raw: '07FEB'
-  - raw: 'VIE'
 
   - action_code: 'N'
     arrival_flight_prefix: 'ABC'
@@ -75,10 +71,6 @@ slots:
     raw: 'NABC1234 ABC5678 10FEB10FEB 0000007 150319 LNZ1430 1455LNZ CC'
 
 processed_slots:
-  - raw: 'SCR'
-  - raw: 'W07'
-  - raw: '07FEB'
-  - raw: 'VIE'
 
   - action_code: 'N'
     arrival_flight_prefix: 'ABC'

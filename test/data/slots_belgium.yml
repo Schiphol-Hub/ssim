@@ -18,11 +18,6 @@ header:
   season: 'S08'
 
 slots:
-  - raw: 'SCR'
-  - raw: '/someone@example.com'
-  - raw: 'S08'
-  - raw: '10DEC'
-  - raw: 'BRU'
 
   - action_code: 'N'
     arrival_flight_prefix: 'XY'
@@ -77,11 +72,6 @@ slots:
     raw: 'N ABC1234 09JUN09JUN 1000000 150319 0900LNZ C'
 
 processed_slots:
-  - raw: 'SCR'
-  - raw: '/someone@example.com'
-  - raw: 'S08'
-  - raw: '10DEC'
-  - raw: 'BRU'
 
   - action_code: 'N'
     arrival_flight_prefix: 'XY'
