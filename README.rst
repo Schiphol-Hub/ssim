@@ -31,6 +31,12 @@ Using with python:
     slots, header, footer = ssim.read('slotfile_example.SCR')
     flights = ssim.expand_slots(slots)
 
+If using pandas then:
+
+.. code-block:: python
+
+    import pandas as pd
+    flights_df = pd.DataFrame(flights)
 
 Authors
 -------
