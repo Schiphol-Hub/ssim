@@ -43,8 +43,8 @@ Contributors
 
 Rok.Mihevc_
 Ramon.Van.Schaik
-Howard Riddiough
-Kevin Haagen
+Howard.Riddiough
+Kevin.Haagen
 
 License
 -------
