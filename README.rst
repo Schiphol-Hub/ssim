@@ -38,11 +38,13 @@ If using pandas then:
     import pandas as pd
     flights_df = pd.DataFrame(flights)
 
-Authors
+Contributors
 -------
 
 Rok.Mihevc_
 Ramon.Van.Schaik
+Howard Riddiough
+Kevin Haagen
 
 License
 -------

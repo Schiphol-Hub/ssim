@@ -406,3 +406,51 @@ def expand_slots(slots):
     flattened_flights = [item for sublist in flights for item in sublist]
 
     return flattened_flights
+
+
+def read_csv(slotfile):
+    """
+    Parses and processes a csv ssim file.
+
+    Parameters
+    ----------.
+    slotfile : path to a csv slotfile.
+
+    Returns
+    -------
+    slots: flattened_flights: list, a list of flight dicts.
+    """
+
+    with open(slotfile) as f:
+        text = f.read()
+
+    flightnumber_regex = '([A-Z]{2,3}|\w{2})\s*(\d+[A-Z]*|\w+)'
+    arrival_header = \
+        ('action_code', 'origin', 'arrival_flight_prefix', 'arrival_flight_suffix',
+         'ad', 'scheduled_time_of_arrival_utc', 'start_date_of_operation',
+         'end_date_of_operation', 'days_of_operation', 'previous_stop_of_flight',
+         'origin_of_flight', 'aircraft_type_3_letter', 'arrival_type_of_flight',
+         'arrival_frequency_rate', 'unknown_2', 'unknown_3', 'unknown_4', 'season',
+         'additional_information', 'seat_number', 'raw')
+    departure_header = \
+        ('action_code', 'origin', 'departure_flight_prefix', 'departure_flight_suffix',
+         'ad', 'scheduled_time_of_departure_utc', 'start_date_of_operation',
+         'end_date_of_operation', 'days_of_operation', 'next_stop_of_flight',
+         'destination_of_flight', 'aircraft_type_3_letter', 'departure_type_of_flight',
+         'departure_frequency_rate', 'unknown_2', 'unknown_3', 'unknown_4', 'season',
+         'additional_information', 'seat_number', 'raw')
+
+    rows = [row.split(';') + [row] for row in re.sub('\n\n', '\n', text).splitlines()]
+
+    # Fix the date formatting, parse the flightnumber
+    rows = [row[0:5] + [row[5][0:4] + '-' + row[5][4:6] + '-' + row[5][6:]] + row[6:] for row in rows]
+    rows = [row[0:6] + [row[6][0:4] + '-' + row[6][4:6] + '-' + row[6][6:]] + row[7:] for row in rows]
+    rows = [row[0:2] + list(re.search(flightnumber_regex, row[2]).groups()) + row[3:] for row in rows]
+
+    arrival_rows = [dict(zip(arrival_header, row)) for row in rows if row[4] == 'A']
+    departure_rows = [dict(zip(departure_header, row)) for row in rows if row[4] == 'D']
+
+    flights = map(_expand_slot, arrival_rows + departure_rows)
+    flattened_flights = [item for sublist in flights for item in sublist]
+
+    return flattened_flights

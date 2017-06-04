@@ -18,7 +18,7 @@ def main():
     keys = flights[0].keys()
 
     with open(output_file, 'w') as csvfile:
-        dict_writer = csv.DictWriter(csvfile, keys)
+        dict_writer = csv.DictWriter(csvfile, keys, restval='')
         dict_writer.writeheader()
         dict_writer.writerows(flights)
 

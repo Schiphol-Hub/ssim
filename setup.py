@@ -4,10 +4,10 @@ setup(
     name='ssim',
     packages=['ssim'],
     package_dir={'ssim': 'ssim'},
-    version='0.1.12',
+    version='0.1.13',
     description='IATA SSIM (Standard Schedules Information Manual) file parser is a tool to read the standard IATA '
                 'file format.',
-    author='Rok Mihevc, Ramon Van Schaik',
+    author='Rok Mihevc, Ramon Van Schaik, Howard Riddiough, Kevin Haagen',
     author_email='rok.mihevc@gmail.com',
     url='https://github.com/rok/ssim',
     keywords=['parsing', 'ssim', 'data'],
