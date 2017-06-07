@@ -1,6 +1,11 @@
 import re
-from datetime import datetime, timedelta
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 from dateutil.rrule import rrule, WEEKLY
+import logging
+
+logging.getLogger(__name__).addHandler(logging.NullHandler())
+logging.basicConfig(format='[%(asctime)s] %(levelname)s: %(message)s', level=logging.DEBUG)
 
 preprocessing_pattern = '(\n/\s*)(\w[AD].\d+ \w*[AD]*.{0,1}\d*)(\s*/\n)'
 preprocessing_replace = r' /\2/\n'
@@ -198,7 +203,37 @@ def _parse_slotfile(text):
         parsed_row['raw'] = row
         parsed_rows.append(parsed_row)
 
+    parsed_rows = map(_fix_bad_midnight, parsed_rows)
+
     return parsed_rows, header, footer
+
+
+def _fix_bad_midnight(row):
+    """
+    Fixes bad midnight notation - converts time from 2400 to 0000.
+
+    Parameters
+    ----------.
+    :param row: dict, describing a slot.
+    :return row: dict, describing a slot.
+    """
+    if 'scheduled_time_of_arrival_utc' in row:
+        if row['scheduled_time_of_arrival_utc'] == '2400':
+            row = _update_dict(row, {'scheduled_time_of_arrival_utc': '0000'})
+            logging.warning('Slot with invalid time notation. Adjusting time to 0000.\n(%s)' % row)
+
+            # dt = datetime.strptime(row['start_date_of_operation'] + year, '%d%b%Y') + relativedelta(days=1)
+            # row = _update_dict(row,{'start_date_of_operation': dt.strftime('%d%b').upper()})
+
+    if 'scheduled_time_of_departure_utc' in row:
+        if row['scheduled_time_of_departure_utc'] == '2400':
+            row = _update_dict(row, {'scheduled_time_of_departure_utc': '0000'})
+            logging.warning('Slot with invalid time notation. Adjusting time to 0000.\n(%s)' % row)
+
+            # dt = datetime.strptime(row['start_date_of_operation'] + year, '%d%b%Y') + relativedelta(days=1)
+            # row = _update_dict(row,{'start_date_of_operation': dt.strftime('%d%b').upper()})
+
+    return row
 
 
 def _process_slots(slots, header, year_prefix='20'):
@@ -222,35 +257,25 @@ def _process_slots(slots, header, year_prefix='20'):
     processed_slots = []
 
     for slot in slots:
-        try:
-            if slot['end_date_of_operation'] == '':
-                slot['end_date_of_operation'] = slot['start_date_of_operation']
+        if 'end_date_of_operation' not in slot:
+            slot['end_date_of_operation'] = slot['start_date_of_operation']
+        if slot['end_date_of_operation'] == '':
+            slot['end_date_of_operation'] = slot['start_date_of_operation']
 
-            slot['start_date_of_operation'] = \
-                datetime.strptime(slot['start_date_of_operation'] + year, '%d%b%Y')
-            slot['end_date_of_operation'] = \
-                datetime.strptime(slot['end_date_of_operation'] + year, '%d%b%Y')
+        slot['start_date_of_operation'] = datetime.strptime(slot['start_date_of_operation'] + year, '%d%b%Y')
+        slot['end_date_of_operation'] = datetime.strptime(slot['end_date_of_operation'] + year, '%d%b%Y')
 
-            if 'W' in season:
-                if slot['end_date_of_operation'].month < 6:
-                    slot['end_date_of_operation'] = \
-                        datetime(slot['end_date_of_operation'].year + 1,
-                                 slot['end_date_of_operation'].month,
-                                 slot['end_date_of_operation'].day)
+        if 'W' in season:
+            if slot['end_date_of_operation'].month < 6:
+                slot['end_date_of_operation'] = slot['end_date_of_operation'] + relativedelta(years=1)
 
-                    if slot['start_date_of_operation'].month < 6:
-                        slot['start_date_of_operation'] = \
-                            datetime(slot['start_date_of_operation'].year + 1,
-                                     slot['start_date_of_operation'].month,
-                                     slot['start_date_of_operation'].day)
+                if slot['start_date_of_operation'].month < 6:
+                    slot['start_date_of_operation'] = slot['start_date_of_operation'] + relativedelta(years=1)
 
-            slot['start_date_of_operation'] = slot['start_date_of_operation'].strftime('%Y-%m-%d')
-            slot['end_date_of_operation'] = slot['end_date_of_operation'].strftime('%Y-%m-%d')
+        slot['start_date_of_operation'] = slot['start_date_of_operation'].strftime('%Y-%m-%d')
+        slot['end_date_of_operation'] = slot['end_date_of_operation'].strftime('%Y-%m-%d')
 
-            processed_slots.append(slot)
-
-        except KeyError:
-            processed_slots.append(slot)
+        processed_slots.append(slot)
 
     return processed_slots
 
@@ -309,7 +334,7 @@ def _expand_slot(slot):
 
         arrival_slot['flight_datetime'] = [x.strftime('%Y-%m-%d %H:%M') for x in dates]
 
-        expanded_slot = expanded_slot + [arrival_slot]
+        expanded_slot += [arrival_slot]
 
     except KeyError:
         pass
@@ -333,11 +358,11 @@ def _expand_slot(slot):
             departure_start_date = \
                 datetime.strptime(slot['start_date_of_operation'] + slot['scheduled_time_of_departure_utc'],
                                   '%Y-%m-%d%H%M') \
-                + timedelta(days=int(slot['overnight_indicator']))
+                + relativedelta(days=int(slot['overnight_indicator']))
             departure_end_date = \
                 datetime.strptime(slot['end_date_of_operation'] + slot['scheduled_time_of_departure_utc'],
                                   '%Y-%m-%d%H%M') \
-                + timedelta(days=int(slot['overnight_indicator']))
+                + relativedelta(days=int(slot['overnight_indicator']))
         else:
             departure_start_date = \
                 datetime.strptime(slot['start_date_of_operation'] + slot['scheduled_time_of_departure_utc'],
@@ -354,7 +379,7 @@ def _expand_slot(slot):
 
         departure_slot['flight_datetime'] = [x.strftime('%Y-%m-%d %H:%M') for x in dates]
 
-        expanded_slot = expanded_slot + [departure_slot]
+        expanded_slot += [departure_slot]
 
     except KeyError:
         pass
@@ -380,11 +405,16 @@ def read(slotfile, year_prefix='20'):
     footer: dict, describing the footer of the slotfile.
     """
 
+    logging.info('Reading %s.' % slotfile)
     with open(slotfile) as f:
         text = f.read()
 
+    logging.info('Parsing and processing slotfile.')
     slots, header, footer = _parse_slotfile(text)
+
     slots = _process_slots(slots, header, year_prefix)
+    logging.info('Found %i valid slots in %i rows (%i of those additional information).'
+                 % (len(slots), len(text.splitlines()), len(re.findall('/ R.* /', text))))
 
     return slots, header, footer
 
@@ -402,8 +432,10 @@ def expand_slots(slots):
     :return: flattened_flights: list, a list of flight dicts.
     """
 
+    logging.info('Expanding flights.')
     flights = map(_expand_slot, slots)
     flattened_flights = [item for sublist in flights for item in sublist]
+    logging.info('Expanded %i slots into %i flights.' % (len(slots), len(flattened_flights)))
 
     return flattened_flights
 
@@ -421,9 +453,11 @@ def read_csv(slotfile):
     slots: flattened_flights: list, a list of flight dicts.
     """
 
+    logging.info('Reading %s.' % slotfile)
     with open(slotfile) as f:
         text = f.read()
 
+    logging.info('Parsing and processing slotfile.')
     flightnumber_regex = '([A-Z]{2,3}|\w{2})\s*(\d+[A-Z]*|\w+)'
     arrival_header = \
         ('action_code', 'origin', 'arrival_flight_prefix', 'arrival_flight_suffix',
@@ -449,8 +483,12 @@ def read_csv(slotfile):
 
     arrival_rows = [dict(zip(arrival_header, row)) for row in rows if row[4] == 'A']
     departure_rows = [dict(zip(departure_header, row)) for row in rows if row[4] == 'D']
+    logging.info('Found %i valid slots in %i rows.' % (len(arrival_rows) + len(departure_rows), len(text.splitlines())))
 
+    logging.info('Expanding flights.')
     flights = map(_expand_slot, arrival_rows + departure_rows)
     flattened_flights = [item for sublist in flights for item in sublist]
+    logging.info(
+        'Expanded %i slots into %i flights.' % ((len(arrival_rows) + len(departure_rows)), len(flattened_flights)))
 
     return flattened_flights

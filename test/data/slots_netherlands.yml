@@ -11,6 +11,7 @@ raw_data: |
   / RD.0020 /
   HHV5684 26MAR 18973H ACEACE0000 J
   H KL3106 26MAR 186738 0015SAWSAW J
+  HHV588 26MAR 186738 SAWSAW2400 J
 
 header:
   email:
@@ -85,6 +86,22 @@ slots:
     additional_information: null
     raw: 'H KL3106 26MAR 186738 0015SAWSAW J'
 
+  - action_code: 'H'
+    arrival_flight_prefix: 'HV'
+    arrival_flight_suffix: '588'
+    start_date_of_operation: '26MAR'
+    end_date_of_operation: ''
+    days_of_operation: ''
+    seat_number: '186'
+    aircraft_type_3_letter: '738'
+    origin_of_flight: 'SAW'
+    previous_stop_of_flight: 'SAW'
+    scheduled_time_of_arrival_utc: '0000'
+    arrival_type_of_flight: 'J'
+    arrival_frequency_rate: null
+    additional_information: null
+    raw: 'HHV588 26MAR 186738 SAWSAW2400 J'
+
 processed_slots:
 
   - action_code: 'H'
@@ -150,5 +167,21 @@ processed_slots:
     departure_frequency_rate: null
     additional_information: null
     raw: 'H KL3106 26MAR 186738 0015SAWSAW J'
+
+  - action_code: 'H'
+    arrival_flight_prefix: 'HV'
+    arrival_flight_suffix: '588'
+    start_date_of_operation: '2017-03-26'
+    end_date_of_operation: '2017-03-26'
+    days_of_operation: ''
+    seat_number: '186'
+    aircraft_type_3_letter: '738'
+    origin_of_flight: 'SAW'
+    previous_stop_of_flight: 'SAW'
+    scheduled_time_of_arrival_utc: '0000'
+    arrival_type_of_flight: 'J'
+    arrival_frequency_rate: null
+    additional_information: null
+    raw: 'HHV588 26MAR 186738 SAWSAW2400 J'
 
 footer: {}
