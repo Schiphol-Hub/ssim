@@ -50,3 +50,28 @@
     REYT/
     U 3O125 02NOV22MAR 0004000 174320 FEZFEZ J
     / RA.1640   /
+- slots:
+  - action_code: 'H'
+    departure_flight_prefix: 'N'
+    departure_flight_suffix: '1'
+    start_date_of_operation: '21APR'
+    end_date_of_operation: ''
+    days_of_operation: ''
+    seat_number: '000'
+    aircraft_type_3_letter: 'GR4'
+    destination_of_flight: 'OSL'
+    next_stop_of_flight: 'OSL'
+    scheduled_time_of_departure_utc: '0900'
+    departure_type_of_flight: 'D'
+    departure_frequency_rate: null
+    additional_information: null
+    departure_frequency_rate: null
+    raw: 'H N1 21APR 000GR4 0900OSLOSL D'
+  raw_data: |
+    SIR
+    /
+    W17
+    03JUN
+    AMS
+    REYT/
+    H N1 21APR 000GR4 0900OSLOSL D
