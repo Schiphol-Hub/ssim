@@ -1,7 +1,7 @@
 import pytest
 from glob import glob
 import yaml
-path_to_data = 'test/data/'
+path_to_data = 'data/'
 
 @pytest.fixture
 def slotfiles():
@@ -24,6 +24,14 @@ def slotfiles():
 @pytest.fixture
 def expanding_slots():
     with open(path_to_data + 'expanding_slots.yml') as f:
+        slots = yaml.load(f.read())
+
+    return slots
+
+
+@pytest.fixture
+def regressions():
+    with open(path_to_data + 'regressions.yml') as f:
         slots = yaml.load(f.read())
 
     return slots

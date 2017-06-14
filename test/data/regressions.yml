@@ -1,0 +1,52 @@
+- slots:
+  - action_code: 'U'
+    arrival_flight_prefix: '3O'
+    arrival_flight_suffix: '125'
+    start_date_of_operation: '02NOV'
+    end_date_of_operation: '22MAR'
+    days_of_operation: '0004000'
+    seat_number: '174'
+    aircraft_type_3_letter: '320'
+    origin_of_flight: 'FEZ'
+    previous_stop_of_flight: 'FEZ'
+    scheduled_time_of_arrival_utc: null
+    arrival_type_of_flight: 'J'
+    arrival_frequency_rate: null
+    additional_information: '/RA.1640  /'
+    arrival_frequency_rate: null
+    raw: 'U3O125 02NOV22MAR 0004000 174320 FEZFEZ J /RA.1640  /'
+  raw_data: |
+    SIR
+    /
+    W17
+    03JUN
+    AMS
+    REYT/
+    U3O125 02NOV22MAR 0004000 174320 FEZFEZ J
+    / RA.1640   /
+- slots:
+  - action_code: 'U'
+    departure_flight_prefix: '3O'
+    departure_flight_suffix: '125'
+    start_date_of_operation: '02NOV'
+    end_date_of_operation: '22MAR'
+    days_of_operation: '0004000'
+    seat_number: '174'
+    aircraft_type_3_letter: '320'
+    destination_of_flight: 'FEZ'
+    next_stop_of_flight: 'FEZ'
+    scheduled_time_of_departure_utc: null
+    departure_type_of_flight: 'J'
+    departure_frequency_rate: null
+    additional_information: '/RA.1640  /'
+    departure_frequency_rate: null
+    raw: 'U 3O125 02NOV22MAR 0004000 174320 FEZFEZ J /RA.1640  /'
+  raw_data: |
+    SIR
+    /
+    W17
+    03JUN
+    AMS
+    REYT/
+    U 3O125 02NOV22MAR 0004000 174320 FEZFEZ J
+    / RA.1640   /
