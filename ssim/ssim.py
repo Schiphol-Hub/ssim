@@ -307,7 +307,10 @@ def _expand_slot(slot):
     expanded_slot = []
 
     # Expand arriving flights
-    try:
+    arrival_slot_fields = {'action_code', 'arrival_flight_prefix', 'arrival_flight_suffix', 'aircraft_type_3_letter',
+                           'arrival_type_of_flight', 'origin_of_flight', 'seat_number', 'additional_information', 'raw'}
+    if arrival_slot_fields <= set(slot):
+
         arrival_slot = {
             'action_code': slot['action_code'],
             'ad': 'A',
@@ -321,9 +324,10 @@ def _expand_slot(slot):
             'raw': slot['raw']
         }
 
-        if slot['scheduled_time_of_arrival_utc'] != None:
+        if slot['scheduled_time_of_arrival_utc'] is not None:
             arrival_start_date = \
-                datetime.strptime(slot['start_date_of_operation'] + slot['scheduled_time_of_arrival_utc'], '%Y-%m-%d%H%M')
+                datetime.strptime(slot['start_date_of_operation'] + slot['scheduled_time_of_arrival_utc'],
+                                  '%Y-%m-%d%H%M')
             arrival_end_date = \
                 datetime.strptime(slot['end_date_of_operation'] + slot['scheduled_time_of_arrival_utc'], '%Y-%m-%d%H%M')
         else:
@@ -338,18 +342,18 @@ def _expand_slot(slot):
         else:
             dates = rrule(freq=WEEKLY, dtstart=arrival_start_date, until=arrival_end_date, byweekday=weekdays)
 
-        if slot['scheduled_time_of_arrival_utc'] != None:
+        if slot['scheduled_time_of_arrival_utc'] is not None:
             arrival_slot['flight_datetime'] = [x.strftime('%Y-%m-%d %H:%M') for x in dates]
         else:
             arrival_slot['flight_datetime'] = [x.strftime('%Y-%m-%d') for x in dates]
 
         expanded_slot += [arrival_slot]
 
-    except KeyError:
-        pass
-
     # Expand departing flights
-    try:
+    departure_slot_fields = {'action_code', 'departure_flight_prefix', 'departure_flight_suffix',
+                             'aircraft_type_3_letter','departure_type_of_flight', 'destination_of_flight',
+                             'seat_number', 'additional_information', 'raw'}
+    if departure_slot_fields <= set(slot):
         departure_slot = {
             'action_code': slot['action_code'],
             'ad': 'D',
@@ -362,33 +366,23 @@ def _expand_slot(slot):
             'additional_information': slot['additional_information'],
             'raw': slot['raw']
         }
-        if slot['scheduled_time_of_departure_utc'] != None:
-            if 'overnight_indicator' in slot:
-                departure_start_date = \
-                    datetime.strptime(slot['start_date_of_operation'] + slot['scheduled_time_of_departure_utc'],
-                                      '%Y-%m-%d%H%M') \
-                    + relativedelta(days=int(slot['overnight_indicator']))
-                departure_end_date = \
-                    datetime.strptime(slot['end_date_of_operation'] + slot['scheduled_time_of_departure_utc'],
-                                      '%Y-%m-%d%H%M') \
-                    + relativedelta(days=int(slot['overnight_indicator']))
-            else:
-                departure_start_date = \
-                    datetime.strptime(slot['start_date_of_operation'] + slot['scheduled_time_of_departure_utc'],
-                                      '%Y-%m-%d%H%M')
-                departure_end_date = \
-                    datetime.strptime(slot['end_date_of_operation'] + slot['scheduled_time_of_departure_utc'],
-                                      '%Y-%m-%d%H%M')
+
+        if 'overnight_indicator' in slot:
+            overnight_time = relativedelta(days=int(slot['overnight_indicator']))
         else:
-            if 'overnight_indicator' in slot:
-                departure_start_date = datetime.strptime(slot['start_date_of_operation'], '%Y-%m-%d') \
-                    + relativedelta(days=int(slot['overnight_indicator']))
-                departure_end_date = datetime.strptime(slot['end_date_of_operation'], '%Y-%m-%d') \
-                    + relativedelta(days=int(slot['overnight_indicator']))
-            else:
-                departure_start_date = \
-                    datetime.strptime(slot['start_date_of_operation'], '%Y-%m-%d')
-                departure_end_date = datetime.strptime(slot['end_date_of_operation'], '%Y-%m-%d')
+            overnight_time = relativedelta(days=0)
+
+        if slot['scheduled_time_of_departure_utc']:
+            departure_start_date = \
+                datetime.strptime(slot['start_date_of_operation'] + slot['scheduled_time_of_departure_utc'],
+                                  '%Y-%m-%d%H%M') + overnight_time
+            departure_end_date = \
+                datetime.strptime(slot['end_date_of_operation'] + slot['scheduled_time_of_departure_utc'],
+                                  '%Y-%m-%d%H%M') + overnight_time
+
+        else:
+            departure_start_date = datetime.strptime(slot['start_date_of_operation'], '%Y-%m-%d') + overnight_time
+            departure_end_date = datetime.strptime(slot['end_date_of_operation'], '%Y-%m-%d') + overnight_time
 
         if slot['departure_frequency_rate']:
             dates = rrule(freq=WEEKLY, interval=int(slot['departure_frequency_rate']),
@@ -396,15 +390,12 @@ def _expand_slot(slot):
         else:
             dates = rrule(freq=WEEKLY, dtstart=departure_start_date, until=departure_end_date, byweekday=weekdays)
 
-        if slot['scheduled_time_of_departure_utc'] != None:
+        if slot['scheduled_time_of_departure_utc'] is not None:
             departure_slot['flight_datetime'] = [x.strftime('%Y-%m-%d %H:%M') for x in dates]
         else:
             departure_slot['flight_datetime'] = [x.strftime('%Y-%m-%d') for x in dates]
 
         expanded_slot += [departure_slot]
-
-    except KeyError:
-        pass
 
     expanded_slot = [_update_dict(x, {'flight_datetime': f_dt}) for x in expanded_slot for f_dt in x['flight_datetime']]
 
