@@ -75,3 +75,29 @@
     AMS
     REYT/
     H N1 21APR 000GR4 0900OSLOSL D
+- slots:
+  - action_code: 'U'
+    arrival_flight_prefix: 'LLX'
+    arrival_flight_suffix: '5066'
+    start_date_of_operation: '19FEB'
+    end_date_of_operation: '05MAR'
+    days_of_operation: '0000007'
+    seat_number: null
+    aircraft_type_3_letter: '320'
+    origin_of_flight: 'TFS'
+    previous_stop_of_flight: 'TFS'
+    scheduled_time_of_arrival_utc: null
+    arrival_type_of_flight: 'J'
+    arrival_frequency_rate: null
+    additional_information: '/RA.0040  /'
+    arrival_frequency_rate: null
+    raw: 'ULLX5066 19FEB05MAR 0000007 320 TFSTFS J /RA.0040  /'
+  raw_data: |
+    SIR
+    /
+    W17
+    03JUN
+    AMS
+    REYT/
+    ULLX5066 19FEB05MAR 0000007 320 TFSTFS J
+    /RA.0040  /
