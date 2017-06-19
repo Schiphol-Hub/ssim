@@ -250,34 +250,42 @@ def _process_slots(slots, header, year_prefix='20'):
     Returns
     -------
     processed_slots: list of dicts, describing exact slots of a slotfile.
+    unprocessed_slots: list of dicts, describing slots that could not be parsed.
     """
 
     year = year_prefix + header['season'][1:]
     season = header['season'][0]
     processed_slots = []
+    unprocessed_slots = []
 
     for slot in slots:
-        if 'end_date_of_operation' not in slot:
-            slot['end_date_of_operation'] = slot['start_date_of_operation']
-        if slot['end_date_of_operation'] == '':
-            slot['end_date_of_operation'] = slot['start_date_of_operation']
-
-        slot['start_date_of_operation'] = datetime.strptime(slot['start_date_of_operation'] + year, '%d%b%Y')
-        slot['end_date_of_operation'] = datetime.strptime(slot['end_date_of_operation'] + year, '%d%b%Y')
-
-        if 'W' in season:
-            if slot['end_date_of_operation'].month < 6:
-                slot['end_date_of_operation'] = slot['end_date_of_operation'] + relativedelta(years=1)
-
-                if slot['start_date_of_operation'].month < 6:
-                    slot['start_date_of_operation'] = slot['start_date_of_operation'] + relativedelta(years=1)
-
-        slot['start_date_of_operation'] = slot['start_date_of_operation'].strftime('%Y-%m-%d')
-        slot['end_date_of_operation'] = slot['end_date_of_operation'].strftime('%Y-%m-%d')
-
-        processed_slots.append(slot)
-
-    return processed_slots
+        try:
+            if 'end_date_of_operation' not in slot:
+                slot['end_date_of_operation'] = slot['start_date_of_operation']
+            if slot['end_date_of_operation'] == '':
+                slot['end_date_of_operation'] = slot['start_date_of_operation']
+    
+            slot['start_date_of_operation'] = datetime.strptime(slot['start_date_of_operation'] + year, '%d%b%Y')
+            slot['end_date_of_operation'] = datetime.strptime(slot['end_date_of_operation'] + year, '%d%b%Y')
+    
+            if 'W' in season:
+                if slot['end_date_of_operation'].month < 6:
+                    slot['end_date_of_operation'] = slot['end_date_of_operation'] + relativedelta(years=1)
+    
+                    if slot['start_date_of_operation'].month < 6:
+                        slot['start_date_of_operation'] = slot['start_date_of_operation'] + relativedelta(years=1)
+    
+            slot['start_date_of_operation'] = slot['start_date_of_operation'].strftime('%Y-%m-%d')
+            slot['end_date_of_operation'] = slot['end_date_of_operation'].strftime('%Y-%m-%d')
+    
+            processed_slots.append(slot)
+        except:
+            unprocessed_slots.append(slot)
+    
+    if len(unprocessed_slots)>0:
+        print(str(len(unprocessed_slots)) + ' slots line could not be processed. Please review outcome variable.')
+    
+    return processed_slots, unprocessed_slots
 
 
 def _update_dict(d, entry):
@@ -402,7 +410,7 @@ def _expand_slot(slot):
     return expanded_slot
 
 
-def read(slotfile, year_prefix='20'):
+def read(slotfile, year_prefix='20', debug=False):
     """
     Parses and processes a valid ssim file.
 
@@ -410,12 +418,14 @@ def read(slotfile, year_prefix='20'):
     ----------.
     slotfile : path to a slotfile.
     year_prefix: string, defining the century of the flight.
+    debug: bool, are we debugging?
 
     Returns
     -------
     slots: list of dicts, describing exact slots of a slotfile.
     header: dict, describing the header of the slotfile.
     footer: dict, describing the footer of the slotfile.
+    unprocessed_slots: list of dicts, slots that could not be processed
     """
 
     logging.info('Reading %s.' % slotfile)
@@ -425,11 +435,14 @@ def read(slotfile, year_prefix='20'):
     logging.info('Parsing and processing slotfile.')
     slots, header, footer = _parse_slotfile(text)
 
-    slots = _process_slots(slots, header, year_prefix)
+    processed_slots,unprocessed_slots  = _process_slots(slots, header, year_prefix)
     logging.info('Found %i valid slots in %i rows (%i of those additional information).'
-                 % (len(slots), len(text.splitlines()), len(re.findall('/ R.* /', text))))
+                 % (len(processed_slots), len(text.splitlines()), len(re.findall('/ R.* /', text))))
 
-    return slots, header, footer
+    if debug:
+        return processed_slots, header, footer, unprocessed_slots
+    else:
+        return processed_slots, header, footer
 
 
 def expand_slots(slots):
