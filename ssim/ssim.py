@@ -105,8 +105,8 @@ arrival_row_pattern = (
 
 arrival_row_pattern_nl = (
     '(?P<action_code>[A-Z])'
-    '(?P<arrival_flight_prefix>[A-Z]{1,3}|\w{2})'
-    '(?P<arrival_flight_suffix>\d+[A-Z]*|\w+)'
+    '(?P<arrival_flight_prefix>[A-Z]{1,3}|\w{2}){0,1}'
+    '(?P<arrival_flight_suffix>\d+[A-Z]*|\w+){0,1}'
     '\s'
     '(?P<start_date_of_operation>\d{2}[A-Z]{3})'
     '(?P<end_date_of_operation>\d{2}[A-Z]{3}|)'
@@ -129,8 +129,8 @@ arrival_row_pattern_nl = (
 departure_row_pattern_nl = (
     '(?P<action_code>[A-Z])'
     '\s'
-    '(?P<departure_flight_prefix>[A-Z]{1,3}|\w{2})'
-    '(?P<departure_flight_suffix>\d+[A-Z]*|\w+)'
+    '(?P<departure_flight_prefix>[A-Z]{1,3}|\w{2}){0,1}'
+    '(?P<departure_flight_suffix>\d+[A-Z]*|\w+){0,1}'
     '\s'
     '(?P<start_date_of_operation>\d{2}[A-Z]{3})'
     '(?P<end_date_of_operation>\d{2}[A-Z]{3}|)'

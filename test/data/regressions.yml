@@ -149,3 +149,51 @@
     AMS
     REYT/
     H KL8836 17NOV 316772 0615061DPS J
+- slots:
+  - action_code: 'H'
+    arrival_flight_prefix: null
+    arrival_flight_suffix: null
+    start_date_of_operation: '04NOV'
+    end_date_of_operation: ''
+    days_of_operation: ''
+    seat_number: '000'
+    aircraft_type_3_letter: 'D22'
+    origin_of_flight: 'ANR'
+    previous_stop_of_flight: 'ANR'
+    scheduled_time_of_arrival_utc: '1510'
+    arrival_type_of_flight: 'D'
+    arrival_frequency_rate: null
+    additional_information: null
+    raw: 'H 04NOV 000D22 ANRANR1510 D'
+  raw_data: |
+    SIR
+    /
+    W17
+    03JUN
+    AMS
+    REYT/
+    H 04NOV 000D22 ANRANR1510 D
+- slots:
+  - action_code: 'H'
+    departure_flight_prefix: null
+    departure_flight_suffix: null
+    start_date_of_operation: '04NOV'
+    end_date_of_operation: ''
+    days_of_operation: ''
+    seat_number: '000'
+    aircraft_type_3_letter: 'D22'
+    destination_of_flight: 'ANR'
+    next_stop_of_flight: 'ANR'
+    scheduled_time_of_departure_utc: '1510'
+    departure_type_of_flight: 'D'
+    departure_frequency_rate: null
+    additional_information: null
+    raw: 'H  04NOV 000D22 1510ANRANR D'
+  raw_data: |
+    SIR
+    /
+    W17
+    03JUN
+    AMS
+    REYT/
+    H  04NOV 000D22 1510ANRANR D
