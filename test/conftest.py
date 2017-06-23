@@ -30,8 +30,8 @@ def expanding_slots():
 
 
 @pytest.fixture
-def regressions():
-    with open(path_to_data + 'regressions.yml') as f:
+def parsing_regressions():
+    with open(path_to_data + 'parsing_regressions.yml') as f:
         slots = yaml.load(f.read())
 
     return slots

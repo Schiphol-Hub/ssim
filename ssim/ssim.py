@@ -4,9 +4,6 @@ from dateutil.relativedelta import relativedelta
 from dateutil.rrule import rrule, WEEKLY
 import logging
 
-logging.getLogger(__name__).addHandler(logging.NullHandler())
-logging.basicConfig(format='[%(asctime)s] %(levelname)s: %(message)s', level=logging.DEBUG)
-
 preprocessing_pattern = '(\n/\s*)(\w[AD].\d+ \w*[AD]*.{0,1}\d*)(\s*/\n)'
 preprocessing_replace = r' /\2/\n'
 
@@ -175,7 +172,10 @@ def _parse_slotfile(text):
     header_match = re.search(header_pattern, text)
     footer_match = re.search(footer_pattern, text)
 
-    header = header_match.groupdict()
+    try:
+        header = header_match.groupdict()
+    except AttributeError:
+        raise ValueError('Could not find required header information in slotfile:\n%s' % text[0:200])
 
     try:
         footer = footer_match.groupdict()
@@ -189,21 +189,38 @@ def _parse_slotfile(text):
         pass
 
     rows = rows_text.splitlines()
+    unparsed_rows = []
     parsed_rows = []
+    ambiguous_rows = []
+
 
     for row in rows:
         parsed_row = {}
+        multi_interpretation = []
 
         for row_pattern in row_patterns:
             try:
                 parsed_row = re.search(row_pattern, row).groupdict()
+                multi_interpretation += [parsed_row]
+
             except AttributeError:
                 pass
 
-        parsed_row['raw'] = row
-        parsed_rows.append(parsed_row)
+        if parsed_row == {}:
+            unparsed_rows += [{'raw': row}]
 
-    parsed_rows = map(_fix_bad_midnight, parsed_rows)
+        else:
+            parsed_row['raw'] = row
+            parsed_rows += [parsed_row]
+
+    parsed_rows = list(map(_fix_bad_midnight, parsed_rows))
+
+    if len(ambiguous_rows) > 0:
+        logging.warning("Found %i ambiguous slots that can be interpreted in multiple ways:\n%s" %
+                        (multi_interpretation, ambiguous_rows))
+
+    if len(unparsed_rows) > 0:
+        logging.warning("Cold not parse %i row(s):\n%s" % (len(unparsed_rows), '\n'.join(map(str, unparsed_rows))))
 
     return parsed_rows, header, footer
 
@@ -220,18 +237,14 @@ def _fix_bad_midnight(row):
     if 'scheduled_time_of_arrival_utc' in row:
         if row['scheduled_time_of_arrival_utc'] == '2400':
             row = _update_dict(row, {'scheduled_time_of_arrival_utc': '0000'})
-            logging.warning('Slot with invalid time notation. Adjusting time to 0000.\n(%s)' % row)
 
-            # dt = datetime.strptime(row['start_date_of_operation'] + year, '%d%b%Y') + relativedelta(days=1)
-            # row = _update_dict(row,{'start_date_of_operation': dt.strftime('%d%b').upper()})
+            logging.warning('Slot with invalid time notation. Adjusting time to 0000.\n(%s)' % row)
 
     if 'scheduled_time_of_departure_utc' in row:
         if row['scheduled_time_of_departure_utc'] == '2400':
             row = _update_dict(row, {'scheduled_time_of_departure_utc': '0000'})
-            logging.warning('Slot with invalid time notation. Adjusting time to 0000.\n(%s)' % row)
 
-            # dt = datetime.strptime(row['start_date_of_operation'] + year, '%d%b%Y') + relativedelta(days=1)
-            # row = _update_dict(row,{'start_date_of_operation': dt.strftime('%d%b').upper()})
+            logging.warning('Slot with invalid time notation. Adjusting time to 0000.\n(%s)' % row)
 
     return row
 
@@ -278,12 +291,14 @@ def _process_slots(slots, header, year_prefix='20'):
             slot['start_date_of_operation'] = slot['start_date_of_operation'].strftime('%Y-%m-%d')
             slot['end_date_of_operation'] = slot['end_date_of_operation'].strftime('%Y-%m-%d')
     
-            processed_slots.append(slot)
-        except:
-            unprocessed_slots.append(slot)
-    
-    if len(unprocessed_slots)>0:
-        print(str(len(unprocessed_slots)) + ' slots line could not be processed. Please review outcome variable.')
+            processed_slots += [slot]
+        except Exception as err:
+            slot['error'] = err
+            unprocessed_slots += [slot]
+
+    if len(unprocessed_slots):
+        logging.warning('%i slotfile row(s) could not be processed:\n%s' %
+                        (len(unprocessed_slots), '\n'.join(map(str, unprocessed_slots))))
     
     return processed_slots, unprocessed_slots
 
@@ -310,13 +325,14 @@ def _expand_slot(slot):
     try:
         weekdays = [int(weekday) - 1 for weekday in list(slot['days_of_operation'].replace('0', ''))]
     except KeyError:
-        return [slot]
+        pass
 
     expanded_slot = []
 
     # Expand arriving flights
     arrival_slot_fields = {'action_code', 'arrival_flight_prefix', 'arrival_flight_suffix', 'aircraft_type_3_letter',
-                           'arrival_type_of_flight', 'origin_of_flight', 'seat_number', 'additional_information', 'raw'}
+                           'arrival_type_of_flight', 'origin_of_flight', 'seat_number', 'additional_information', 'raw',
+                           'arrival_frequency_rate'}
     if arrival_slot_fields <= set(slot):
 
         arrival_slot = {
@@ -360,7 +376,7 @@ def _expand_slot(slot):
     # Expand departing flights
     departure_slot_fields = {'action_code', 'departure_flight_prefix', 'departure_flight_suffix',
                              'aircraft_type_3_letter','departure_type_of_flight', 'destination_of_flight',
-                             'seat_number', 'additional_information', 'raw'}
+                             'seat_number', 'additional_information', 'raw', 'departure_frequency_rate'}
     if departure_slot_fields <= set(slot):
         departure_slot = {
             'action_code': slot['action_code'],
@@ -410,7 +426,7 @@ def _expand_slot(slot):
     return expanded_slot
 
 
-def read(slotfile, year_prefix='20', debug=False):
+def read(slotfile, year_prefix='20'):
     """
     Parses and processes a valid ssim file.
 
@@ -418,31 +434,37 @@ def read(slotfile, year_prefix='20', debug=False):
     ----------.
     slotfile : path to a slotfile.
     year_prefix: string, defining the century of the flight.
-    debug: bool, are we debugging?
 
     Returns
     -------
     slots: list of dicts, describing exact slots of a slotfile.
     header: dict, describing the header of the slotfile.
     footer: dict, describing the footer of the slotfile.
-    unprocessed_slots: list of dicts, slots that could not be processed
     """
 
-    logging.info('Reading %s.' % slotfile)
+    logging.info('Reading and parsing slotfile: %s.' % slotfile)
     with open(slotfile) as f:
         text = f.read()
 
-    logging.info('Parsing and processing slotfile.')
     slots, header, footer = _parse_slotfile(text)
 
-    processed_slots,unprocessed_slots  = _process_slots(slots, header, year_prefix)
-    logging.info('Found %i valid slots in %i rows (%i of those additional information).'
-                 % (len(processed_slots), len(text.splitlines()), len(re.findall('/ R.* /', text))))
+    slotfile_length = len(text.splitlines())
+    additional_info = len(re.findall('/ R.* /', text))
+    header_lenght = re.search(header_pattern, text).group(0).count('\n')
+    try:
+        footer_lenght = re.search(footer_pattern, text).group(0).count('\n')
+    except AttributeError:
+        footer_lenght = 0
+    metadata_lenght = header_lenght + footer_lenght + additional_info
 
-    if debug:
-        return processed_slots, header, footer, unprocessed_slots
-    else:
-        return processed_slots, header, footer
+    logging.info('Found %i raw slots in %i rows (%i of metadata). Difference: %i' %
+                 (len(slots), slotfile_length, metadata_lenght, slotfile_length - len(slots) - metadata_lenght))
+
+    processed_slots, unprocessed_slots  = _process_slots(slots, header, year_prefix)
+
+    logging.info('Processed %i valid slots of %i valid slots.' % (len(processed_slots), len(slots)))
+
+    return processed_slots, header, footer
 
 
 def expand_slots(slots):
@@ -458,11 +480,15 @@ def expand_slots(slots):
     :return: flattened_flights: list, a list of flight dicts.
     """
 
-    logging.info('Expanding flights.')
-    flights = map(_expand_slot, slots)
-    flattened_flights = [item for sublist in flights for item in sublist]
-    logging.info('Expanded %i slots into %i flights.' % (len(slots), len(flattened_flights)))
+    flights = list(map(_expand_slot, slots))
+    flattened_flights = [f for fs in flights if len(fs) != 0 for f in fs]
+    unexpanded_slots = [s for s, fs in zip(slots, flights) if len(fs) == 0]
 
+    if len(unexpanded_slots) > 0:
+        logging.warning('Could not expand %i slot(s):\n%s' %
+                        (len(unexpanded_slots), '\n'.join(map(str, unexpanded_slots))))
+
+    logging.info('Expanded %i slots into %i flights.' % (len(slots)-len(unexpanded_slots), len(flattened_flights)))
     return flattened_flights
 
 
