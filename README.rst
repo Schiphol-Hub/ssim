@@ -5,6 +5,7 @@ SSIM parser
 Introduction
 ------------
 IATA SSIM (Standard Schedules Information Manual) file parser is a tool to read the standard IATA file format.
+Alpha warning: please note this software is under active development. Please see the issue guidelines below if you encounter bugs.
 
 Installation
 ------------
@@ -37,6 +38,13 @@ If using pandas then:
 
     import pandas as pd
     flights_df = pd.DataFrame(flights)
+
+
+Issue guidelines
+----------------
+
+In case you encounter bugs please submit an issue on github. Please list the reported error and data used that will help us reconstruct it. This will help us reproduce and resolve the bug.
+
 
 Contributors
 -------
