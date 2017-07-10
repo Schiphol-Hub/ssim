@@ -5,7 +5,8 @@ SSIM parser
 Introduction
 ------------
 IATA SSIM (Standard Schedules Information Manual) file parser is a tool to read the standard IATA file format.
-Alpha warning: please note this software is under active development. Please see the issue guidelines below if you encounter bugs.
+
+Alpha warning: please note this software is under active development. See the issue guidelines below if you encounter bugs.
 
 Installation
 ------------
@@ -43,8 +44,7 @@ If using pandas then:
 Issue guidelines
 ----------------
 
-In case you encounter bugs please submit an issue on github. Please list the reported error and data used that will help us reconstruct it. This will help us reproduce and resolve the bug.
-
+In case you encounter bugs please submit a new `issue`_ on github. Please list the reported error and data used that will help us reconstruct it. This will help us reproduce and resolve the bug.
 
 Contributors
 -------
@@ -61,3 +61,4 @@ Uses the `GPLv3`_ license.
 
 .. _GPLv3: https://opensource.org/licenses/GPL-3.0
 .. _Rok.Mihevc: https://rok.github.io
+.. _issue: https://github.com/Schiphol-Hub/ssim/issues/new
