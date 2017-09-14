@@ -52,8 +52,8 @@
     / RA.1640   /
 - slots:
   - action_code: 'H'
-    departure_flight_prefix: 'N'
-    departure_flight_suffix: '1'
+    departure_flight_prefix: 'N1'
+    departure_flight_suffix: null
     start_date_of_operation: '21APR'
     end_date_of_operation: ''
     days_of_operation: ''
@@ -197,3 +197,53 @@
     AMS
     REYT/
     H  04NOV 000D22 1510ANRANR D
+- slots:
+  - action_code: 'H'
+    departure_flight_prefix: 'Y8'
+    departure_flight_suffix: '8836'
+    start_date_of_operation: '17NOV'
+    end_date_of_operation: ''
+    days_of_operation: ''
+    seat_number: '316'
+    aircraft_type_3_letter: '772'
+    destination_of_flight: 'DPS'
+    next_stop_of_flight: '061'
+    scheduled_time_of_departure_utc: '0615'
+    departure_type_of_flight: 'J'
+    departure_frequency_rate: null
+    additional_information: null
+    departure_frequency_rate: null
+    raw: 'H Y88836 17NOV 316772 0615061DPS J'
+  raw_data: |
+    SIR
+    /
+    W17
+    03JUN
+    AMS
+    REYT/
+    H Y88836 17NOV 316772 0615061DPS J
+- slots:
+  - action_code: 'H'
+    departure_flight_prefix: '5Y'
+    departure_flight_suffix: '123'
+    start_date_of_operation: '17NOV'
+    end_date_of_operation: ''
+    days_of_operation: ''
+    seat_number: '316'
+    aircraft_type_3_letter: '772'
+    destination_of_flight: 'DPS'
+    next_stop_of_flight: '061'
+    scheduled_time_of_departure_utc: '0615'
+    departure_type_of_flight: 'J'
+    departure_frequency_rate: null
+    additional_information: null
+    departure_frequency_rate: null
+    raw: 'H 5Y123 17NOV 316772 0615061DPS J'
+  raw_data: |
+    SIR
+    /
+    W17
+    03JUN
+    AMS
+    REYT/
+    H 5Y123 17NOV 316772 0615061DPS J
