@@ -4,7 +4,7 @@ from dateutil.relativedelta import relativedelta
 from dateutil.rrule import rrule, WEEKLY
 import logging
 
-preprocessing_pattern = '(\n/\s*)(\w[AD].\d+ \w*[AD]*.{0,1}\d*)(\s*/\n)'
+preprocessing_pattern = '(\n/\s*)(\w[A-Z]*.\d+ \w*[A-Z]*.{0,1}\d*)(\s*/\n)'
 preprocessing_replace = r' /\2/\n'
 
 # For email parsing see: emailregex.com
