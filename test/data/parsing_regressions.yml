@@ -2,8 +2,8 @@
   - action_code: 'U'
     arrival_flight_prefix: '3O'
     arrival_flight_suffix: '125'
-    start_date_of_operation: '02NOV'
-    end_date_of_operation: '22MAR'
+    start_date_of_operation: '2017-11-02'
+    end_date_of_operation: '2018-03-22'
     days_of_operation: '0004000'
     seat_number: '174'
     aircraft_type_3_letter: '320'
@@ -28,8 +28,8 @@
   - action_code: 'U'
     departure_flight_prefix: '3O'
     departure_flight_suffix: '125'
-    start_date_of_operation: '02NOV'
-    end_date_of_operation: '22MAR'
+    start_date_of_operation: '2017-11-02'
+    end_date_of_operation: '2018-03-22'
     days_of_operation: '0004000'
     seat_number: '174'
     aircraft_type_3_letter: '320'
@@ -54,8 +54,8 @@
   - action_code: 'H'
     departure_flight_prefix: 'N1'
     departure_flight_suffix: null
-    start_date_of_operation: '21APR'
-    end_date_of_operation: ''
+    start_date_of_operation: '2018-02-21'
+    end_date_of_operation: '2018-02-21'
     days_of_operation: ''
     seat_number: '000'
     aircraft_type_3_letter: 'GR4'
@@ -66,7 +66,7 @@
     departure_frequency_rate: null
     additional_information: null
     departure_frequency_rate: null
-    raw: 'H N1 21APR 000GR4 0900OSLOSL D'
+    raw: 'H N1 21FEB 000GR4 0900OSLOSL D'
   raw_data: |
     SIR
     /
@@ -74,13 +74,13 @@
     03JUN
     AMS
     REYT/
-    H N1 21APR 000GR4 0900OSLOSL D
+    H N1 21FEB 000GR4 0900OSLOSL D
 - slots:
   - action_code: 'U'
     arrival_flight_prefix: 'LLX'
     arrival_flight_suffix: '5066'
-    start_date_of_operation: '19FEB'
-    end_date_of_operation: '05MAR'
+    start_date_of_operation: '2018-02-19'
+    end_date_of_operation: '2018-03-05'
     days_of_operation: '0000007'
     seat_number: null
     aircraft_type_3_letter: '320'
@@ -104,8 +104,8 @@
   - action_code: 'H'
     arrival_flight_prefix: 'KL'
     arrival_flight_suffix: '8836'
-    start_date_of_operation: '17NOV'
-    end_date_of_operation: ''
+    start_date_of_operation: '2017-11-17'
+    end_date_of_operation: '2017-11-17'
     days_of_operation: ''
     seat_number: '316'
     aircraft_type_3_letter: '772'
@@ -128,8 +128,8 @@
   - action_code: 'H'
     departure_flight_prefix: 'KL'
     departure_flight_suffix: '8836'
-    start_date_of_operation: '17NOV'
-    end_date_of_operation: ''
+    start_date_of_operation: '2017-11-17'
+    end_date_of_operation: '2017-11-17'
     days_of_operation: ''
     seat_number: '316'
     aircraft_type_3_letter: '772'
@@ -153,8 +153,8 @@
   - action_code: 'H'
     arrival_flight_prefix: null
     arrival_flight_suffix: null
-    start_date_of_operation: '04NOV'
-    end_date_of_operation: ''
+    start_date_of_operation: '2017-11-04'
+    end_date_of_operation: '2017-11-04'
     days_of_operation: ''
     seat_number: '000'
     aircraft_type_3_letter: 'D22'
@@ -177,8 +177,8 @@
   - action_code: 'H'
     departure_flight_prefix: null
     departure_flight_suffix: null
-    start_date_of_operation: '04NOV'
-    end_date_of_operation: ''
+    start_date_of_operation: '2017-11-04'
+    end_date_of_operation: '2017-11-04'
     days_of_operation: ''
     seat_number: '000'
     aircraft_type_3_letter: 'D22'
@@ -201,8 +201,8 @@
   - action_code: 'H'
     departure_flight_prefix: 'Y8'
     departure_flight_suffix: '8836'
-    start_date_of_operation: '17NOV'
-    end_date_of_operation: ''
+    start_date_of_operation: '2017-11-17'
+    end_date_of_operation: '2017-11-17'
     days_of_operation: ''
     seat_number: '316'
     aircraft_type_3_letter: '772'
@@ -226,8 +226,8 @@
   - action_code: 'H'
     departure_flight_prefix: '5Y'
     departure_flight_suffix: '123'
-    start_date_of_operation: '17NOV'
-    end_date_of_operation: ''
+    start_date_of_operation: '2017-11-17'
+    end_date_of_operation: '2017-11-17'
     days_of_operation: ''
     seat_number: '316'
     aircraft_type_3_letter: '772'

@@ -24,60 +24,6 @@ slots:
     arrival_flight_suffix: '123'
     departure_flight_prefix: 'XY'
     departure_flight_suffix: '124'
-    start_date_of_operation: '01JUL'
-    end_date_of_operation: '30SEP'
-    days_of_operation: '1234500'
-    seat_number: '120'
-    aircraft_type_3_letter: '319'
-    origin_of_flight: 'CDG'
-    scheduled_time_of_arrival_utc: '0700'
-    scheduled_time_of_departure_utc: '0750'
-    overnight_indicator: '1'
-    destination_of_flight: 'CDG'
-    arrival_type_of_flight: 'J'
-    arrival_frequency_rate: null
-    departure_type_of_flight: 'J'
-    departure_frequency_rate: '2'
-    additional_information: null
-    raw: 'NXY123 XY124 01JUL30SEP 1234500 120319 CDG0700 07501CDG JJ2'
-
-  - action_code: 'N'
-    arrival_flight_prefix: 'ABC'
-    arrival_flight_suffix: '1234'
-    start_date_of_operation: '08JUN'
-    end_date_of_operation: '08JUN'
-    days_of_operation: '0000007'
-    seat_number: '150'
-    aircraft_type_3_letter: '319'
-    origin_of_flight: 'LNZ'
-    scheduled_time_of_arrival_utc: '0900'
-    arrival_type_of_flight: 'C'
-    arrival_frequency_rate: null
-    additional_information: null
-    raw: 'NABC1234 08JUN08JUN 0000007 150319 LNZ0900 C'
-
-  - action_code: 'N'
-    departure_flight_prefix: 'ABC'
-    departure_flight_suffix: '1234'
-    start_date_of_operation: '09JUN'
-    end_date_of_operation: '09JUN'
-    days_of_operation: '1000000'
-    seat_number: '150'
-    aircraft_type_3_letter: '319'
-    scheduled_time_of_departure_utc: '0900'
-    destination_of_flight: 'LNZ'
-    departure_type_of_flight: 'C'
-    departure_frequency_rate: null
-    additional_information: null
-    raw: 'N ABC1234 09JUN09JUN 1000000 150319 0900LNZ C'
-
-processed_slots:
-
-  - action_code: 'N'
-    arrival_flight_prefix: 'XY'
-    arrival_flight_suffix: '123'
-    departure_flight_prefix: 'XY'
-    departure_flight_suffix: '124'
     start_date_of_operation: '2008-07-01'
     end_date_of_operation: '2008-09-30'
     days_of_operation: '1234500'

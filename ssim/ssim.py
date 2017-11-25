@@ -4,22 +4,37 @@ from dateutil.relativedelta import relativedelta
 from dateutil.rrule import rrule, WEEKLY
 import logging
 
-preprocessing_pattern = '(\n/\s*)(\w[A-Z]*.\d+ \w*[A-Z]*.{0,1}\d*)(\s*/\n)'
-preprocessing_replace = r' /\2/\n'
+preprocessing_pattern = {
+    'SIR': '(\n/\s*)(\w[A-Z]*.\d+ \w*[A-Z]*.{0,1}\d*)(\s*/\n)',
+    'SIM': '\n4'
+}
+preprocessing_replace = {
+    'SIR': r' /\2/\n',
+    'SIM': r'4'
+}
 
 # For email parsing see: emailregex.com
-header_pattern = (
-    '^(?P<file_type>\w+)\s*\n'
-    '/{0,1}(?P<email>[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+){0,1}\n{0,1}'
-    '(?P<season>\w+)\s*\n'
-    '(?P<export_date>\w+)\s*\n'
-    '(?P<origin>\w+)\n'
-    '(REYT/\n){0,1}'
-)
-footer_pattern = (
-    '(?P<special_information>SI [A-Za-z0-9 ()\.:=]+)\n'
-    '(?P<general_information>GI [A-Za-z0-9 ()\.:=]+)\n*$'
-)
+header_pattern = {
+    'SIR': (
+        '^(?P<file_type>\w+)\s*\n'
+        '/{0,1}(?P<email>[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+){0,1}\n{0,1}'
+        '(?P<season>\w+)\s*\n'
+        '(?P<export_date>\w+)\s*\n'
+        '(?P<origin>\w+)\n'
+        '(REYT/\n){0,1}'),
+    'SIM': (
+        '^1AIRLINE STANDARD SCHEDULE DATA SET\s{156}\d{9}'
+        '[\n0]{805}[A-Z0-9 ]{10}'
+        '(?P<season>[A-Z0-9]{3})'
+        '[A-Z0-9 ]+\n')
+}
+
+footer_pattern = {
+    'SIR': (
+        '(?P<special_information>SI [A-Za-z0-9 ()\.:=]+)\n'
+        '(?P<general_information>GI [A-Za-z0-9 ()\.:=]+)\n*$'),
+    'SIM': '[\n0]{403}(?P<footer>5[A-Z0-9 ]+)[\n0]{2815}$'
+}
 
 return_row_pattern = (
     '(?P<action_code>[A-Z])'
@@ -147,16 +162,56 @@ departure_row_pattern_nl = (
     '(?P<additional_information>.*[a-zA-Z0-9].*){0,1}'
 )
 
+sim_row_pattern = (
+    '^3'
+    '(?P<action_code>[A-Z ])'
+    '(?P<arrival_flight_prefix>[A-Z]{2})\s'
+    '(?P<arrival_flight_suffix>\s{3}[0-9]{1}|\s{2}[0-9]{2}|\s[0-9]{3}|[0-9]{4}|\s{3,4})'
+    '(?P<some_code_1>[0-9]{4})'
+    '(?P<arrival_type_of_flight>[A-Z]{1})'
+    '(?P<start_date_of_operation>[0-9]{2}[A-Z]{3}[0-9]{2}|\s{5})'
+    '(?P<end_date_of_operation>[0-9]{2}[A-Z]{3}[0-9]{2}|\s{5})'
+    '(?P<days_of_operation>[0-9 ]{8})'
+    '(?P<origin_of_flight>[A-Z]{3})'
+    '(?P<scheduled_time_of_arrival_local>\d{4})'
+    '(?P<scheduled_time_of_arrival_utc>\d{4})[+-]\d{4}'
+    '(?P<some_code_3>\w|\s)\s'
+    '(?P<destination_of_flight>[A-Z]{3})'
+    '(?P<scheduled_time_of_departure_local>\d{4})'
+    '(?P<scheduled_time_of_departure_utc>\d{4})[+-]\d{4}'
+    '(?P<some_code_4>\w|\s)\s'
+    '(?P<aircraft_type_3_letter>\w{3})Y'
+    '\s{61}'
+    '(?P<departure_flight_prefix>[A-Z]{2}|\s{2})\s'
+    '(?P<departure_flight_suffix>\s{3}[0-9]{1}|\s{2}[0-9]{2}|\s[0-9]{3}|[0-9]{4}|\s{3,4})'
+    '\s{28}'
+    'Y'
+    '(?P<arrival_seat_number>[0-9]{3})'
+    '(?P<some_code_5>\w{2})'
+    '(?P<aircraft_type_4_letter>\w{4}|\w{3}\s)'
+    '(?P<departure_seat_number>[0-9]{3}|\s{3})'
+    '\s{9}'
+    '(?P<row_nr>[0-9]{6})'
+    '4{0,1}\s{0,1}'
+    '(?P<arrival_flight_prefix_2>[A-Z]{2}){0,1}\s{0,1}'
+    '(?P<arrival_flight_suffix_2>\s{3}[0-9]{1}|\s{2}[0-9]{2}|\s[0-9]{3}|[0-9]{4}|\s{3,4}){0,1}'
+    '(?P<some_code_6>[0-9 ]{4}){0,1}'
+    '(?P<flight_type_3>[A-Z]{0,1})'
+    '\s{0,14}'
+    '(?P<additional_information>[A-Z]{2}[0-9]{3}[A-Z]{3}[A-Z]{3}[A-Z]{2}\s[0-9]{4}\s{148}[0-9]{6}){0,1}$'
+)
+
 row_patterns = [re.compile(arrival_row_pattern),
                 re.compile(departure_row_pattern),
                 re.compile(return_row_pattern),
                 re.compile(arrival_row_pattern_nl),
-                re.compile(departure_row_pattern_nl)]
+                re.compile(departure_row_pattern_nl),
+                re.compile(sim_row_pattern)]
 
 
-def _parse_slotfile(text):
+def _parse_slotfile(text, year_prefix):
     """
-    Parses a ssim message and returns it as a dicts.
+    Parses a ssim message and returns it as a list of dicts.
 
     Parameters
     ----------.
@@ -168,14 +223,21 @@ def _parse_slotfile(text):
     header: dict, describing the header of the slotfile.
     footer: dict, describing the footer of the slotfile.
     """
-    text = re.sub(preprocessing_pattern, preprocessing_replace, text)
-    header_match = re.search(header_pattern, text)
-    footer_match = re.search(footer_pattern, text)
 
-    try:
-        header = header_match.groupdict()
-    except AttributeError:
+    if re.search(header_pattern['SIR'], text):
+        file_format = 'SIR'
+
+    elif re.search(header_pattern['SIM'], text):
+        file_format = 'SIM'
+
+    # File format not recognized
+    else:
         raise ValueError('Could not find required header information in slotfile:\n%s' % text[0:200])
+
+    text = re.sub(preprocessing_pattern[file_format], preprocessing_replace[file_format], text)
+    header_match = re.search(header_pattern[file_format], text)
+    footer_match = re.search(footer_pattern[file_format], text)
+    header = header_match.groupdict()
 
     try:
         footer = footer_match.groupdict()
@@ -192,11 +254,10 @@ def _parse_slotfile(text):
     unparsed_rows = []
     parsed_rows = []
     ambiguous_rows = []
-
+    multi_interpretation = []
 
     for row in rows:
         parsed_row = {}
-        multi_interpretation = []
 
         for row_pattern in row_patterns:
             try:
@@ -213,7 +274,28 @@ def _parse_slotfile(text):
             parsed_row['raw'] = row
             parsed_rows += [parsed_row]
 
-    parsed_rows = list(map(_fix_bad_midnight, parsed_rows))
+    processed_rows = []
+    unprocessed_rows = []
+
+    if file_format == 'SIR':
+        parsed_rows = list(map(_fix_bad_midnight, parsed_rows))
+
+        for row in parsed_rows:
+            try:
+                processed_rows += [_process_dates_sir(row, header, year_prefix=year_prefix)]
+
+            except Exception as err:
+                row['error'] = err
+                unprocessed_rows += [row]
+
+    if file_format == 'SIM':
+        for row in parsed_rows:
+            try:
+                processed_rows += [_process_dates_sim(row, header, year_prefix=year_prefix)]
+
+            except Exception as err:
+                row['error'] = err
+                unprocessed_rows += [row]
 
     if len(ambiguous_rows) > 0:
         logging.warning("Found %i ambiguous slots that can be interpreted in multiple ways:\n%s" %
@@ -222,7 +304,7 @@ def _parse_slotfile(text):
     if len(unparsed_rows) > 0:
         logging.warning("Cold not parse %i row(s):\n%s" % (len(unparsed_rows), '\n'.join(map(str, unparsed_rows))))
 
-    return parsed_rows, header, footer
+    return processed_rows, header, footer
 
 
 def _fix_bad_midnight(row):
@@ -249,58 +331,50 @@ def _fix_bad_midnight(row):
     return row
 
 
-def _process_slots(slots, header, year_prefix='20'):
-    """
-    Processes parsed ssim messages to insert the correct start
-    and end dates.
-
-    Parameters
-    ----------.
-    slots : list of dicts, describing rows of a slotfile.
-    header: dict, describing the header of the slotfile.
-    year_prefix: string, defining the century of the flight.
-
-    Returns
-    -------
-    processed_slots: list of dicts, describing exact slots of a slotfile.
-    unprocessed_slots: list of dicts, describing slots that could not be parsed.
-    """
+def _process_dates_sir(slot, header, year_prefix):
 
     year = year_prefix + header['season'][1:]
-    season = header['season'][0]
-    processed_slots = []
-    unprocessed_slots = []
 
-    for slot in slots:
-        try:
-            if 'end_date_of_operation' not in slot:
-                slot['end_date_of_operation'] = slot['start_date_of_operation']
-            if slot['end_date_of_operation'] == '':
-                slot['end_date_of_operation'] = slot['start_date_of_operation']
-    
-            slot['start_date_of_operation'] = datetime.strptime(slot['start_date_of_operation'] + year, '%d%b%Y')
-            slot['end_date_of_operation'] = datetime.strptime(slot['end_date_of_operation'] + year, '%d%b%Y')
-    
-            if 'W' in season:
-                if slot['end_date_of_operation'].month < 6:
-                    slot['end_date_of_operation'] = slot['end_date_of_operation'] + relativedelta(years=1)
-    
-                    if slot['start_date_of_operation'].month < 6:
-                        slot['start_date_of_operation'] = slot['start_date_of_operation'] + relativedelta(years=1)
-    
-            slot['start_date_of_operation'] = slot['start_date_of_operation'].strftime('%Y-%m-%d')
-            slot['end_date_of_operation'] = slot['end_date_of_operation'].strftime('%Y-%m-%d')
-    
-            processed_slots += [slot]
-        except Exception as err:
-            slot['error'] = err
-            unprocessed_slots += [slot]
+    if 'end_date_of_operation' not in slot:
+        slot['end_date_of_operation'] = slot['start_date_of_operation']
+    if slot['end_date_of_operation'] == '':
+        slot['end_date_of_operation'] = slot['start_date_of_operation']
 
-    if len(unprocessed_slots):
-        logging.warning('%i slotfile row(s) could not be processed:\n%s' %
-                        (len(unprocessed_slots), '\n'.join(map(str, unprocessed_slots))))
-    
-    return processed_slots, unprocessed_slots
+    slot['start_date_of_operation'] = datetime.strptime(slot['start_date_of_operation'] + year, '%d%b%Y')
+    slot['end_date_of_operation'] = datetime.strptime(slot['end_date_of_operation'] + year, '%d%b%Y')
+
+    if 'W' in header['season']:
+        if slot['end_date_of_operation'].month < 6:
+            slot['end_date_of_operation'] = slot['end_date_of_operation'] + relativedelta(years=1)
+
+            if slot['start_date_of_operation'].month < 6:
+                slot['start_date_of_operation'] = slot['start_date_of_operation'] + relativedelta(years=1)
+
+    slot['start_date_of_operation'] = slot['start_date_of_operation'].strftime('%Y-%m-%d')
+    slot['end_date_of_operation'] = slot['end_date_of_operation'].strftime('%Y-%m-%d')
+
+    return slot
+
+
+def _process_dates_sim(slot, header, year_prefix):
+
+    slot = {x: slot[x].strip(' ') for x in slot.keys()}
+
+    year = year_prefix + header['season'][1:]
+
+    slot['start_date_of_operation'] = datetime.strptime(slot['start_date_of_operation'][:-2] + year, '%d%b%Y')
+    slot['end_date_of_operation'] = datetime.strptime(slot['end_date_of_operation'][:-2] + year, '%d%b%Y')
+
+    slot['start_date_of_operation'] = slot['start_date_of_operation'].strftime('%Y-%m-%d')
+    slot['end_date_of_operation'] = slot['end_date_of_operation'].strftime('%Y-%m-%d')
+
+    if 'arrival_seat_number' in slot:
+        slot['seat_number'] = slot['arrival_seat_number']
+    else:
+        slot['seat_number'] = slot['departure_seat_number']
+    slot['arrival_frequency_rate'] = '1'
+
+    return slot
 
 
 def _update_dict(d, entry):
@@ -323,7 +397,8 @@ def _expand_slot(slot):
     """
 
     try:
-        weekdays = [int(weekday) - 1 for weekday in list(slot['days_of_operation'].replace('0', ''))]
+        weekdays = re.sub('\s|0', '', slot['days_of_operation'])
+        weekdays = [int(weekday) - 1 for weekday in weekdays]
     except KeyError:
         pass
 
@@ -375,7 +450,7 @@ def _expand_slot(slot):
 
     # Expand departing flights
     departure_slot_fields = {'action_code', 'departure_flight_prefix', 'departure_flight_suffix',
-                             'aircraft_type_3_letter','departure_type_of_flight', 'destination_of_flight',
+                             'aircraft_type_3_letter', 'departure_type_of_flight', 'destination_of_flight',
                              'seat_number', 'additional_information', 'raw', 'departure_frequency_rate'}
     if departure_slot_fields <= set(slot):
         departure_slot = {
@@ -446,25 +521,28 @@ def read(slotfile, year_prefix='20'):
     with open(slotfile) as f:
         text = f.read()
 
-    slots, header, footer = _parse_slotfile(text)
+    slots, header, footer = _parse_slotfile(text, year_prefix=year_prefix)
 
-    slotfile_length = len(text.splitlines())
-    additional_info = len(re.findall('/ R.* /', text))
-    header_lenght = re.search(header_pattern, text).group(0).count('\n')
-    try:
-        footer_lenght = re.search(footer_pattern, text).group(0).count('\n')
-    except AttributeError:
-        footer_lenght = 0
-    metadata_lenght = header_lenght + footer_lenght + additional_info
+    # slotfile_length = len(text.splitlines())
+    # additional_info = len(re.findall('/ R.* /', text))
+    # header_lenght = re.search(header_pattern[file_format], text).group(0).count('\n')
+    #
+    # try:
+    #     footer_lenght = re.search(footer_pattern[file_format], text).group(0).count('\n')
+    # except AttributeError:
+    #     footer_lenght = 0
+    # metadata_lenght = header_lenght + footer_lenght + additional_info
+    #
+    # logging.info('Found %i raw slots in %i rows (%i of metadata). Difference: %i' %
+    #              (len(slots), slotfile_length, metadata_lenght, slotfile_length - len(slots) - metadata_lenght))
+    #
+    # processed_slots, unprocessed_slots = _process_slots(slots, header, year_prefix)
+    #
+    # logging.info('Processed %i valid slots of %i valid slots.' % (len(processed_slots), len(slots)))
+    #
+    # return processed_slots, header, footer
 
-    logging.info('Found %i raw slots in %i rows (%i of metadata). Difference: %i' %
-                 (len(slots), slotfile_length, metadata_lenght, slotfile_length - len(slots) - metadata_lenght))
-
-    processed_slots, unprocessed_slots  = _process_slots(slots, header, year_prefix)
-
-    logging.info('Processed %i valid slots of %i valid slots.' % (len(processed_slots), len(slots)))
-
-    return processed_slots, header, footer
+    return slots, header, footer
 
 
 def expand_slots(slots):
@@ -488,7 +566,7 @@ def expand_slots(slots):
         logging.warning('Could not expand %i slot(s):\n%s' %
                         (len(unexpanded_slots), '\n'.join(map(str, unexpanded_slots))))
 
-    logging.info('Expanded %i slots into %i flights.' % (len(slots)-len(unexpanded_slots), len(flattened_flights)))
+    logging.info('Expanded %i slots into %i flights.' % (len(slots) - len(unexpanded_slots), len(flattened_flights)))
     return flattened_flights
 
 
