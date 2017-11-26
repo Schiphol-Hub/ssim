@@ -26,7 +26,7 @@ header_pattern = {
         '^1AIRLINE STANDARD SCHEDULE DATA SET\s{156}\d{9}'
         '[\n0]{805}[A-Z0-9 ]{10}'
         '(?P<season>[A-Z0-9]{3})'
-        '[A-Z0-9 ]+\n')
+        '[A-Z0-9 ]+[\n0]{805}')
 }
 
 footer_pattern = {
@@ -211,15 +211,16 @@ row_patterns = [re.compile(arrival_row_pattern),
 
 def _parse_slotfile(text, year_prefix):
     """
-    Parses a ssim message and returns it as a list of dicts.
+    Parses a SIR or SIM message and returns it as a list of dicts describing flight schedules.
 
     Parameters
     ----------.
     :type text: string
+    :type year_prefix: string
 
     Returns
     -------
-    parsed_rows: list of dicts, describing rows of a slotfile.
+    text: list of dicts, describing rows of a slotfile.
     header: dict, describing the header of the slotfile.
     footer: dict, describing the footer of the slotfile.
     """
@@ -232,15 +233,17 @@ def _parse_slotfile(text, year_prefix):
 
     # File format not recognized
     else:
-        raise ValueError('Could not find required header information in slotfile:\n%s' % text[0:200])
+        raise ValueError('Could not find required header information in file:\n%s' % text[0:200])
 
-    text = re.sub(preprocessing_pattern[file_format], preprocessing_replace[file_format], text)
     header_match = re.search(header_pattern[file_format], text)
     footer_match = re.search(footer_pattern[file_format], text)
     header = header_match.groupdict()
+    header_lenght = header_match.group(0).count('\n')
 
+    footer_lenght = 0
     try:
         footer = footer_match.groupdict()
+        footer_lenght = footer_match.group(0).count('\n')
     except AttributeError:
         footer = {}
 
@@ -248,7 +251,10 @@ def _parse_slotfile(text, year_prefix):
         rows_text = text[header_match.end():footer_match.start()]
     except AttributeError:
         rows_text = text[header_match.end():]
-        pass
+        # pass
+
+    rows_text = re.sub(preprocessing_pattern[file_format], preprocessing_replace[file_format], rows_text)
+    additional_info = len(re.findall('/ R.* /', text)) + len(re.findall('\n4.+\n', text))
 
     rows = rows_text.splitlines()
     unparsed_rows = []
@@ -304,6 +310,11 @@ def _parse_slotfile(text, year_prefix):
     if len(unparsed_rows) > 0:
         logging.warning("Cold not parse %i row(s):\n%s" % (len(unparsed_rows), '\n'.join(map(str, unparsed_rows))))
 
+    logging.info('[%s row counts]: %i header, %i flight data, %i extra information, %i footer. %i valid flight records.'
+                 ' %i total rows.'
+                 % (file_format, header_lenght, rows_text.strip('\n').count('\n')+1, additional_info, footer_lenght,
+                    len(processed_rows), text.count('\n')))
+
     return processed_rows, header, footer
 
 
@@ -358,7 +369,9 @@ def _process_dates_sir(slot, header, year_prefix):
 
 def _process_dates_sim(slot, header, year_prefix):
 
-    slot = {x: slot[x].strip(' ') for x in slot.keys()}
+    for k in slot.keys():
+        if slot[k]:
+            slot[k] = slot[k].strip(' ')
 
     year = year_prefix + header['season'][1:]
 
@@ -522,25 +535,6 @@ def read(slotfile, year_prefix='20'):
         text = f.read()
 
     slots, header, footer = _parse_slotfile(text, year_prefix=year_prefix)
-
-    # slotfile_length = len(text.splitlines())
-    # additional_info = len(re.findall('/ R.* /', text))
-    # header_lenght = re.search(header_pattern[file_format], text).group(0).count('\n')
-    #
-    # try:
-    #     footer_lenght = re.search(footer_pattern[file_format], text).group(0).count('\n')
-    # except AttributeError:
-    #     footer_lenght = 0
-    # metadata_lenght = header_lenght + footer_lenght + additional_info
-    #
-    # logging.info('Found %i raw slots in %i rows (%i of metadata). Difference: %i' %
-    #              (len(slots), slotfile_length, metadata_lenght, slotfile_length - len(slots) - metadata_lenght))
-    #
-    # processed_slots, unprocessed_slots = _process_slots(slots, header, year_prefix)
-    #
-    # logging.info('Processed %i valid slots of %i valid slots.' % (len(processed_slots), len(slots)))
-    #
-    # return processed_slots, header, footer
 
     return slots, header, footer
 

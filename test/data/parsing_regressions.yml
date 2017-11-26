@@ -247,3 +247,240 @@
     AMS
     REYT/
     H 5Y123 17NOV 316772 0615061DPS J
+
+- slots:
+  - action_code: ''
+    additional_information: null
+    aircraft_type_3_letter: 73H
+    aircraft_type_4_letter: 738H
+    arrival_flight_prefix: XX
+    arrival_flight_prefix_2: null
+    arrival_flight_suffix: '12'
+    arrival_flight_suffix_2: null
+    arrival_frequency_rate: '1'
+    arrival_seat_number: '189'
+    arrival_type_of_flight: P
+    days_of_operation: '2'
+    departure_flight_prefix: ''
+    departure_flight_suffix: ''
+    departure_seat_number: '189'
+    destination_of_flight: AMS
+    end_date_of_operation: '2018-04-03'
+    flight_type_3: ''
+    origin_of_flight: KEF
+    raw: 3 XX   120102P28MAR1803APR18 2      KEF05100510+0000  AMS08000800+0200  73HY                                                                                                Y189VV738H189         000003
+    row_nr: '000003'
+    scheduled_time_of_arrival_local: '0510'
+    scheduled_time_of_arrival_utc: '0510'
+    scheduled_time_of_departure_local: 0800
+    scheduled_time_of_departure_utc: 0800
+    seat_number: '189'
+    some_code_1: '0102'
+    some_code_3: ''
+    some_code_4: ''
+    some_code_5: VV
+    some_code_6: null
+    start_date_of_operation: '2018-03-28'
+  - action_code: ''
+    additional_information: null
+    aircraft_type_3_letter: 73H
+    aircraft_type_4_letter: 738H
+    arrival_flight_prefix: XY
+    arrival_flight_prefix_2: null
+    arrival_flight_suffix: '13'
+    arrival_flight_suffix_2: null
+    arrival_frequency_rate: '1'
+    arrival_seat_number: '189'
+    arrival_type_of_flight: P
+    days_of_operation: '4'
+    departure_flight_prefix: XY
+    departure_flight_suffix: '13'
+    departure_seat_number: '189'
+    destination_of_flight: GRQ
+    end_date_of_operation: '2018-04-05'
+    flight_type_3: ''
+    origin_of_flight: AMS
+    raw: 3 XY   130101P02APR1805APR18   4    AMS05200520+0200  GRQ06000600+0200  73HY                                                             XY   13                            Y189VV738H189         000004
+    row_nr: '000004'
+    scheduled_time_of_arrival_local: '0520'
+    scheduled_time_of_arrival_utc: '0520'
+    scheduled_time_of_departure_local: '0600'
+    scheduled_time_of_departure_utc: '0600'
+    seat_number: '189'
+    some_code_1: '0101'
+    some_code_3: ''
+    some_code_4: ''
+    some_code_5: VV
+    some_code_6: null
+    start_date_of_operation: '2018-04-02'
+  - action_code: ''
+    additional_information: AB010AMSLJUKL 2561                                                                                                                                                    000006
+    aircraft_type_3_letter: 73H
+    aircraft_type_4_letter: 738H
+    arrival_flight_prefix: XZ
+    arrival_flight_prefix_2: ZX
+    arrival_flight_suffix: '123'
+    arrival_flight_suffix_2: '123'
+    arrival_frequency_rate: '1'
+    arrival_seat_number: '189'
+    arrival_type_of_flight: J
+    days_of_operation: '5'
+    departure_flight_prefix: XZ
+    departure_flight_suffix: '123'
+    departure_seat_number: '189'
+    destination_of_flight: LJU
+    end_date_of_operation: '2018-04-20'
+    flight_type_3: J
+    origin_of_flight: AMS
+    raw: 3 XZ  1230501J01APR1820APR18    5   AMS04350435+0200  LJU06200620+0200  73HY                                                             XZ  123                            Y189VV738H189         0000054
+      ZX  1230501J              AB010AMSLJUKL 2561                                                                                                                                                    000006
+    row_nr: '000005'
+    scheduled_time_of_arrival_local: '0435'
+    scheduled_time_of_arrival_utc: '0435'
+    scheduled_time_of_departure_local: '0620'
+    scheduled_time_of_departure_utc: '0620'
+    seat_number: '189'
+    some_code_1: '0501'
+    some_code_3: ''
+    some_code_4: ''
+    some_code_5: VV
+    some_code_6: '0501'
+    start_date_of_operation: '2018-04-01'
+  - action_code: ''
+    additional_information: AB010AMSLJUKL 2561                                                                                                                                                    000008
+    aircraft_type_3_letter: 73W
+    aircraft_type_4_letter: 73W
+    arrival_flight_prefix: YY
+    arrival_flight_prefix_2: ZZ
+    arrival_flight_suffix: '123'
+    arrival_flight_suffix_2: '1234'
+    arrival_frequency_rate: '1'
+    arrival_seat_number: '149'
+    arrival_type_of_flight: J
+    days_of_operation: 4  7
+    departure_flight_prefix: YY
+    departure_flight_suffix: '123'
+    departure_seat_number: ''
+    destination_of_flight: LJU
+    end_date_of_operation: '2018-04-27'
+    flight_type_3: J
+    origin_of_flight: AMS
+    raw: 3 YY  1230601J01APR1827APR18   4  7 AMS04350435+0200  LJU06200620+0200  73WY                                                             YY  123                            Y149VV73W             0000074
+      ZZ 12340601J              AB010AMSLJUKL 2561                                                                                                                                                    000008
+    row_nr: '000007'
+    scheduled_time_of_arrival_local: '0435'
+    scheduled_time_of_arrival_utc: '0435'
+    scheduled_time_of_departure_local: '0620'
+    scheduled_time_of_departure_utc: '0620'
+    seat_number: '149'
+    some_code_1: '0601'
+    some_code_3: ''
+    some_code_4: ''
+    some_code_5: VV
+    some_code_6: '0601'
+    start_date_of_operation: '2018-04-01'
+  - action_code: A
+    additional_information: null
+    aircraft_type_3_letter: 73H
+    aircraft_type_4_letter: 738H
+    arrival_flight_prefix: XY
+    arrival_flight_prefix_2: null
+    arrival_flight_suffix: '1234'
+    arrival_flight_suffix_2: null
+    arrival_frequency_rate: '1'
+    arrival_seat_number: '189'
+    arrival_type_of_flight: J
+    days_of_operation: '6'
+    departure_flight_prefix: XY
+    departure_flight_suffix: '1234'
+    departure_seat_number: '189'
+    destination_of_flight: SID
+    end_date_of_operation: '2018-10-25'
+    flight_type_3: ''
+    origin_of_flight: AMS
+    raw: 3AXY 12340301J22SEP1825OCT18     6  AMS11451145+0200  SID18301830-0100  73HY                                                             XY
+      1234                            Y189VV738H189         000009
+    row_nr: 000009
+    scheduled_time_of_arrival_local: '1145'
+    scheduled_time_of_arrival_utc: '1145'
+    scheduled_time_of_departure_local: '1830'
+    scheduled_time_of_departure_utc: '1830'
+    seat_number: '189'
+    some_code_1: '0301'
+    some_code_3: ''
+    some_code_4: ''
+    some_code_5: VV
+    some_code_6: null
+    start_date_of_operation: '2018-09-22'
+  - action_code: A
+    additional_information: null
+    aircraft_type_3_letter: 73H
+    aircraft_type_4_letter: 738H
+    arrival_flight_prefix: ZZ
+    arrival_flight_prefix_2: null
+    arrival_flight_suffix: '1234'
+    arrival_flight_suffix_2: null
+    arrival_frequency_rate: '1'
+    arrival_seat_number: '189'
+    arrival_type_of_flight: J
+    days_of_operation: '2'
+    departure_flight_prefix: ''
+    departure_flight_suffix: ''
+    departure_seat_number: ''
+    destination_of_flight: BVC
+    end_date_of_operation: '2018-10-26'
+    flight_type_3: ''
+    origin_of_flight: AMS
+    raw: 3AZZ 12340401J01OCT1826OCT18 2      AMS05550555+0200  BVC12451245-0100  73HY                                                                                                Y189VV738H            000010
+    row_nr: '000010'
+    scheduled_time_of_arrival_local: '0555'
+    scheduled_time_of_arrival_utc: '0555'
+    scheduled_time_of_departure_local: '1245'
+    scheduled_time_of_departure_utc: '1245'
+    seat_number: '189'
+    some_code_1: '0401'
+    some_code_3: ''
+    some_code_4: ''
+    some_code_5: VV
+    some_code_6: null
+    start_date_of_operation: '2018-10-01'
+  raw_data: |
+    1AIRLINE STANDARD SCHEDULE DATA SET                                                                                                                                                            001000001
+    00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    2UXX  0008S18 25MAR1827OCT1813OCT17                                    P                                                                                                                      1301000002
+    00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    3 XX   120102P28MAR1803APR18 2      KEF05100510+0000  AMS08000800+0200  73HY                                                                                                Y189VV738H189         000003
+    3 XY   130101P02APR1805APR18   4    AMS05200520+0200  GRQ06000600+0200  73HY                                                             XY   13                            Y189VV738H189         000004
+    3 XZ  1230501J01APR1820APR18    5   AMS04350435+0200  LJU06200620+0200  73HY                                                             XZ  123                            Y189VV738H189         000005
+    4 ZX  1230501J              AB010AMSLJUKL 2561                                                                                                                                                    000006
+    3 YY  1230601J01APR1827APR18   4  7 AMS04350435+0200  LJU06200620+0200  73WY                                                             YY  123                            Y149VV73W             000007
+    4 ZZ 12340601J              AB010AMSLJUKL 2561                                                                                                                                                    000008
+    3AXY 12340301J22SEP1825OCT18     6  AMS11451145+0200  SID18301830-0100  73HY                                                             XY 1234                            Y189VV738H189         000009
+    3AZZ 12340401J01OCT1826OCT18 2      AMS05550555+0200  BVC12451245-0100  73HY                                                                                                Y189VV738H            000010
+    00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    5 HV                                                                                                                                                                                       000011E000012
+    00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  header:
+    season: S18
+  footer: |
+    5 HV                                                                                                                                                                                       000011E000012
