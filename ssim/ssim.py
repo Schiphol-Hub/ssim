@@ -388,7 +388,7 @@ def _process_dates_sim(slot, header, year_prefix):
         if slot[k]:
             slot[k] = slot[k].strip(' ')
 
-    slot['start_date_of_operation'] = datetime.strptime(slot['start_date_of_operation'][:-2] + year_prefix + slot['end_date_of_operation'][-2:], '%d%b%Y')
+    slot['start_date_of_operation'] = datetime.strptime(slot['start_date_of_operation'][:-2] + year_prefix + slot['start_date_of_operation'][-2:], '%d%b%Y')
     slot['end_date_of_operation'] = datetime.strptime(slot['end_date_of_operation'][:-2] + year_prefix + slot['end_date_of_operation'][-2:], '%d%b%Y')
 
     slot['start_date_of_operation'] = slot['start_date_of_operation'].strftime('%Y-%m-%d')
