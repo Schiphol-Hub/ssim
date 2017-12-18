@@ -464,10 +464,7 @@ def _expand_slot(slot):
             #determine flight time
             departure_time = datetime.strptime(slot['scheduled_time_of_departure_utc'],'%H%M')
             arrival_time = datetime.strptime(slot['scheduled_time_of_arrival_utc'],'%H%M')
-            if departure_time<=arrival_time:
-                flight_leg_slot['flight_time_seconds'] = (arrival_time - departure_time).seconds
-            else:
-                flight_leg_slot['flight_time_seconds'] = 60*60*24-(arrival_time - departure_time).seconds
+            flight_leg_slot['flight_time_seconds'] = (arrival_time - departure_time).seconds #if we take seconds, overnight flights will also get correct flight time because the -1 day gets removed
 
         if slot['frequency_rate']:
             dates = rrule(freq=WEEKLY, interval=int(slot['frequency_rate']),
