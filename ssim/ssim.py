@@ -26,7 +26,7 @@ header_pattern = {
         '^1AIRLINE STANDARD SCHEDULE DATA SET\s{156}\d{9}'
         '[\n0]{805}[A-Z0-9 ]{10}'
         '(?P<season>[A-Z0-9]{3}){0,1}'
-        '[A-Z0-9 ]+[\n0]{805}')
+        '[A-Za-z0-9 ]+[\n0]{805}')
 }
 
 footer_pattern = {
