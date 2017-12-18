@@ -294,6 +294,7 @@ def _parse_slotfile(text, year_prefix):
                 unprocessed_rows += [row]
 
     if file_format == 'SIM':
+        parsed_rows = list(map(_fix_bad_midnight, parsed_rows))
         for row in parsed_rows:
             try:
                 processed_rows += [_process_dates_sim(row, header, year_prefix=year_prefix)]
@@ -326,6 +327,7 @@ def _fix_bad_midnight(row):
     :param row: dict, describing a slot.
     :return row: dict, describing a slot.
     """
+    #for SIR
     if 'scheduled_time_of_arrival_utc' in row:
         if row['scheduled_time_of_arrival_utc'] == '2400':
             row = _update_dict(row, {'scheduled_time_of_arrival_utc': '0000'})
@@ -338,6 +340,19 @@ def _fix_bad_midnight(row):
 
             logging.warning('Slot with invalid time notation. Adjusting time to 0000.\n(%s)' % row)
 
+    #for SSIM
+    if 'scheduled_time_of_arrival_local' in row:
+        if row['scheduled_time_of_arrival_utc'] == '2400':
+            row = _update_dict(row, {'scheduled_time_of_arrival_utc': '0000'})
+
+            logging.warning('Slot with invalid time notation. Adjusting time to 0000.\n(%s)' % row)
+
+    if 'scheduled_time_of_departure_local' in row:
+        if row['scheduled_time_of_departure_utc'] == '2400':
+            row = _update_dict(row, {'scheduled_time_of_departure_utc': '0000'})
+
+            logging.warning('Slot with invalid time notation. Adjusting time to 0000.\n(%s)' % row)
+    
     return row
 
 
