@@ -380,17 +380,16 @@ def _process_dates_sir(slot, header, year_prefix):
 
     return slot
 
-
+#parse dates for sim format
+#sim dates are aware of their year, so maybe header not needed?
 def _process_dates_sim(slot, header, year_prefix):
 
     for k in slot.keys():
         if slot[k]:
             slot[k] = slot[k].strip(' ')
 
-    year = year_prefix + header['season'][1:]
-
-    slot['start_date_of_operation'] = datetime.strptime(slot['start_date_of_operation'][:-2] + year, '%d%b%Y')
-    slot['end_date_of_operation'] = datetime.strptime(slot['end_date_of_operation'][:-2] + year, '%d%b%Y')
+    slot['start_date_of_operation'] = datetime.strptime(slot['start_date_of_operation'][:-2] + year_prefix + slot['end_date_of_operation'][-2:], '%d%b%Y')
+    slot['end_date_of_operation'] = datetime.strptime(slot['end_date_of_operation'][:-2] + year_prefix + slot['end_date_of_operation'][-2:], '%d%b%Y')
 
     slot['start_date_of_operation'] = slot['start_date_of_operation'].strftime('%Y-%m-%d')
     slot['end_date_of_operation'] = slot['end_date_of_operation'].strftime('%Y-%m-%d')
