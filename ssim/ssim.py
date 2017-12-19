@@ -185,9 +185,9 @@ sim_row_pattern = (
     '(?P<prefix_1>[A-Z0-9 ]{8})\s'
     '(?P<connecting_flight_prefix>[A-Z0-9 ]{2}|\s{2})\s'
     '(?P<connecting_flight_suffix>\s{4}|\s{3}[0-9]{1}|\s{2}[0-9]{2}|\s[0-9]{3}|[0-9]{4})'
-    '\s{28}'
-    '(?P<arrival_seat_number>[0-9A-Z ]{9})'
-    '(?P<aircraft_type_4_letter>\w{4}|\w{3}\s|\s{4})'
+    '.{28}'
+    '(?P<arrival_seat_number>[0-9A-Z ]{9})' #foutje bedankt
+    '(?P<aircraft_type_4_letter>.{4})'
     '(?P<departure_seat_number>[0-9]{3}|\s{3})'
     '\s{6}'
     '(?P<row_nr>[0-9]{6})'
@@ -197,7 +197,7 @@ sim_row_pattern = (
     '(?P<some_code_6>[0-9 ]{4}){0,1}'
     '(?P<flight_type_3>[A-Z]{0,1})'
     '\s{0,14}'
-    '(?P<additional_information>[A-Z]{2}[0-9]{3}[A-Z]{3}[A-Z]{3}[A-Z]{2}\s[0-9]{4}\s{148}[0-9]{6}){0,1}$'
+    '(?P<additional_information>.+){0,1}$'
 )
 
 row_patterns = [re.compile(arrival_row_pattern),
@@ -383,6 +383,8 @@ def _process_dates_sir(slot, header, year_prefix):
 #parse dates for sim format
 #sim dates are aware of their year, so maybe header not needed?
 def _process_dates_sim(slot, header, year_prefix):
+     #attempt at processing seats
+     
 
     for k in slot.keys():
         if slot[k]:
