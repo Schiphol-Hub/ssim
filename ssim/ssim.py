@@ -200,12 +200,15 @@ sim_row_pattern = (
     '(?P<additional_information>.+){0,1}$'
 )
 
+sim_row_zero_line_pattern = ('0{200}')
+
 row_patterns = [re.compile(arrival_row_pattern),
                 re.compile(departure_row_pattern),
                 re.compile(return_row_pattern),
                 re.compile(arrival_row_pattern_nl),
                 re.compile(departure_row_pattern_nl),
-                re.compile(sim_row_pattern)]
+                re.compile(sim_row_pattern),
+                re.compile(sim_row_zero_line_pattern)]
 
 
 def _parse_slotfile(text, year_prefix):
@@ -267,12 +270,13 @@ def _parse_slotfile(text, year_prefix):
         for row_pattern in row_patterns:
             try:
                 parsed_row = re.search(row_pattern, row).groupdict()
-                multi_interpretation += [parsed_row]
+                if parsed_row:
+                     multi_interpretation += [parsed_row]
 
             except AttributeError:
                 pass
 
-        if parsed_row == {}:
+        if parsed_row == {} and not re.search(sim_row_zero_line_pattern,row):
             unparsed_rows += [{'raw': row}]
 
         else:
@@ -385,13 +389,15 @@ def _process_dates_sir(slot, header, year_prefix):
 def _process_dates_sim(slot, header, year_prefix):
     #attempt at processing seats. Work with predefined class indicators (economy, business). This list may be incomplete
     seat_indicators = ['Y','C','F','C','M']
-    seats_int = 0
+    seats_int = None
     
     #for every type of indicator, check if we can find seats
     for seat_indicator in seat_indicators:
         res = re.search('' + seat_indicator + '(?P<' + seat_indicator + '>[0-9]{1,3})',slot['arrival_seat_number'])
         if res:
-             seats_int = int(res.groupdict()[seat_indicator])
+             if not seats_int:
+                  seats_int = 0
+             seats_int += int(res.groupdict()[seat_indicator])
     
     for k in slot.keys():
         if slot[k]:
