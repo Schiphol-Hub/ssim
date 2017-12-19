@@ -383,12 +383,22 @@ def _process_dates_sir(slot, header, year_prefix):
 #parse dates for sim format
 #sim dates are aware of their year, so maybe header not needed?
 def _process_dates_sim(slot, header, year_prefix):
-     #attempt at processing seats
-     
-
+    #attempt at processing seats. Work with predefined class indicators (economy, business). This list may be incomplete
+    seat_indicators = ['Y','C','F','C','M']
+    seats_int = 0
+    
+    #for every type of indicator, check if we can find seats
+    for seat_indicator in seat_indicators:
+        res = re.search('' + seat_indicator + '(?P<' + seat_indicator + '>[0-9]{1,3})',slot['arrival_seat_number'])
+        if res:
+             seats_int = int(res.groupdict()[seat_indicator])
+    
     for k in slot.keys():
         if slot[k]:
             slot[k] = slot[k].strip(' ')
+            
+    #after previous operation we can assign non-string values to dict
+    slot['seat_int'] = seats_int 
 
     slot['start_date_of_operation'] = datetime.strptime(slot['start_date_of_operation'][:-2] + year_prefix + slot['start_date_of_operation'][-2:], '%d%b%Y')
     slot['end_date_of_operation'] = datetime.strptime(slot['end_date_of_operation'][:-2] + year_prefix + slot['end_date_of_operation'][-2:], '%d%b%Y')
@@ -447,7 +457,8 @@ def _expand_slot(slot):
             'type_of_flight': slot['type_of_flight'],
             'origin': slot['origin_of_flight'],
             'destination': slot['destination_of_flight'],
-            'seats': slot['seat_number'],
+            'seat_number': slot['seat_number'],
+            'seats_int': slot['seat_int'],
             'additional_information': slot['additional_information'],
             'raw': slot['raw'],
             'connecting_flight_prefix': slot['connecting_flight_prefix'],
