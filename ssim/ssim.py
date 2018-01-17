@@ -429,60 +429,60 @@ def _explode_aircraft_configuration_string(aircraft_configuration_string: str) -
     :param aircraft_configuration_string: str, describing aircraft configuartion.
     :return row: dict, describing aircraft configuration.
     """
-	aircraft_configuration_string = aircraft_configuration_string.rstrip()
+    aircraft_configuration_string = aircraft_configuration_string.rstrip()
 
-	seat_class_designators = ['P','F','A','J','C','D','I','Z','W','S','Y','B','H','K','L','M','N','Q','T','V','X','G','U','E','O','R']
+    seat_class_designators = ['P','F','A','J','C','D','I','Z','W','S','Y','B','H','K','L','M','N','Q','T','V','X','G','U','E','O','R']
 
-	cargo_designators = ['LL', #unit load devices (containers)
-	 'PP'] #pallets
+    cargo_designators = ['LL', #unit load devices (containers)
+     'PP'] #pallets
 
-	integer_designators = {"seats": seat_class_designators, "cargo": cargo_designators}
+    integer_designators = {"seats": seat_class_designators, "cargo": cargo_designators}
 
-	acv_info = {}
+    acv_info = {}
 
-	#seat designator should be in fixed order according to standard
-	for designator_type, designators in integer_designators.items():
-		for designator in designators:
-			if aircraft_configuration_string.startswith(designator) and ( #only continue if string starts with designator and...
-					len(designator)>1 or not #either have a multi length designator
-					((len(aircraft_configuration_string)>1 and aircraft_configuration_string[1]==aircraft_configuration_string[0]) or aircraft_configuration_string.startswith('V V'))): #
-				
-				acv_info_key = designator_type + "_" + designator
-				
-				#for next iteration, remove designator from beginning of string
-				aircraft_configuration_string = aircraft_configuration_string[len(designator):]
-				
-				#standard specifies that there may be an int following. If not return empty string (to later on destinguish from NaN if data gets put in a data frame)
-				acv_info_val = ''
-				acv_regex = re.search(r'^\d*', aircraft_configuration_string).group()
-				
-				#if int found, add it to total and remove it from string to process as well
-				if acv_regex:
-					acv_info_val = int(acv_regex)
-					if designator_type=='seats':
-						if designator_type in acv_info.keys():
-							acv_info[designator_type] += acv_info_val
-						else:
-							acv_info[designator_type] = acv_info_val
-					
-					aircraft_configuration_string = aircraft_configuration_string[len(acv_regex):]
-				
-				#store found information
-				acv_info[acv_info_key] = acv_info_val
+    #seat designator should be in fixed order according to standard
+    for designator_type, designators in integer_designators.items():
+        for designator in designators:
+            if aircraft_configuration_string.startswith(designator) and ( #only continue if string starts with designator and...
+                    len(designator)>1 or not #either have a multi length designator
+                    ((len(aircraft_configuration_string)>1 and aircraft_configuration_string[1]==aircraft_configuration_string[0]) or aircraft_configuration_string.startswith('V V'))): #
+                
+                acv_info_key = designator_type + "_" + designator
+                
+                #for next iteration, remove designator from beginning of string
+                aircraft_configuration_string = aircraft_configuration_string[len(designator):]
+                
+                #standard specifies that there may be an int following. If not return empty string (to later on destinguish from NaN if data gets put in a data frame)
+                acv_info_val = ''
+                acv_regex = re.search(r'^\d*', aircraft_configuration_string).group()
+                
+                #if int found, add it to total and remove it from string to process as well
+                if acv_regex:
+                    acv_info_val = int(acv_regex)
+                    if designator_type=='seats':
+                        if designator_type in acv_info.keys():
+                            acv_info[designator_type] += acv_info_val
+                        else:
+                            acv_info[designator_type] = acv_info_val
+                    
+                    aircraft_configuration_string = aircraft_configuration_string[len(acv_regex):]
+                
+                #store found information
+                acv_info[acv_info_key] = acv_info_val
 
-	#remainer are general designators
-	if aircraft_configuration_string.startswith('BB'):
-		acv_info['BB'] = ''
+    #remainer are general designators
+    if aircraft_configuration_string.startswith('BB'):
+        acv_info['BB'] = ''
 
-	#aircraft type
-	if aircraft_configuration_string.startswith('VV'):
-		acv_info['VV'] = aircraft_configuration_string[2:]
-
-	#aircraft type alt. Assuming it won't appear together with VV.
-	if aircraft_configuration_string.startswith('V V'):
-		acv_info['V V'] = aircraft_configuration_string[3:]
-	
-	return acv_info
+    #aircraft type
+    if aircraft_configuration_string.startswith('VV'):
+        acv_info['VV'] = aircraft_configuration_string[2:]
+    elif aircraft_configuration_string.startswith('V V'): #aircraft type alt. Assuming it won't appear together with VV.
+        acv_info['V V'] = aircraft_configuration_string[3:]
+    elif len(aircraft_configuration_string.strip()):
+        logging.warning('After trying to process aircraft configuration string, there should be no remainder. However, the following string remains in this instance: \n(%s)' % aircraft_configuration_string)
+    
+    return acv_info
 
 def _update_dict(d, entry):
     new_d = d.copy()
