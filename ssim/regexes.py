@@ -56,7 +56,7 @@ record_3 = (
     '(?P<scheduled_time_of_passenger_arrival>.{4})'
     '(?P<utc_local_time_variation_arrival>.{5})'
     '(?P<passenger_terminal_arrival>.{2})'
-    '(?P<aircraft_type>.{4})'
+    '(?P<aircraft_type>.{3})'
     '(?P<passenger_reservations_booking_designator>.{20})'
     '(?P<passenger_reservations_booking_modifier>.{5})'
     '(?P<meal_service_note>.{10})'
@@ -66,9 +66,8 @@ record_3 = (
     '(?P<spare_0>.{5})'
     '(?P<itinerary_variation_identifier_overflow>.{1})'
     '(?P<aircraft_owner>.{3})'
-    '(?P<cockpit_crew_employer>.{2})'
+    '(?P<cockpit_crew_employer>.{3})'
     '(?P<cabin_crew_employer>.{3})'
-    '(?P<onward_flight>.{9})'
     '(?P<airline_designator_>.{3})'
     '(?P<flight_number_>.{4})'
     '(?P<aircraft_rotation_layover>.{1})'
@@ -78,6 +77,7 @@ record_3 = (
     '(?P<operating_airline_disclosure>.{1})'
     '(?P<traffic_restriction_code>.{11})'
     '(?P<traffic_restriction_code_leg_overflow_indicator>.{1})'
+    '(?P<spare_2>.{11})'
     '(?P<aircraft_configuration_version>.{20})'
     '(?P<date_variation>.{2})'
     '(?P<record_serial_number>.{6})'
@@ -124,21 +124,21 @@ arrdep = (
     '(?P<departure_operational_suffix>[A-Z]{1,2})*'
     '\s'
     '(?P<period_of_operation_from>\d{2}[A-Z]{3})'
-    '(?P<period_of_operation_to>\d{2}[A-Z]{3})'
+    '(?P<period_of_operation_to>\d{2}[A-Z]{3}){0,1}'
     '\s'
     '(?P<days_of_operation>\d{7}){0,1}'
     '\s'
-    '(?P<number_of_seats>\d{3})'
+    '(?P<number_of_seats>\d{3})*'
     '(?P<aircraft_type>\w{3})'
     '\s'
-    '(?P<origin_station>[A-Z]{3}){0,1}'
-    '(?P<previous_station>[A-Z]{3})'
-    '(?P<scheduled_time_of_arrival>\d{4})'
+    '(?P<origin_station>[A-Z0-9]{3}){0,1}'
+    '(?P<previous_station>[A-Z0-9]{3})'
+    '(?P<scheduled_time_of_arrival>\d{4})*'
     '\s'
-    '(?P<scheduled_time_of_departure>\d{4})'
+    '(?P<scheduled_time_of_departure>\d{4})*'
     '(?P<overnight_indicator>[0-6]){0,1}'
-    '(?P<next_station>[A-Z]{3})'
-    '(?P<destination_station>[A-Z]{3}){0,1}'
+    '(?P<next_station>[A-Z0-9]{3})'
+    '(?P<destination_station>[A-Z0-9]{3}){0,1}'
     '\s'
     '(?P<arrival_service_type>[A-Z])'
     '(?P<departure_service_type>[A-Z])'
@@ -146,10 +146,10 @@ arrdep = (
     '\n')
 
 arr = (
-    '(?P<action_code>[A-Z])'
-    '(?P<arrival_airline_designator>[A-Z]{2,3}|[A-Z][0-9]|[0-9][A-Z]|[A-Z]+)'
-    '(?P<arrival_flight_number>\d+)*'
-    '(?P<arrival_operational_suffix>[A-Z]{1,2})*'
+    '\n(?P<action_code>[A-Z])'
+    '(?P<arrival_airline_designator>[A-Z]{2,3}|[A-Z][0-9]|[0-9][A-Z]|[A-Z]+){0,1}'
+    '(?P<arrival_flight_number>\d+){0,1}'
+    '(?P<arrival_operational_suffix>[A-Z]{1,2}){0,1}'
     '\s'
     '(?P<period_of_operation_from>\d{2}[A-Z]{3})'
     '(?P<period_of_operation_to>\d{2}[A-Z]{3}){0,1}'
@@ -158,23 +158,23 @@ arr = (
     '(?P<days_of_operation>\d{7}){0,1}'
     '\s'
     '){0,1}'
-    '(?P<number_of_seats>\d{3})'
+    '(?P<number_of_seats>\d{3})*'
     '(?P<aircraft_type>\w{3})'
     '\s'
-    '(?P<origin_station>[A-Z]{3}){0,1}'
-    '(?P<previous_station>[A-Z]{3})'
-    '(?P<scheduled_time_of_arrival>\d{4})'
+    '(?P<origin_station>[A-Z0-9]{3}){0,1}'
+    '(?P<previous_station>[A-Z0-9]{3})'
+    '(?P<scheduled_time_of_arrival>\d{4})*'
     '\s'
     '(?P<arrival_service_type>[A-Z])'
     '(?P<frequency_rate>\d){0,1}'
     '\n')
 
 dep = (
-    '(?P<action_code>[A-Z])'
+    '\n(?P<action_code>[A-Z])'
     '\s'
-    '(?P<departure_airline_designator>[A-Z]{2,3}|[A-Z][0-9]|[0-9][A-Z]|[A-Z]+)'
-    '(?P<departure_flight_number>\d+)*'
-    '(?P<departure_operational_suffix>[A-Z]{1,2})*'
+    '(?P<departure_airline_designator>[A-Z]{2,3}|[A-Z][0-9]|[0-9][A-Z]|\w{2]){0,1}'
+    '(?P<departure_flight_number>\d+){0,1}'
+    '(?P<departure_operational_suffix>[A-Z]{1,2}){0,1}'
     '\s'
     '(?P<period_of_operation_from>\d{2}[A-Z]{3})'
     '(?P<period_of_operation_to>\d{2}[A-Z]{3}){0,1}'
@@ -183,16 +183,25 @@ dep = (
     '(?P<days_of_operation>\d{7})'
     '\s'
     '){0,1}'
-    '(?P<number_of_seats>\d{3})'
+    '(?P<number_of_seats>\d{3})*'
     '(?P<aircraft_type>\w{3})'
     '\s'
-    '(?P<scheduled_time_of_departure>\d{4})'
-    '(?P<next_station>[A-Z]{3})'
-    '(?P<destination_station>[A-Z]{3}){0,1}'
+    '(?P<scheduled_time_of_departure>\d{4})*'
+    '(?P<next_station>[A-Z0-9]{3})'
+    '(?P<destination_station>[A-Z0-9]{3}){0,1}'
     '\s'
     '(?P<departure_service_type>[A-Z])'
     '(?P<frequency_rate>\d){0,1}'
     '\n')
+
+sir_header = (
+        '^(?P<file_type>SAL|SAQ|SCR|SHL|SIR|SMA|WCR|WIR)\n'
+        '/(?P<creator_reference>.*)\n'
+        '(?P<season>[SW][0-9]{2})\n'
+        '(?P<day_of_message>[0-9]{2})(?P<month_of_message>[A-Z]{3})\n'
+        '(?P<clearance_advice_airport>[A-Z]{3})\n'
+        'REYT/(?P<message_reference>.*)\n'
+)
 
 additional_information = '(/\s(?P<additional_schedule_information>.*)\s/\n){0,1}'
 
@@ -201,13 +210,14 @@ regexes = {
     'sir': {
         'arr': re.compile(t.format(arr + additional_information)),
         'dep': re.compile(t.format(dep + additional_information)),
-        'arrdep': re.compile(t.format(arrdep + additional_information))
+        'arrdep': re.compile(t.format(arrdep + additional_information)),
+        'header': re.compile(t.format(sir_header))
     },
     'sim': {
-        'recod_1': re.compile(t.format(record_1)),
-        'recod_2': re.compile(t.format(record_2)),
-        'recod_3': re.compile(t.format(record_3)),
-        'recod_4': re.compile(t.format(record_4)),
-        'recod_5': re.compile(t.format(record_5))
+        'record_1': re.compile(t.format(record_1)),
+        'record_2': re.compile(t.format(record_2)),
+        'record_3': re.compile(t.format(record_3)),
+        'record_4': re.compile(t.format(record_4)),
+        'record_5': re.compile(t.format(record_5))
     }
 }

@@ -1,33 +1,33 @@
 - records:
-  - aircraft_configuration_version: "Y149VV73W           "
-    aircraft_owner: "   "
-    aircraft_rotation_layover: " "
+  - aircraft_configuration_version: "Y149VV73W"
+    aircraft_owner: null
+    aircraft_rotation_layover: null
     aircraft_type: "73W"
-    airline_designator: "YY "
-    airline_designator_: "YY "
+    airline_designator: "YY"
+    airline_designator_: "YY"
     arrival_station: "LJU"
-    cabin_crew_employer: "   "
-    cockpit_crew_employer: "   "
-    date_variation: "  "
-    days_of_operation: "   4  7"
+    cabin_crew_employer: null
+    cockpit_crew_employer: null
+    date_variation: null
+    days_of_operation: "4  7"
     departure_station: "AMS"
-    flight_number: " 123"
-    flight_number_: " 123"
-    flight_transit_layover: " "
-    frequency_rate: " "
+    flight_number: "123"
+    flight_number_: "123"
+    flight_transit_layover: null
+    frequency_rate: null
     itinerary_variation_identifier: "06"
-    itinerary_variation_identifier_overflow: " "
-    joint_operation_airline_designators: "         "
+    itinerary_variation_identifier_overflow: null
+    joint_operation_airline_designators: null
     leg_sequence_number: "01"
-    meal_service_note: "          "
-    minimum_connecting_time_international_domestic_status: "  "
-    operating_airline_disclosure: " "
-    operational_suffix: " "
-    operational_suffix_: " "
-    passenger_reservations_booking_designator: "Y                   "
-    passenger_reservations_booking_modifier: "     "
-    passenger_terminal_arrival: "  "
-    passenger_terminal_departure: "  "
+    meal_service_note: null
+    minimum_connecting_time_international_domestic_status: null
+    operating_airline_disclosure: null
+    operational_suffix: null
+    operational_suffix_: null
+    passenger_reservations_booking_designator: "Y"
+    passenger_reservations_booking_modifier: null
+    passenger_terminal_arrival: null
+    passenger_terminal_departure: null
     period_of_operation_from: "01APR18"
     period_of_operation_to: "27APR18"
     raw: "3 YY  1230601J01APR1827APR18   4  7 AMS04350435+0200  LJU06200620+0200  73WY                                                             YY  123                            Y149VV73W             000007"
@@ -37,13 +37,13 @@
     scheduled_time_of_aircraft_departure: "0435"
     scheduled_time_of_passenger_arrival: "0620"
     scheduled_time_of_passenger_departure: "0435"
-    secure_flight_indicator: " "
+    secure_flight_indicator: null
     service_type: "J"
-    spare_2: "           "
-    spare_0: "     "
-    spare_1: " "
-    traffic_restriction_code: "           "
-    traffic_restriction_code_leg_overflow_indicator: " "
+    spare_2: null
+    spare_0: null
+    spare_1: null
+    traffic_restriction_code: null
+    traffic_restriction_code_leg_overflow_indicator: null
     utc_local_time_variation_arrival: "+0200"
     utc_local_time_variation_departure: "+0200"
   raw_data: |
@@ -78,289 +78,289 @@
     00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 
 - records:
-  - aircraft_configuration_version: 'Y189VV738H189       '
-    aircraft_owner: '   '
-    aircraft_rotation_layover: ' '
+  - aircraft_configuration_version: "Y189VV738H189"
+    aircraft_owner: null
+    aircraft_rotation_layover: null
     aircraft_type: 73H
-    airline_designator: 'XX '
-    airline_designator_: '   '
+    airline_designator: "XX"
+    airline_designator_: null
     arrival_station: AMS
-    cabin_crew_employer: '   '
-    cockpit_crew_employer: '   '
-    date_variation: '  '
-    days_of_operation: ' 2     '
+    cabin_crew_employer: null
+    cockpit_crew_employer: null
+    date_variation: null
+    days_of_operation: "2"
     departure_station: KEF
-    flight_number: '  12'
-    flight_number_: '    '
-    flight_transit_layover: ' '
-    frequency_rate: ' '
-    itinerary_variation_identifier: '01'
-    itinerary_variation_identifier_overflow: ' '
-    joint_operation_airline_designators: '         '
-    leg_sequence_number: '02'
-    meal_service_note: '          '
-    minimum_connecting_time_international_domestic_status: '  '
-    operating_airline_disclosure: ' '
-    operational_suffix: ' '
-    operational_suffix_: ' '
-    passenger_reservations_booking_designator: 'Y                   '
-    passenger_reservations_booking_modifier: '     '
-    passenger_terminal_arrival: '  '
-    passenger_terminal_departure: '  '
+    flight_number: "12"
+    flight_number_: null
+    flight_transit_layover: null
+    frequency_rate: null
+    itinerary_variation_identifier: "01"
+    itinerary_variation_identifier_overflow: null
+    joint_operation_airline_designators: null
+    leg_sequence_number: "02"
+    meal_service_note: null
+    minimum_connecting_time_international_domestic_status: null
+    operating_airline_disclosure: null
+    operational_suffix: null
+    operational_suffix_: null
+    passenger_reservations_booking_designator: "Y"
+    passenger_reservations_booking_modifier: null
+    passenger_terminal_arrival: null
+    passenger_terminal_departure: null
     period_of_operation_from: 28MAR18
     period_of_operation_to: 03APR18
     raw: 3 XX   120102P28MAR1803APR18 2      KEF05100510+0000  AMS08000800+0200  73HY                                                                                                Y189VV738H189         000003
-    record_serial_number: '000003'
-    record_type: '3'
+    record_serial_number: "000003"
+    record_type: "3"
     scheduled_time_of_aircraft_arrival: 0800
-    scheduled_time_of_aircraft_departure: '0510'
+    scheduled_time_of_aircraft_departure: "0510"
     scheduled_time_of_passenger_arrival: 0800
-    scheduled_time_of_passenger_departure: '0510'
-    secure_flight_indicator: ' '
+    scheduled_time_of_passenger_departure: "0510"
+    secure_flight_indicator: null
     service_type: P
-    spare_0: '     '
-    spare_1: ' '
-    spare_2: '           '
-    traffic_restriction_code: '           '
-    traffic_restriction_code_leg_overflow_indicator: ' '
-    utc_local_time_variation_arrival: '+0200'
-    utc_local_time_variation_departure: '+0000'
-  - aircraft_configuration_version: 'Y189VV738H189       '
-    aircraft_owner: '   '
-    aircraft_rotation_layover: ' '
+    spare_0: null
+    spare_1: null
+    spare_2: null
+    traffic_restriction_code: null
+    traffic_restriction_code_leg_overflow_indicator: null
+    utc_local_time_variation_arrival: "+0200"
+    utc_local_time_variation_departure: "+0000"
+  - aircraft_configuration_version: "Y189VV738H189"
+    aircraft_owner: null
+    aircraft_rotation_layover: null
     aircraft_type: 73H
-    airline_designator: 'XY '
-    airline_designator_: 'XY '
+    airline_designator: "XY"
+    airline_designator_: "XY"
     arrival_station: GRQ
-    cabin_crew_employer: '   '
-    cockpit_crew_employer: '   '
-    date_variation: '  '
-    days_of_operation: '   4   '
+    cabin_crew_employer: null
+    cockpit_crew_employer: null
+    date_variation: null
+    days_of_operation: "4"
     departure_station: AMS
-    flight_number: '  13'
-    flight_number_: '  13'
-    flight_transit_layover: ' '
-    frequency_rate: ' '
-    itinerary_variation_identifier: '01'
-    itinerary_variation_identifier_overflow: ' '
-    joint_operation_airline_designators: '         '
-    leg_sequence_number: '01'
-    meal_service_note: '          '
-    minimum_connecting_time_international_domestic_status: '  '
-    operating_airline_disclosure: ' '
-    operational_suffix: ' '
-    operational_suffix_: ' '
-    passenger_reservations_booking_designator: 'Y                   '
-    passenger_reservations_booking_modifier: '     '
-    passenger_terminal_arrival: '  '
-    passenger_terminal_departure: '  '
+    flight_number: "13"
+    flight_number_: "13"
+    flight_transit_layover: null
+    frequency_rate: null
+    itinerary_variation_identifier: "01"
+    itinerary_variation_identifier_overflow: null
+    joint_operation_airline_designators: null
+    leg_sequence_number: "01"
+    meal_service_note: null
+    minimum_connecting_time_international_domestic_status: null
+    operating_airline_disclosure: null
+    operational_suffix: null
+    operational_suffix_: null
+    passenger_reservations_booking_designator: "Y"
+    passenger_reservations_booking_modifier: null
+    passenger_terminal_arrival: null
+    passenger_terminal_departure: null
     period_of_operation_from: 02APR18
     period_of_operation_to: 05APR18
     raw: 3 XY   130101P02APR1805APR18   4    AMS05200520+0200  GRQ06000600+0200  73HY                                                             XY   13                            Y189VV738H189         000004
-    record_serial_number: '000004'
-    record_type: '3'
-    scheduled_time_of_aircraft_arrival: '0600'
-    scheduled_time_of_aircraft_departure: '0520'
-    scheduled_time_of_passenger_arrival: '0600'
-    scheduled_time_of_passenger_departure: '0520'
-    secure_flight_indicator: ' '
+    record_serial_number: "000004"
+    record_type: "3"
+    scheduled_time_of_aircraft_arrival: "0600"
+    scheduled_time_of_aircraft_departure: "0520"
+    scheduled_time_of_passenger_arrival: "0600"
+    scheduled_time_of_passenger_departure: "0520"
+    secure_flight_indicator: null
     service_type: P
-    spare_0: '     '
-    spare_1: ' '
-    spare_2: '           '
-    traffic_restriction_code: '           '
-    traffic_restriction_code_leg_overflow_indicator: ' '
-    utc_local_time_variation_arrival: '+0200'
-    utc_local_time_variation_departure: '+0200'
-  - aircraft_configuration_version: 'Y189VV738H189       '
-    aircraft_owner: '   '
-    aircraft_rotation_layover: ' '
+    spare_0: null
+    spare_1: null
+    spare_2: null
+    traffic_restriction_code: null
+    traffic_restriction_code_leg_overflow_indicator: null
+    utc_local_time_variation_arrival: "+0200"
+    utc_local_time_variation_departure: "+0200"
+  - aircraft_configuration_version: "Y189VV738H189"
+    aircraft_owner: null
+    aircraft_rotation_layover: null
     aircraft_type: 73H
-    airline_designator: 'XZ '
-    airline_designator_: 'XZ '
+    airline_designator: "XZ"
+    airline_designator_: "XZ"
     arrival_station: LJU
-    cabin_crew_employer: '   '
-    cockpit_crew_employer: '   '
-    date_variation: '  '
-    days_of_operation: '    5  '
+    cabin_crew_employer: null
+    cockpit_crew_employer: null
+    date_variation: null
+    days_of_operation: "5"
     departure_station: AMS
-    flight_number: ' 123'
-    flight_number_: ' 123'
-    flight_transit_layover: ' '
-    frequency_rate: ' '
-    itinerary_variation_identifier: '05'
-    itinerary_variation_identifier_overflow: ' '
-    joint_operation_airline_designators: '         '
-    leg_sequence_number: '01'
-    meal_service_note: '          '
-    minimum_connecting_time_international_domestic_status: '  '
-    operating_airline_disclosure: ' '
-    operational_suffix: ' '
-    operational_suffix_: ' '
-    passenger_reservations_booking_designator: 'Y                   '
-    passenger_reservations_booking_modifier: '     '
-    passenger_terminal_arrival: '  '
-    passenger_terminal_departure: '  '
+    flight_number: "123"
+    flight_number_: "123"
+    flight_transit_layover: null
+    frequency_rate: null
+    itinerary_variation_identifier: "05"
+    itinerary_variation_identifier_overflow: null
+    joint_operation_airline_designators: null
+    leg_sequence_number: "01"
+    meal_service_note: null
+    minimum_connecting_time_international_domestic_status: null
+    operating_airline_disclosure: null
+    operational_suffix: null
+    operational_suffix_: null
+    passenger_reservations_booking_designator: "Y"
+    passenger_reservations_booking_modifier: null
+    passenger_terminal_arrival: null
+    passenger_terminal_departure: null
     period_of_operation_from: 01APR18
     period_of_operation_to: 20APR18
     raw: 3 XZ  1230501J01APR1820APR18    5   AMS04350435+0200  LJU06200620+0200  73HY                                                             XZ  123                            Y189VV738H189         000005
-    record_serial_number: '000005'
-    record_type: '3'
-    scheduled_time_of_aircraft_arrival: '0620'
-    scheduled_time_of_aircraft_departure: '0435'
-    scheduled_time_of_passenger_arrival: '0620'
-    scheduled_time_of_passenger_departure: '0435'
-    secure_flight_indicator: ' '
+    record_serial_number: "000005"
+    record_type: "3"
+    scheduled_time_of_aircraft_arrival: "0620"
+    scheduled_time_of_aircraft_departure: "0435"
+    scheduled_time_of_passenger_arrival: "0620"
+    scheduled_time_of_passenger_departure: "0435"
+    secure_flight_indicator: null
     service_type: J
-    spare_0: '     '
-    spare_1: ' '
-    spare_2: '           '
-    traffic_restriction_code: '           '
-    traffic_restriction_code_leg_overflow_indicator: ' '
-    utc_local_time_variation_arrival: '+0200'
-    utc_local_time_variation_departure: '+0200'
-  - aircraft_configuration_version: 'Y149VV73W           '
-    aircraft_owner: '   '
-    aircraft_rotation_layover: ' '
+    spare_0: null
+    spare_1: null
+    spare_2: null
+    traffic_restriction_code: null
+    traffic_restriction_code_leg_overflow_indicator: null
+    utc_local_time_variation_arrival: "+0200"
+    utc_local_time_variation_departure: "+0200"
+  - aircraft_configuration_version: "Y149VV73W"
+    aircraft_owner: null
+    aircraft_rotation_layover: null
     aircraft_type: 73W
-    airline_designator: 'YY '
-    airline_designator_: 'YY '
+    airline_designator: "YY"
+    airline_designator_: "YY"
     arrival_station: LJU
-    cabin_crew_employer: '   '
-    cockpit_crew_employer: '   '
-    date_variation: '  '
-    days_of_operation: '   4  7'
+    cabin_crew_employer: null
+    cockpit_crew_employer: null
+    date_variation: null
+    days_of_operation: "4  7"
     departure_station: AMS
-    flight_number: ' 123'
-    flight_number_: ' 123'
-    flight_transit_layover: ' '
-    frequency_rate: ' '
-    itinerary_variation_identifier: '06'
-    itinerary_variation_identifier_overflow: ' '
-    joint_operation_airline_designators: '         '
-    leg_sequence_number: '01'
-    meal_service_note: '          '
-    minimum_connecting_time_international_domestic_status: '  '
-    operating_airline_disclosure: ' '
-    operational_suffix: ' '
-    operational_suffix_: ' '
-    passenger_reservations_booking_designator: 'Y                   '
-    passenger_reservations_booking_modifier: '     '
-    passenger_terminal_arrival: '  '
-    passenger_terminal_departure: '  '
+    flight_number: "123"
+    flight_number_: "123"
+    flight_transit_layover: null
+    frequency_rate: null
+    itinerary_variation_identifier: "06"
+    itinerary_variation_identifier_overflow: null
+    joint_operation_airline_designators: null
+    leg_sequence_number: "01"
+    meal_service_note: null
+    minimum_connecting_time_international_domestic_status: null
+    operating_airline_disclosure: null
+    operational_suffix: null
+    operational_suffix_: null
+    passenger_reservations_booking_designator: "Y"
+    passenger_reservations_booking_modifier: null
+    passenger_terminal_arrival: null
+    passenger_terminal_departure: null
     period_of_operation_from: 01APR18
     period_of_operation_to: 27APR18
     raw: 3 YY  1230601J01APR1827APR18   4  7 AMS04350435+0200  LJU06200620+0200  73WY                                                             YY  123                            Y149VV73W             000007
-    record_serial_number: '000007'
-    record_type: '3'
-    scheduled_time_of_aircraft_arrival: '0620'
-    scheduled_time_of_aircraft_departure: '0435'
-    scheduled_time_of_passenger_arrival: '0620'
-    scheduled_time_of_passenger_departure: '0435'
-    secure_flight_indicator: ' '
+    record_serial_number: "000007"
+    record_type: "3"
+    scheduled_time_of_aircraft_arrival: "0620"
+    scheduled_time_of_aircraft_departure: "0435"
+    scheduled_time_of_passenger_arrival: "0620"
+    scheduled_time_of_passenger_departure: "0435"
+    secure_flight_indicator: null
     service_type: J
-    spare_0: '     '
-    spare_1: ' '
-    spare_2: '           '
-    traffic_restriction_code: '           '
-    traffic_restriction_code_leg_overflow_indicator: ' '
-    utc_local_time_variation_arrival: '+0200'
-    utc_local_time_variation_departure: '+0200'
-  - aircraft_configuration_version: 'Y189VV738H189       '
-    aircraft_owner: '   '
-    aircraft_rotation_layover: ' '
+    spare_0: null
+    spare_1: null
+    spare_2: null
+    traffic_restriction_code: null
+    traffic_restriction_code_leg_overflow_indicator: null
+    utc_local_time_variation_arrival: "+0200"
+    utc_local_time_variation_departure: "+0200"
+  - aircraft_configuration_version: "Y189VV738H189"
+    aircraft_owner: null
+    aircraft_rotation_layover: null
     aircraft_type: 73H
-    airline_designator: 'XY '
-    airline_designator_: 'XY '
+    airline_designator: "XY"
+    airline_designator_: "XY"
     arrival_station: SID
-    cabin_crew_employer: '   '
-    cockpit_crew_employer: '   '
-    date_variation: '  '
-    days_of_operation: '     6 '
+    cabin_crew_employer: null
+    cockpit_crew_employer: null
+    date_variation: null
+    days_of_operation: "6"
     departure_station: AMS
-    flight_number: '1234'
-    flight_number_: '1234'
-    flight_transit_layover: ' '
-    frequency_rate: ' '
-    itinerary_variation_identifier: '03'
-    itinerary_variation_identifier_overflow: ' '
-    joint_operation_airline_designators: '         '
-    leg_sequence_number: '01'
-    meal_service_note: '          '
-    minimum_connecting_time_international_domestic_status: '  '
-    operating_airline_disclosure: ' '
+    flight_number: "1234"
+    flight_number_: "1234"
+    flight_transit_layover: null
+    frequency_rate: null
+    itinerary_variation_identifier: "03"
+    itinerary_variation_identifier_overflow: null
+    joint_operation_airline_designators: null
+    leg_sequence_number: "01"
+    meal_service_note: null
+    minimum_connecting_time_international_domestic_status: null
+    operating_airline_disclosure: null
     operational_suffix: A
-    operational_suffix_: ' '
-    passenger_reservations_booking_designator: 'Y                   '
-    passenger_reservations_booking_modifier: '     '
-    passenger_terminal_arrival: '  '
-    passenger_terminal_departure: '  '
+    operational_suffix_: null
+    passenger_reservations_booking_designator: "Y"
+    passenger_reservations_booking_modifier: null
+    passenger_terminal_arrival: null
+    passenger_terminal_departure: null
     period_of_operation_from: 22SEP18
     period_of_operation_to: 25OCT18
     raw: 3AXY 12340301J22SEP1825OCT18     6  AMS11451145+0200  SID18301830-0100  73HY                                                             XY
       1234                            Y189VV738H189         000009
     record_serial_number: 000009
-    record_type: '3'
-    scheduled_time_of_aircraft_arrival: '1830'
-    scheduled_time_of_aircraft_departure: '1145'
-    scheduled_time_of_passenger_arrival: '1830'
-    scheduled_time_of_passenger_departure: '1145'
-    secure_flight_indicator: ' '
+    record_type: "3"
+    scheduled_time_of_aircraft_arrival: "1830"
+    scheduled_time_of_aircraft_departure: "1145"
+    scheduled_time_of_passenger_arrival: "1830"
+    scheduled_time_of_passenger_departure: "1145"
+    secure_flight_indicator: null
     service_type: J
-    spare_0: '     '
-    spare_1: ' '
-    spare_2: '           '
-    traffic_restriction_code: '           '
-    traffic_restriction_code_leg_overflow_indicator: ' '
-    utc_local_time_variation_arrival: '-0100'
-    utc_local_time_variation_departure: '+0200'
-  - aircraft_configuration_version: 'Y189VV738H          '
-    aircraft_owner: '   '
-    aircraft_rotation_layover: ' '
+    spare_0: null
+    spare_1: null
+    spare_2: null
+    traffic_restriction_code: null
+    traffic_restriction_code_leg_overflow_indicator: null
+    utc_local_time_variation_arrival: "-0100"
+    utc_local_time_variation_departure: "+0200"
+  - aircraft_configuration_version: "Y189VV738H"
+    aircraft_owner: null
+    aircraft_rotation_layover: null
     aircraft_type: 73H
-    airline_designator: 'ZZ '
-    airline_designator_: '   '
+    airline_designator: "ZZ"
+    airline_designator_: null
     arrival_station: BVC
-    cabin_crew_employer: '   '
-    cockpit_crew_employer: '   '
-    date_variation: '  '
-    days_of_operation: ' 2     '
+    cabin_crew_employer: null
+    cockpit_crew_employer: null
+    date_variation: null
+    days_of_operation: "2"
     departure_station: AMS
-    flight_number: '1234'
-    flight_number_: '    '
-    flight_transit_layover: ' '
-    frequency_rate: ' '
-    itinerary_variation_identifier: '04'
-    itinerary_variation_identifier_overflow: ' '
-    joint_operation_airline_designators: '         '
-    leg_sequence_number: '01'
-    meal_service_note: '          '
-    minimum_connecting_time_international_domestic_status: '  '
-    operating_airline_disclosure: ' '
+    flight_number: "1234"
+    flight_number_: null
+    flight_transit_layover: null
+    frequency_rate: null
+    itinerary_variation_identifier: "04"
+    itinerary_variation_identifier_overflow: null
+    joint_operation_airline_designators: null
+    leg_sequence_number: "01"
+    meal_service_note: null
+    minimum_connecting_time_international_domestic_status: null
+    operating_airline_disclosure: null
     operational_suffix: A
-    operational_suffix_: ' '
-    passenger_reservations_booking_designator: 'Y                   '
-    passenger_reservations_booking_modifier: '     '
-    passenger_terminal_arrival: '  '
-    passenger_terminal_departure: '  '
+    operational_suffix_: null
+    passenger_reservations_booking_designator: "Y"
+    passenger_reservations_booking_modifier: null
+    passenger_terminal_arrival: null
+    passenger_terminal_departure: null
     period_of_operation_from: 01OCT18
     period_of_operation_to: 26OCT18
     raw: 3AZZ 12340401J01OCT1826OCT18 2      AMS05550555+0200  BVC12451245-0100  73HY                                                                                                Y189VV738H            000010
-    record_serial_number: '000010'
-    record_type: '3'
-    scheduled_time_of_aircraft_arrival: '1245'
-    scheduled_time_of_aircraft_departure: '0555'
-    scheduled_time_of_passenger_arrival: '1245'
-    scheduled_time_of_passenger_departure: '0555'
-    secure_flight_indicator: ' '
+    record_serial_number: "000010"
+    record_type: "3"
+    scheduled_time_of_aircraft_arrival: "1245"
+    scheduled_time_of_aircraft_departure: "0555"
+    scheduled_time_of_passenger_arrival: "1245"
+    scheduled_time_of_passenger_departure: "0555"
+    secure_flight_indicator: null
     service_type: J
-    spare_0: '     '
-    spare_1: ' '
-    spare_2: '           '
-    traffic_restriction_code: '           '
-    traffic_restriction_code_leg_overflow_indicator: ' '
-    utc_local_time_variation_arrival: '-0100'
-    utc_local_time_variation_departure: '+0200'
+    spare_0: null
+    spare_1: null
+    spare_2: null
+    traffic_restriction_code: null
+    traffic_restriction_code_leg_overflow_indicator: null
+    utc_local_time_variation_arrival: "-0100"
+    utc_local_time_variation_departure: "+0200"
   raw_data: |
     1AIRLINE STANDARD SCHEDULE DATA SET                                                                                                                                                            001000001
     00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000

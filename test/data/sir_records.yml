@@ -1,20 +1,20 @@
-- slots:
-  - action_code: 'U'
-    arrival_flight_prefix: '3O'
-    arrival_flight_suffix: '125'
-    start_date_of_operation: '2017-11-02'
-    end_date_of_operation: '2018-03-22'
-    days_of_operation: '0004000'
-    seat_number: '174'
-    aircraft_type_3_letter: '320'
-    origin_of_flight: 'FEZ'
-    previous_stop_of_flight: 'FEZ'
-    scheduled_time_of_arrival_utc: null
-    arrival_type_of_flight: 'J'
-    arrival_frequency_rate: null
-    additional_information: '/RA.1640  /'
-    arrival_frequency_rate: null
-    raw: 'U3O125 02NOV22MAR 0004000 174320 FEZFEZ J /RA.1640  /'
+- records:
+  - action_code: "U"
+    additional_schedule_information: "RA.1640  "
+    aircraft_type: "320"
+    arrival_airline_designator: "3O"
+    arrival_flight_number: "125"
+    arrival_operational_suffix: null
+    arrival_service_type: "J"
+    days_of_operation: "0004000"
+    frequency_rate: null
+    number_of_seats: "174"
+    origin_station: "FEZ"
+    period_of_operation_from: "02NOV17"
+    period_of_operation_to: "22MAR18"
+    previous_station: "FEZ"
+    raw: "\nU3O125 02NOV22MAR 0004000 174320 FEZFEZ J\n/ RA.1640   /\n"
+    scheduled_time_of_arrival: null
   raw_data: |
     SIR
     /
@@ -24,3 +24,239 @@
     REYT/
     U3O125 02NOV22MAR 0004000 174320 FEZFEZ J
     / RA.1640   /
+
+- records:
+  - action_code: "U"
+    additional_schedule_information: "RA.1640  "
+    aircraft_type: "320"
+    days_of_operation: "0004000"
+    departure_airline_designator: "3O"
+    departure_flight_number: "125"
+    departure_operational_suffix: null
+    departure_service_type: "J"
+    destination_station: "FEZ"
+    frequency_rate: null
+    next_station: "FEZ"
+    number_of_seats: "174"
+    period_of_operation_from: "02NOV17"
+    period_of_operation_to: "22MAR18"
+    raw: "\nU 3O125 02NOV22MAR 0004000 174320 FEZFEZ J\n/ RA.1640   /\n"
+    scheduled_time_of_departure: null
+  raw_data: |
+    SIR
+    /
+    W17
+    03JUN
+    AMS
+    REYT/
+    U 3O125 02NOV22MAR 0004000 174320 FEZFEZ J
+    / RA.1640   /
+
+- records:
+  - action_code: "H"
+    additional_schedule_information: null
+    aircraft_type: "GR4"
+    days_of_operation: null
+    departure_airline_designator: "N1"
+    departure_flight_number: null
+    departure_operational_suffix: null
+    departure_service_type: "D"
+    destination_station: "OSL"
+    frequency_rate: null
+    next_station: "OSL"
+    number_of_seats: "000"
+    period_of_operation_from: "21FEB18"
+    period_of_operation_to: "21FEB18"
+    raw: "\nH N1 21FEB 000GR4 0900OSLOSL D\n"
+    scheduled_time_of_departure: "0900"
+  raw_data: |
+    SIR
+    /
+    W17
+    03JUN
+    AMS
+    REYT/
+    H N1 21FEB 000GR4 0900OSLOSL D
+
+- records:
+  - action_code: "U"
+    additional_schedule_information: null
+    aircraft_type: "320"
+    arrival_airline_designator: "LLX"
+    arrival_flight_number: "5066"
+    arrival_operational_suffix: null
+    arrival_service_type: "J"
+    days_of_operation: "0000007"
+    frequency_rate: null
+    number_of_seats: null
+    origin_station: "TFS"
+    period_of_operation_from: "19FEB18"
+    period_of_operation_to: "05MAR18"
+    previous_station: "TFS"
+    raw: "\nULLX5066 19FEB05MAR 0000007 320 TFSTFS J\n"
+    scheduled_time_of_arrival: null
+  raw_data: |
+    SIR
+    /
+    W17
+    03JUN
+    AMS
+    REYT/
+    ULLX5066 19FEB05MAR 0000007 320 TFSTFS J
+    /RA.0040  /
+
+- records:
+  - action_code: "H"
+    additional_schedule_information: null
+    aircraft_type: "772"
+    arrival_airline_designator: "KL"
+    arrival_flight_number: "8836"
+    arrival_operational_suffix: null
+    arrival_service_type: "J"
+    days_of_operation: null
+    frequency_rate: null
+    number_of_seats: "316"
+    origin_station: "061"
+    period_of_operation_from: "17NOV17"
+    period_of_operation_to: "17NOV17"
+    previous_station: "DPS"
+    raw: "\nHKL8836 17NOV 316772 061DPS0615 J\n"
+    scheduled_time_of_arrival: "0615"
+  raw_data: |
+    SIR
+    /
+    W17
+    03JUN
+    AMS
+    REYT/
+    HKL8836 17NOV 316772 061DPS0615 J
+
+- records:
+  - action_code: "H"
+    additional_schedule_information: null
+    aircraft_type: "772"
+    days_of_operation: null
+    departure_airline_designator: "KL"
+    departure_flight_number: "8836"
+    departure_operational_suffix: null
+    departure_service_type: "J"
+    destination_station: "DPS"
+    frequency_rate: null
+    next_station: "061"
+    number_of_seats: "316"
+    period_of_operation_from: "17NOV17"
+    period_of_operation_to: "17NOV17"
+    raw: "\nH KL8836 17NOV 316772 0615061DPS J\n"
+    scheduled_time_of_departure: "0615"
+  raw_data: |
+    SIR
+    /
+    W17
+    03JUN
+    AMS
+    REYT/
+    H KL8836 17NOV 316772 0615061DPS J
+
+- records:
+  - action_code: "H"
+    additional_schedule_information: null
+    aircraft_type: "D22"
+    arrival_airline_designator: null
+    arrival_flight_number: null
+    arrival_operational_suffix: null
+    arrival_service_type: "D"
+    days_of_operation: null
+    frequency_rate: null
+    number_of_seats: "000"
+    origin_station: "ANR"
+    period_of_operation_from: "04NOV17"
+    period_of_operation_to: "04NOV17"
+    previous_station: "ANR"
+    raw: "\nH 04NOV 000D22 ANRANR1510 D\n"
+    scheduled_time_of_arrival: "1510"
+  raw_data: |
+    SIR
+    /
+    W17
+    03JUN
+    AMS
+    REYT/
+    H 04NOV 000D22 ANRANR1510 D
+
+- records:
+  - action_code: "H"
+    additional_schedule_information: null
+    aircraft_type: "D22"
+    days_of_operation: null
+    departure_airline_designator: null
+    departure_flight_number: null
+    departure_operational_suffix: null
+    departure_service_type: "D"
+    destination_station: "ANR"
+    frequency_rate: null
+    next_station: "ANR"
+    number_of_seats: "000"
+    period_of_operation_from: "04NOV17"
+    period_of_operation_to: "04NOV17"
+    raw: "\nH  04NOV 000D22 1510ANRANR D\n"
+    scheduled_time_of_departure: "1510"
+  raw_data: |
+    SIR
+    /
+    W17
+    03JUN
+    AMS
+    REYT/
+    H  04NOV 000D22 1510ANRANR D
+
+- records:
+  - action_code: "H"
+    additional_schedule_information: null
+    aircraft_type: "772"
+    days_of_operation: null
+    departure_airline_designator: "Y8"
+    departure_flight_number: "8836"
+    departure_operational_suffix: null
+    departure_service_type: "J"
+    destination_station: "DPS"
+    frequency_rate: null
+    next_station: "061"
+    number_of_seats: "316"
+    period_of_operation_from: "17NOV17"
+    period_of_operation_to: "17NOV17"
+    raw: "\nH Y88836 17NOV 316772 0615061DPS J\n"
+    scheduled_time_of_departure: "0615"
+  raw_data: |
+    SIR
+    /
+    W17
+    03JUN
+    AMS
+    REYT/
+    H Y88836 17NOV 316772 0615061DPS J
+
+- records:
+  - action_code: "H"
+    additional_schedule_information: null
+    aircraft_type: "772"
+    days_of_operation: null
+    departure_airline_designator: "5Y"
+    departure_flight_number: "123"
+    departure_operational_suffix: null
+    departure_service_type: "J"
+    destination_station: "DPS"
+    frequency_rate: null
+    next_station: "061"
+    number_of_seats: "316"
+    period_of_operation_from: "17NOV17"
+    period_of_operation_to: "17NOV17"
+    raw: "\nH 5Y123 17NOV 316772 0615061DPS J\n"
+    scheduled_time_of_departure: "0615"
+  raw_data: |
+    SIR
+    /
+    W17
+    03JUN
+    AMS
+    REYT/
+    H 5Y123 17NOV 316772 0615061DPS J
