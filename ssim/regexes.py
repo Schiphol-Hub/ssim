@@ -114,7 +114,7 @@ record_5 = (
 )
 
 arrdep = (
-    '(?P<action_code>[A-Z])'
+    '\n(?P<action_code>[A-Z])'
     '(?P<arrival_airline_designator>[A-Z]{2,3}|[A-Z][0-9]|[0-9][A-Z]|[A-Z]+)'
     '(?P<arrival_flight_number>\d+)*'
     '(?P<arrival_operational_suffix>[A-Z]{1,2})*'
@@ -143,13 +143,13 @@ arrdep = (
     '(?P<arrival_service_type>[A-Z])'
     '(?P<departure_service_type>[A-Z])'
     '(?P<frequency_rate>\d){0,1}'
-    '\n')
+    )
 
 arr = (
     '\n(?P<action_code>[A-Z])'
-    '(?P<arrival_airline_designator>[A-Z]{2,3}|[A-Z][0-9]|[0-9][A-Z]|[A-Z]+){0,1}'
-    '(?P<arrival_flight_number>\d+){0,1}'
-    '(?P<arrival_operational_suffix>[A-Z]{1,2}){0,1}'
+    '(?P<arrival_airline_designator>[A-Z]{2,3}|[A-Z][0-9]|[0-9][A-Z]|\w{2}){0,1}'
+    '(?P<arrival_flight_number>\d+[A-Z]*|\w+){0,1}'
+    '(?P<arrival_operational_suffix>\w+){0,1}'
     '\s'
     '(?P<period_of_operation_from>\d{2}[A-Z]{3})'
     '(?P<period_of_operation_to>\d{2}[A-Z]{3}){0,1}'
@@ -167,14 +167,14 @@ arr = (
     '\s'
     '(?P<arrival_service_type>[A-Z])'
     '(?P<frequency_rate>\d){0,1}'
-    '\n')
+    )
 
 dep = (
     '\n(?P<action_code>[A-Z])'
     '\s'
     '(?P<departure_airline_designator>[A-Z]{2,3}|[A-Z][0-9]|[0-9][A-Z]|\w{2]){0,1}'
     '(?P<departure_flight_number>\d+){0,1}'
-    '(?P<departure_operational_suffix>[A-Z]{1,2}){0,1}'
+    '(?P<departure_operational_suffix>\w+){0,1}'
     '\s'
     '(?P<period_of_operation_from>\d{2}[A-Z]{3})'
     '(?P<period_of_operation_to>\d{2}[A-Z]{3}){0,1}'
@@ -192,7 +192,7 @@ dep = (
     '\s'
     '(?P<departure_service_type>[A-Z])'
     '(?P<frequency_rate>\d){0,1}'
-    '\n')
+    )
 
 sir_header = (
         '^(?P<file_type>SAL|SAQ|SCR|SHL|SIR|SMA|WCR|WIR)\n'
@@ -203,7 +203,7 @@ sir_header = (
         'REYT/(?P<message_reference>.*)\n'
 )
 
-additional_information = '(/\s(?P<additional_schedule_information>.*)\s/\n){0,1}'
+additional_information = '(\n/\s(?P<additional_schedule_information>.*)\s/){0,1}'
 
 t = '(?P<raw>{})'
 regexes = {

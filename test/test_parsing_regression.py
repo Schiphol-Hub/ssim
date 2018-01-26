@@ -1,4 +1,4 @@
-from ssim.ssim import _parse_slotfile
+from ssim.ssim_old import _parse_slotfile
 
 
 def test_parsing_regressions(parsing_regressions):

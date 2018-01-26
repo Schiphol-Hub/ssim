@@ -12,8 +12,8 @@ output_file = args.o
 
 def main():
 
-    slots, _, _ = ssim.read(input_file)
-    flights = ssim.expand_slots(slots)
+    records = ssim.read(input_file)
+    flights = ssim.expand_slots(records)
 
     keys = flights[0].keys()
 

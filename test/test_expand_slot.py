@@ -1,4 +1,4 @@
-from ssim.ssim import _expand_slot
+from ssim.ssim_old import _expand_slot
 
 
 def test_expand_slot(expanding_slots):

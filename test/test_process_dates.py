@@ -1,4 +1,4 @@
-from ssim.ssim import _parse_slotfile, _process_dates_sir, _process_dates_sim
+from ssim.ssim_old import _parse_slotfile, _process_dates_sir, _process_dates_sim
 
 
 def test_process_slots(slotfiles):
@@ -18,3 +18,4 @@ def test_process_slots(slotfiles):
         assert slots == slot_data['slots']
         # for processed_slot, parsed_slot in zip(slot_data['processed_slots'], processed_slots):
         #     assert processed_slot == parsed_slot
+    print('asdsss')
