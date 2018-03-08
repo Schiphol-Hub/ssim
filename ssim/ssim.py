@@ -168,6 +168,62 @@ def _parse_sir(text):
 
     return flight_leg_records
 
+def _uniformize_sim_as_sir(slot, iata_airport: str):
+    """
+    Processes a SIM from the perspective of an airport.
+
+    Parameters
+    ----------.
+    :param iata_airport: str, three letters, indicating name of airport.
+    :param raw_line: str, optinal for displaying original slot line in case of error
+    :return row: dict, describing aircraft configuration.
+    """
+    assert type(iata_airport) is str, "iata_airport is not an integer: %r" % iata_airport
+    assert len(iata_airport)==3, "iata_airport is not exactly three characters: %r" % iata_airport
+    assert iata_airport.upper()==iata_airport, "iata_airport is all capital letters: %r" % iata_airport
+    uniform_slots = []
+
+    if slot['arrival_station']==iata_airport:
+        uniform_slots.append({
+            'ad': 'A',
+            'action_code': 'H',
+            'additional_schedule_information': None,
+            'aircraft_type': slot['aircraft_type'],
+            'airline_designator': slot['airline_designator'],
+            'flight_number': slot['flight_number'],
+            'operational_suffix': slot['operational_suffix'],
+            'service_type': slot['service_type'],
+            'days_of_operation': slot['days_of_operation'],
+            'frequency_rate': slot['frequency_rate'],
+            'seats': slot['seats'],
+            'second_station': slot['departure_station'],
+            'period_of_operation_from': slot['period_of_operation_from'],
+            'period_of_operation_to': slot['period_of_operation_to'],
+            'station': slot['departure_station'],
+            'raw': slot['raw'],
+            'scheduled_time': slot['scheduled_time_of_arrival']})
+
+    if slot['departure_station']==iata_airport:
+        uniform_slots.append({
+            'ad': 'D',
+            'action_code': 'H',
+            'additional_schedule_information': None,
+            'aircraft_type': slot['aircraft_type'],
+            'days_of_operation': slot['days_of_operation'],
+            'airline_designator': slot['airline_designator'],
+            'flight_number': slot['flight_number'],
+            'operational_suffix': slot['operational_suffix'],
+            'service_type': slot['service_type'],
+            'second_station': slot['arrival_station'],
+            'frequency_rate': slot['frequency_rate'],
+            'station': slot['arrival_station'],
+            'seats': slot['seats'],
+            'period_of_operation_from': slot['period_of_operation_from'],
+            'period_of_operation_to': slot['period_of_operation_to'],
+            'raw': slot['raw'],
+            'scheduled_time': slot['scheduled_time_of_departure']})
+
+    return uniform_slots
 
 def _uniformize_sir(slot):
     uniform_slots = []
@@ -329,13 +385,16 @@ def _uniformize_sim(s):
     return uniform_slots
 
 
-def read(file):
+def read(file, iata_airport = None):
     """
     Reads, detects filetype, parses and processes a valid flight records file.
 
     Parameters
     ----------.
     file : path to a slotfile.
+    airport_iata: 3 letter capital string indicating iata airport. If passed
+    along with SIM file, it will return data from perspective of airport (as 
+    SIR)
 
     Returns
     -------
@@ -343,7 +402,7 @@ def read(file):
     header: dict, describing the header of the slotfile.
     footer: dict, describing the footer of the slotfile.
     """
-
+    
     with open(file, 'r') as f:
         text = f.read()
 
@@ -355,9 +414,15 @@ def read(file):
         slots = _flatten([_uniformize_sir(x) for x in slots])
 
     elif regexes['sim']['record_1'].match(text):
-        logging.info('Reading and parsing SIM file: %s.' % file)
-        slots = _parse_sim(text)
-        slots = _flatten([_uniformize_sim(x) for x in slots])
+        if iata_airport:
+            logging.info('Reading and parsing SIM file: %s.' % file)
+            slots = _parse_sim(text)
+            slots = _flatten([_uniformize_sim_as_sir(x, iata_airport) for x in slots])
+
+        else:
+            logging.info('Reading and parsing SIM file: %s.' % file)
+            slots = _parse_sim(text)
+            slots = _flatten([_uniformize_sim(x) for x in slots])
 
     return slots
 
