@@ -195,13 +195,13 @@ def _uniformize_sim_as_sir(slot, iata_airport: str):
             'service_type': slot['service_type'],
             'days_of_operation': slot['days_of_operation'],
             'frequency_rate': slot['frequency_rate'],
-            'seats': slot['seats'],
+            'seats': slot['seats'] if 'seats' in slot.keys() else None,
             'second_station': slot['departure_station'],
             'period_of_operation_from': slot['period_of_operation_from'],
             'period_of_operation_to': slot['period_of_operation_to'],
             'station': slot['departure_station'],
             'raw': slot['raw'],
-            'scheduled_time': slot['scheduled_time_of_arrival']})
+            'scheduled_time': slot['scheduled_time_of_aircraft_arrival']})
 
     if slot['departure_station']==iata_airport:
         uniform_slots.append({
@@ -217,11 +217,11 @@ def _uniformize_sim_as_sir(slot, iata_airport: str):
             'second_station': slot['arrival_station'],
             'frequency_rate': slot['frequency_rate'],
             'station': slot['arrival_station'],
-            'seats': slot['seats'],
+            'seats': slot['seats'] if 'seats' in slot.keys() else None,
             'period_of_operation_from': slot['period_of_operation_from'],
             'period_of_operation_to': slot['period_of_operation_to'],
             'raw': slot['raw'],
-            'scheduled_time': slot['scheduled_time_of_departure']})
+            'scheduled_time': slot['scheduled_time_of_aircraft_departure']})
 
     return uniform_slots
 
