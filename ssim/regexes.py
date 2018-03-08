@@ -200,7 +200,7 @@ sir_header = (
         '(?P<season>[SW][0-9]{2})\n'
         '(?P<day_of_message>[0-9]{2})(?P<month_of_message>[A-Z]{3})\n'
         '(?P<clearance_advice_airport>[A-Z]{3})\n'
-        'REYT/(?P<message_reference>.*)\n'
+        '(REYT/(?P<message_reference>.*)\n)?' #this line is optional
 )
 
 additional_information = '(\n/\s(?P<additional_schedule_information>.*)\s/){0,1}'
