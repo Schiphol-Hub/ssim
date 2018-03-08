@@ -240,13 +240,13 @@ def _uniformize_sir(slot):
             'service_type': slot['arrival_service_type'],
             'days_of_operation': slot['days_of_operation'],
             'frequency_rate': slot['frequency_rate'],
-            'number_of_seats': slot['number_of_seats'],
+            'seats': slot['seats'],
             'second_station': slot['origin_station'],
             'period_of_operation_from': slot['period_of_operation_from'],
             'period_of_operation_to': slot['period_of_operation_to'],
             'station': slot['previous_station'],
             'raw': slot['raw'],
-            'scheduled_time': slot['scheduled_time_of_arrival']})
+            'scheduled_time': slot['scheduled_time_of_arrival_utc']})
 
     if 'departure_airline_designator' in slot:
         uniform_slots.append({
@@ -262,11 +262,11 @@ def _uniformize_sir(slot):
             'second_station': slot['destination_station'],
             'frequency_rate': slot['frequency_rate'],
             'station': slot['next_station'],
-            'number_of_seats': slot['number_of_seats'],
+            'seats': slot['seats'],
             'period_of_operation_from': slot['period_of_operation_from'],
             'period_of_operation_to': slot['period_of_operation_to'],
             'raw': slot['raw'],
-            'scheduled_time': slot['scheduled_time_of_departure']})
+            'scheduled_time': slot['scheduled_time_of_departure_utc']})
 
     return uniform_slots
 
