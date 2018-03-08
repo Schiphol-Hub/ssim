@@ -173,7 +173,7 @@ dep = (
     '\n(?P<action_code>[A-Z])'
     '\s'
     '(?P<departure_airline_designator>[A-Z]{2,3}|[A-Z][0-9]|[0-9][A-Z]|\w{2]){0,1}'
-    '(?P<departure_flight_number>\d+){0,1}'
+    '(?P<departure_flight_number>\d+[A-Z]*|\w+){0,1}'
     '(?P<departure_operational_suffix>\w+){0,1}'
     '\s'
     '(?P<period_of_operation_from>\d{2}[A-Z]{3})'
