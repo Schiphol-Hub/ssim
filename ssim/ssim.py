@@ -390,6 +390,11 @@ def _explode_aircraft_configuration_string(aircraft_configuration_string: str) -
     :param aircraft_configuration_string: str, describing aircraft configuartion.
     :return row: dict, describing aircraft configuration.
     """
+    
+    #if none retunr empty dict
+    if aircraft_configuration_string is None:
+        return {}
+    
     aircraft_configuration_string = aircraft_configuration_string.rstrip()
 
     seat_class_designators = ['P','F','A','J','C','D','I','Z','W','S','Y','B','H','K','L','M','N','Q','T','V','X','G','U','E','O','R']
