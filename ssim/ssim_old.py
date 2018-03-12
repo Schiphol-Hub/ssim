@@ -53,9 +53,9 @@ return_row_pattern = (
     '(?P<aircraft_type_3_letter>\w{3})'
     '\s'
     '(?P<origin_of_flight>[A-Z]{3})'
-    '(?P<scheduled_time_of_arrival_utc>\d{4})'
+    '(?P<scheduled_time_of_arrival_utc_utc>\d{4})'
     '\s'
-    '(?P<scheduled_time_of_departure_utc>\d{4})'
+    '(?P<scheduled_time_of_departure_utc_utc>\d{4})'
     '(?P<overnight_indicator>[0-6])*'
     '(?P<destination_of_flight>[A-Z]{3})'
     '\s'
@@ -82,7 +82,7 @@ departure_row_pattern = (
     '(?P<seat_number>\d{3})'
     '(?P<aircraft_type_3_letter>\w{3})'
     '\s'
-    '(?P<scheduled_time_of_departure_utc>\d{4})'
+    '(?P<scheduled_time_of_departure_utc_utc>\d{4})'
     '(?P<destination_of_flight>[A-Z]{3})'
     '\s'
     '(?P<type_of_flight>[A-Z])'
@@ -106,7 +106,7 @@ arrival_row_pattern = (
     '(?P<aircraft_type_3_letter>\w{3})'
     '\s'
     '(?P<origin_of_flight>[A-Z]{3})'
-    '(?P<scheduled_time_of_arrival_utc>\d{4})'
+    '(?P<scheduled_time_of_arrival_utc_utc>\d{4})'
     '\s'
     '(?P<type_of_flight>[A-Z])'
     '(?P<frequency_rate>\d){0,1}'
@@ -130,7 +130,7 @@ arrival_row_pattern_nl = (
     '\s'
     '(?P<previous_stop_of_flight>[A-Z0-9]{3})'
     '(?P<origin_of_flight>[A-Z0-9]{3})'
-    '(?P<scheduled_time_of_arrival_utc>\d{4}){0,1}'
+    '(?P<scheduled_time_of_arrival_utc_utc>\d{4}){0,1}'
     '\s'
     '(?P<type_of_flight>[A-Z])'
     '(?P<frequency_rate>\d){0,1}'
@@ -152,7 +152,7 @@ departure_row_pattern_nl = (
     '(?P<seat_number>\d{3}){0,1}'
     '(?P<aircraft_type_3_letter>\w{3})'
     '\s'
-    '(?P<scheduled_time_of_departure_utc>\d{4}){0,1}'
+    '(?P<scheduled_time_of_departure_utc_utc>\d{4}){0,1}'
     '(?P<next_stop_of_flight>[A-Z0-9]{3})'
     '(?P<destination_of_flight>[A-Z0-9]{3})'
     '\s'
@@ -173,12 +173,12 @@ sim_row_pattern = (
     '(?P<end_date_of_operation>[0-9]{2}[A-Z]{3}[0-9]{2}|\s{5})'
     '(?P<days_of_operation>[0-9 ]{8})'
     '(?P<origin_of_flight>[A-Z]{3})'
-    '(?P<scheduled_time_of_departure_local>\d{4})'
-    '(?P<scheduled_time_of_departure_utc>\d{4})[+-]\d{4}'
+    '(?P<scheduled_time_of_departure_utc_local>\d{4})'
+    '(?P<scheduled_time_of_departure_utc_utc>\d{4})[+-]\d{4}'
     '(?P<some_code_3>\w|\s)\s'
     '(?P<destination_of_flight>[A-Z]{3})'
-    '(?P<scheduled_time_of_arrival_local>\d{4})'
-    '(?P<scheduled_time_of_arrival_utc>\d{4})[+-]\d{4}'
+    '(?P<scheduled_time_of_arrival_utc_local>\d{4})'
+    '(?P<scheduled_time_of_arrival_utc_utc>\d{4})[+-]\d{4}'
     '(?P<some_code_4>\w|\s)\s'
     '(?P<aircraft_type_3_letter>\w{3})[A-Z ]'
     '\s{52}'
@@ -332,28 +332,28 @@ def _fix_bad_midnight(row):
     :return row: dict, describing a slot.
     """
     #for SIR
-    if 'scheduled_time_of_arrival_utc' in row:
-        if row['scheduled_time_of_arrival_utc'] == '2400':
-            row = _update_dict(row, {'scheduled_time_of_arrival_utc': '0000'})
+    if 'scheduled_time_of_arrival_utc_utc' in row:
+        if row['scheduled_time_of_arrival_utc_utc'] == '2400':
+            row = _update_dict(row, {'scheduled_time_of_arrival_utc_utc': '0000'})
 
             logging.warning('Slot with invalid time notation. Adjusting time to 0000.\n(%s)' % row)
 
-    if 'scheduled_time_of_departure_utc' in row:
-        if row['scheduled_time_of_departure_utc'] == '2400':
-            row = _update_dict(row, {'scheduled_time_of_departure_utc': '0000'})
+    if 'scheduled_time_of_departure_utc_utc' in row:
+        if row['scheduled_time_of_departure_utc_utc'] == '2400':
+            row = _update_dict(row, {'scheduled_time_of_departure_utc_utc': '0000'})
 
             logging.warning('Slot with invalid time notation. Adjusting time to 0000.\n(%s)' % row)
 
     #for SSIM
-    if 'scheduled_time_of_arrival_local' in row:
-        if row['scheduled_time_of_arrival_utc'] == '2400':
-            row = _update_dict(row, {'scheduled_time_of_arrival_utc': '0000'})
+    if 'scheduled_time_of_arrival_utc_local' in row:
+        if row['scheduled_time_of_arrival_utc_utc'] == '2400':
+            row = _update_dict(row, {'scheduled_time_of_arrival_utc_utc': '0000'})
 
             logging.warning('Slot with invalid time notation. Adjusting time to 0000.\n(%s)' % row)
 
-    if 'scheduled_time_of_departure_local' in row:
-        if row['scheduled_time_of_departure_utc'] == '2400':
-            row = _update_dict(row, {'scheduled_time_of_departure_utc': '0000'})
+    if 'scheduled_time_of_departure_utc_local' in row:
+        if row['scheduled_time_of_departure_utc_utc'] == '2400':
+            row = _update_dict(row, {'scheduled_time_of_departure_utc_utc': '0000'})
 
             logging.warning('Slot with invalid time notation. Adjusting time to 0000.\n(%s)' % row)
     
@@ -514,7 +514,7 @@ def _expand_slot(slot):
     # Expand ssim legs
     flight_leg_slot_fields = {'action_code', 'flight_prefix', 'flight_suffix', 'aircraft_type_3_letter',
                            'type_of_flight', 'origin_of_flight', 'seat_number', 'additional_information', 'raw',
-                           'scheduled_time_of_departure_local', 'scheduled_time_of_arrival_local', 'destination_of_flight',
+                           'scheduled_time_of_departure_utc_local', 'scheduled_time_of_arrival_utc_local', 'destination_of_flight',
                            'connecting_flight_prefix','connecting_flight_suffix','frequency_rate'}
     
     if flight_leg_slot_fields <= set(slot):
@@ -535,16 +535,16 @@ def _expand_slot(slot):
         }
 
         #determine flight times
-        if slot['scheduled_time_of_arrival_utc'] is not None:
+        if slot['scheduled_time_of_arrival_utc_utc'] is not None:
             departure_start_date = \
-                datetime.strptime(slot['start_date_of_operation'] + slot['scheduled_time_of_departure_utc'],
+                datetime.strptime(slot['start_date_of_operation'] + slot['scheduled_time_of_departure_utc_utc'],
                                   '%Y-%m-%d%H%M')
             departure_end_date = \
-                datetime.strptime(slot['end_date_of_operation'] + slot['scheduled_time_of_departure_utc'], '%Y-%m-%d%H%M')
+                datetime.strptime(slot['end_date_of_operation'] + slot['scheduled_time_of_departure_utc_utc'], '%Y-%m-%d%H%M')
             
             #determine flight time
-            departure_time = datetime.strptime(slot['scheduled_time_of_departure_utc'],'%H%M')
-            arrival_time = datetime.strptime(slot['scheduled_time_of_arrival_utc'],'%H%M')
+            departure_time = datetime.strptime(slot['scheduled_time_of_departure_utc_utc'],'%H%M')
+            arrival_time = datetime.strptime(slot['scheduled_time_of_arrival_utc_utc'],'%H%M')
             flight_leg_slot['flight_time_seconds'] = (arrival_time - departure_time).seconds #if we take seconds, overnight flights will also get correct flight time because the -1 day gets removed
 
         if slot['frequency_rate']:
@@ -553,7 +553,7 @@ def _expand_slot(slot):
         else:
             dates = rrule(freq=WEEKLY, dtstart=departure_start_date, until=departure_end_date, byweekday=weekdays)
 
-        if slot['scheduled_time_of_departure_utc'] is not None:
+        if slot['scheduled_time_of_departure_utc_utc'] is not None:
             flight_leg_slot['flight_datetime'] = [x.strftime('%Y-%m-%d %H:%M') for x in dates]
         else:
             flight_leg_slot['flight_datetime'] = [x.strftime('%Y-%m-%d') for x in dates]
@@ -582,12 +582,12 @@ def _expand_slot(slot):
                 'raw': slot['raw']
             }
     
-            if slot['scheduled_time_of_arrival_utc'] is not None:
+            if slot['scheduled_time_of_arrival_utc_utc'] is not None:
                 arrival_start_date = \
-                    datetime.strptime(slot['start_date_of_operation'] + slot['scheduled_time_of_arrival_utc'],
+                    datetime.strptime(slot['start_date_of_operation'] + slot['scheduled_time_of_arrival_utc_utc'],
                                       '%Y-%m-%d%H%M')
                 arrival_end_date = \
-                    datetime.strptime(slot['end_date_of_operation'] + slot['scheduled_time_of_arrival_utc'], '%Y-%m-%d%H%M')
+                    datetime.strptime(slot['end_date_of_operation'] + slot['scheduled_time_of_arrival_utc_utc'], '%Y-%m-%d%H%M')
             else:
                 arrival_start_date = \
                     datetime.strptime(slot['start_date_of_operation'], '%Y-%m-%d')
@@ -600,7 +600,7 @@ def _expand_slot(slot):
             else:
                 dates = rrule(freq=WEEKLY, dtstart=arrival_start_date, until=arrival_end_date, byweekday=weekdays)
     
-            if slot['scheduled_time_of_arrival_utc'] is not None:
+            if slot['scheduled_time_of_arrival_utc_utc'] is not None:
                 arrival_slot['flight_datetime'] = [x.strftime('%Y-%m-%d %H:%M') for x in dates]
             else:
                 arrival_slot['flight_datetime'] = [x.strftime('%Y-%m-%d') for x in dates]
@@ -630,12 +630,12 @@ def _expand_slot(slot):
             else:
                 overnight_time = relativedelta(days=0)
     
-            if slot['scheduled_time_of_departure_utc']:
+            if slot['scheduled_time_of_departure_utc_utc']:
                 departure_start_date = \
-                    datetime.strptime(slot['start_date_of_operation'] + slot['scheduled_time_of_departure_utc'],
+                    datetime.strptime(slot['start_date_of_operation'] + slot['scheduled_time_of_departure_utc_utc'],
                                       '%Y-%m-%d%H%M') + overnight_time
                 departure_end_date = \
-                    datetime.strptime(slot['end_date_of_operation'] + slot['scheduled_time_of_departure_utc'],
+                    datetime.strptime(slot['end_date_of_operation'] + slot['scheduled_time_of_departure_utc_utc'],
                                       '%Y-%m-%d%H%M') + overnight_time
     
             else:
@@ -648,7 +648,7 @@ def _expand_slot(slot):
             else:
                 dates = rrule(freq=WEEKLY, dtstart=departure_start_date, until=departure_end_date, byweekday=weekdays)
     
-            if slot['scheduled_time_of_departure_utc'] is not None:
+            if slot['scheduled_time_of_departure_utc_utc'] is not None:
                 departure_slot['flight_datetime'] = [x.strftime('%Y-%m-%d %H:%M') for x in dates]
             else:
                 departure_slot['flight_datetime'] = [x.strftime('%Y-%m-%d') for x in dates]
@@ -731,14 +731,14 @@ def read_csv(slotfile):
     flightnumber_regex = '([A-Z]{2,3}|\w{2})\s*(\d+[A-Z]*|\w+)'
     arrival_header = \
         ('action_code', 'origin', 'arrival_flight_prefix', 'arrival_flight_suffix',
-         'ad', 'scheduled_time_of_arrival_utc', 'start_date_of_operation',
+         'ad', 'scheduled_time_of_arrival_utc_utc', 'start_date_of_operation',
          'end_date_of_operation', 'days_of_operation', 'previous_stop_of_flight',
          'origin_of_flight', 'aircraft_type_3_letter', 'type_of_flight',
          'frequency_rate', 'unknown_2', 'unknown_3', 'unknown_4', 'season',
          'additional_information', 'seat_number', 'raw')
     departure_header = \
         ('action_code', 'origin', 'departure_flight_prefix', 'departure_flight_suffix',
-         'ad', 'scheduled_time_of_departure_utc', 'start_date_of_operation',
+         'ad', 'scheduled_time_of_departure_utc_utc', 'start_date_of_operation',
          'end_date_of_operation', 'days_of_operation', 'next_stop_of_flight',
          'destination_of_flight', 'aircraft_type_3_letter', 'type_of_flight',
          'frequency_rate', 'unknown_2', 'unknown_3', 'unknown_4', 'season',

@@ -8,13 +8,13 @@
     arrival_service_type: "J"
     days_of_operation: "0004000"
     frequency_rate: null
-    number_of_seats: "174"
+    seats: "174"
     origin_station: "FEZ"
     period_of_operation_from: "02NOV17"
     period_of_operation_to: "22MAR18"
     previous_station: "FEZ"
     raw: "\nU3O125 02NOV22MAR 0004000 174320 FEZFEZ J\n/ RA.1640   /"
-    scheduled_time_of_arrival: null
+    scheduled_time_of_arrival_utc: null
   raw_data: |
     SIR
     /
@@ -37,11 +37,11 @@
     destination_station: "FEZ"
     frequency_rate: null
     next_station: "FEZ"
-    number_of_seats: "174"
+    seats: "174"
     period_of_operation_from: "02NOV17"
     period_of_operation_to: "22MAR18"
     raw: "\nU 3O125 02NOV22MAR 0004000 174320 FEZFEZ J\n/ RA.1640   /"
-    scheduled_time_of_departure: null
+    scheduled_time_of_departure_utc: null
   raw_data: |
     SIR
     /
@@ -64,11 +64,11 @@
     destination_station: "OSL"
     frequency_rate: null
     next_station: "OSL"
-    number_of_seats: "000"
+    seats: "000"
     period_of_operation_from: "21FEB18"
     period_of_operation_to: "21FEB18"
     raw: "\nH N1 21FEB 000GR4 0900OSLOSL D"
-    scheduled_time_of_departure: "0900"
+    scheduled_time_of_departure_utc: "0900"
   raw_data: |
     SIR
     /
@@ -88,13 +88,13 @@
     arrival_service_type: "J"
     days_of_operation: "0000007"
     frequency_rate: null
-    number_of_seats: null
+    seats: null
     origin_station: "TFS"
     period_of_operation_from: "19FEB18"
     period_of_operation_to: "05MAR18"
     previous_station: "TFS"
     raw: "\nULLX5066 19FEB05MAR 0000007 320 TFSTFS J"
-    scheduled_time_of_arrival: null
+    scheduled_time_of_arrival_utc: null
   raw_data: |
     SIR
     /
@@ -115,13 +115,13 @@
     arrival_service_type: "J"
     days_of_operation: null
     frequency_rate: null
-    number_of_seats: "316"
+    seats: "316"
     origin_station: "061"
     period_of_operation_from: "17NOV17"
     period_of_operation_to: "17NOV17"
     previous_station: "DPS"
     raw: "\nHKL8836 17NOV 316772 061DPS0615 J"
-    scheduled_time_of_arrival: "0615"
+    scheduled_time_of_arrival_utc: "0615"
   raw_data: |
     SIR
     /
@@ -143,11 +143,11 @@
     destination_station: "DPS"
     frequency_rate: null
     next_station: "061"
-    number_of_seats: "316"
+    seats: "316"
     period_of_operation_from: "17NOV17"
     period_of_operation_to: "17NOV17"
     raw: "\nH KL8836 17NOV 316772 0615061DPS J"
-    scheduled_time_of_departure: "0615"
+    scheduled_time_of_departure_utc: "0615"
   raw_data: |
     SIR
     /
@@ -167,13 +167,13 @@
     arrival_service_type: "D"
     days_of_operation: null
     frequency_rate: null
-    number_of_seats: "000"
+    seats: "000"
     origin_station: "ANR"
     period_of_operation_from: "04NOV17"
     period_of_operation_to: "04NOV17"
     previous_station: "ANR"
     raw: "\nH 04NOV 000D22 ANRANR1510 D"
-    scheduled_time_of_arrival: "1510"
+    scheduled_time_of_arrival_utc: "1510"
   raw_data: |
     SIR
     /
@@ -195,11 +195,11 @@
     destination_station: "ANR"
     frequency_rate: null
     next_station: "ANR"
-    number_of_seats: "000"
+    seats: "000"
     period_of_operation_from: "04NOV17"
     period_of_operation_to: "04NOV17"
     raw: "\nH  04NOV 000D22 1510ANRANR D"
-    scheduled_time_of_departure: "1510"
+    scheduled_time_of_departure_utc: "1510"
   raw_data: |
     SIR
     /
@@ -221,11 +221,11 @@
     destination_station: "DPS"
     frequency_rate: null
     next_station: "061"
-    number_of_seats: "316"
+    seats: "316"
     period_of_operation_from: "17NOV17"
     period_of_operation_to: "17NOV17"
     raw: "\nH Y88836 17NOV 316772 0615061DPS J"
-    scheduled_time_of_departure: "0615"
+    scheduled_time_of_departure_utc: "0615"
   raw_data: |
     SIR
     /
@@ -247,11 +247,11 @@
     destination_station: "DPS"
     frequency_rate: null
     next_station: "061"
-    number_of_seats: "316"
+    seats: "316"
     period_of_operation_from: "17NOV17"
     period_of_operation_to: "17NOV17"
     raw: "\nH 5Y123 17NOV 316772 0615061DPS J"
-    scheduled_time_of_departure: "0615"
+    scheduled_time_of_departure_utc: "0615"
   raw_data: |
     SIR
     /
@@ -271,13 +271,13 @@
     arrival_service_type: "D"
     days_of_operation: null
     frequency_rate: null
-    number_of_seats: "000"
+    seats: "000"
     origin_station: "FAB"
     period_of_operation_from: "29MAR18"
     period_of_operation_to: "29MAR18"
     previous_station: "FAB"
     raw: "\nH8PMSD 29MAR 000GR5 FABFAB0945 D"
-    scheduled_time_of_arrival: 0945
+    scheduled_time_of_arrival_utc: 0945
   raw_data: |
     SIR
     /
@@ -293,17 +293,17 @@
     aircraft_type: "CL6"
     days_of_operation: null
     departure_airline_designator: "9H"
-    departure_flight_number: "123"
+    departure_flight_number: "OWL"
     departure_operational_suffix: null
     departure_service_type: "D"
     destination_station: "OXF"
     frequency_rate: null
     next_station: "OXF"
-    number_of_seats: "000"
+    seats: "000"
     period_of_operation_from: "27MAR18"
     period_of_operation_to: "27MAR18"
     raw: "\nH 9HOWL 27MAR 000CL6 1230OXFOXF D"
-    scheduled_time_of_departure: "1230"
+    scheduled_time_of_departure_utc: "1230"
   raw_data: |
     SIR
     /
