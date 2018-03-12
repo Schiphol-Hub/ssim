@@ -1,90 +1,268 @@
-slot:
-  action_code: 'N'
-  aircraft_type_3_letter: 'ER3'
-  arrival_flight_prefix: 'BD'
-  arrival_flight_suffix: '615'
-  arrival_type_of_flight: 'J'
-  arrival_frequency_rate: '1'
-  days_of_operation: '1234567'
-  departure_flight_prefix: 'BD'
-  departure_flight_suffix: '616'
-  departure_type_of_flight: 'J'
-  departure_frequency_rate: '1'
-  destination_of_flight: 'LBA'
-  end_date_of_operation: '2008-10-26'
-  origin_of_flight: 'LBA'
-  overnight_indicator: '1'
-  scheduled_time_of_arrival_utc: '1905'
-  scheduled_time_of_departure_utc: '0600'
-  seat_number: '37'
-  start_date_of_operation: '2008-10-24'
-  additional_information: null
-  raw: 'NBD615 BD616 24OCT26OCT 1234567 37ER3 LBA1905 0600LBA JJ'
+- slot:
+    action_code: H
+    ad: A
+    additional_schedule_information: null
+    aircraft_type: 73H
+    airline_designator: HV
+    days_of_operation: '0000500'
+    flight_number: '246'
+    frequency_rate: null
+    operational_suffix: null
+    period_of_operation_from: 07APR17
+    period_of_operation_to: 05MAY17
+    raw: '\nHHV246 07APR05MAY 0000500 18973H RMFRMF0000 C'
+    scheduled_time: '0000'
+    seats: '189'
+    second_station: RMF
+    service_type: C
+    station: RMF
 
-flights:
-  - action_code: 'N'
-    ad: 'A'
-    aircraft_type_3_letter: 'ER3'
-    destination: 'LBA'
-    flight_datetime: '2008-10-24 19:05'
-    prefix: 'BD'
-    seats: '37'
-    suffix: '615'
-    type_of_flight: 'J'
-    additional_information: null
-    raw: 'NBD615 BD616 24OCT26OCT 1234567 37ER3 LBA1905 0600LBA JJ'
-  - action_code: 'N'
-    ad: 'A'
-    aircraft_type_3_letter: 'ER3'
-    destination: 'LBA'
-    flight_datetime: '2008-10-25 19:05'
-    prefix: 'BD'
-    seats: '37'
-    suffix: '615'
-    type_of_flight: 'J'
-    additional_information: null
-    raw: 'NBD615 BD616 24OCT26OCT 1234567 37ER3 LBA1905 0600LBA JJ'
-  - action_code: 'N'
-    ad: 'A'
-    aircraft_type_3_letter: 'ER3'
-    destination: 'LBA'
-    flight_datetime: '2008-10-26 19:05'
-    prefix: 'BD'
-    seats: '37'
-    suffix: '615'
-    type_of_flight: 'J'
-    additional_information: null
-    raw: 'NBD615 BD616 24OCT26OCT 1234567 37ER3 LBA1905 0600LBA JJ'
-  - action_code: 'N'
-    ad: 'D'
-    aircraft_type_3_letter: 'ER3'
-    destination: 'LBA'
-    flight_datetime: '2008-10-25 06:00'
-    prefix: 'BD'
-    seats: '37'
-    suffix: '616'
-    type_of_flight: 'J'
-    additional_information: null
-    raw: 'NBD615 BD616 24OCT26OCT 1234567 37ER3 LBA1905 0600LBA JJ'
-  - action_code: 'N'
-    ad: 'D'
-    aircraft_type_3_letter: 'ER3'
-    destination: 'LBA'
-    flight_datetime: '2008-10-26 06:00'
-    prefix: 'BD'
-    seats: '37'
-    suffix: '616'
-    type_of_flight: 'J'
-    additional_information: null
-    raw: 'NBD615 BD616 24OCT26OCT 1234567 37ER3 LBA1905 0600LBA JJ'
-  - action_code: 'N'
-    ad: 'D'
-    aircraft_type_3_letter: 'ER3'
-    destination: 'LBA'
-    flight_datetime: '2008-10-27 06:00'
-    prefix: 'BD'
-    seats: '37'
-    suffix: '616'
-    type_of_flight: 'J'
-    additional_information: null
-    raw: 'NBD615 BD616 24OCT26OCT 1234567 37ER3 LBA1905 0600LBA JJ'
+  flights:
+  - action_code: H
+    ad: A
+    additional_schedule_information: null
+    aircraft_type: 73H
+    airline_designator: HV
+    date: '2017-04-07'
+    days_of_operation: '0000500'
+    flight_number: '246'
+    frequency_rate: null
+    operational_suffix: null
+    period_of_operation_from: 07APR17
+    period_of_operation_to: 05MAY17
+    raw: '\nHHV246 07APR05MAY 0000500 18973H RMFRMF0000 C'
+    scheduled_time: '0000'
+    seats: '189'
+    second_station: RMF
+    service_type: C
+    station: RMF
+  - action_code: H
+    ad: A
+    additional_schedule_information: null
+    aircraft_type: 73H
+    airline_designator: HV
+    date: '2017-04-14'
+    days_of_operation: '0000500'
+    flight_number: '246'
+    frequency_rate: null
+    operational_suffix: null
+    period_of_operation_from: 07APR17
+    period_of_operation_to: 05MAY17
+    raw: '\nHHV246 07APR05MAY 0000500 18973H RMFRMF0000 C'
+    scheduled_time: '0000'
+    seats: '189'
+    second_station: RMF
+    service_type: C
+    station: RMF
+  - action_code: H
+    ad: A
+    additional_schedule_information: null
+    aircraft_type: 73H
+    airline_designator: HV
+    date: '2017-04-21'
+    days_of_operation: '0000500'
+    flight_number: '246'
+    frequency_rate: null
+    operational_suffix: null
+    period_of_operation_from: 07APR17
+    period_of_operation_to: 05MAY17
+    raw: '\nHHV246 07APR05MAY 0000500 18973H RMFRMF0000 C'
+    scheduled_time: '0000'
+    seats: '189'
+    second_station: RMF
+    service_type: C
+    station: RMF
+  - action_code: H
+    ad: A
+    additional_schedule_information: null
+    aircraft_type: 73H
+    airline_designator: HV
+    date: '2017-04-28'
+    days_of_operation: '0000500'
+    flight_number: '246'
+    frequency_rate: null
+    operational_suffix: null
+    period_of_operation_from: 07APR17
+    period_of_operation_to: 05MAY17
+    raw: '\nHHV246 07APR05MAY 0000500 18973H RMFRMF0000 C'
+    scheduled_time: '0000'
+    seats: '189'
+    second_station: RMF
+    service_type: C
+    station: RMF
+  - action_code: H
+    ad: A
+    additional_schedule_information: null
+    aircraft_type: 73H
+    airline_designator: HV
+    date: '2017-05-05'
+    days_of_operation: '0000500'
+    flight_number: '246'
+    frequency_rate: null
+    operational_suffix: null
+    period_of_operation_from: 07APR17
+    period_of_operation_to: 05MAY17
+    raw: '\nHHV246 07APR05MAY 0000500 18973H RMFRMF0000 C'
+    scheduled_time: '0000'
+    seats: '189'
+    second_station: RMF
+    service_type: C
+    station: RMF
+
+- slot:
+    VV: 738H189
+    ad: D
+    aircraft_configuration_version: Y189VV738H189
+    aircraft_owner: null
+    aircraft_rotation_layover: null
+    aircraft_type: 73H
+    airline_designator: HV
+    airline_designator_: null
+    arrival_station: KEF
+    cabin_crew_employer: null
+    cockpit_crew_employer: null
+    date_variation: null
+    days_of_operation: '1'
+    departure_station: BFI
+    flight_number: '52'
+    flight_number_: null
+    flight_transit_layover: null
+    frequency_rate: null
+    itinerary_variation_identifier: '01'
+    itinerary_variation_identifier_overflow: null
+    joint_operation_airline_designators: null
+    leg_sequence_number: '01'
+    meal_service_note: null
+    minimum_connecting_time_international_domestic_status: null
+    operating_airline_disclosure: null
+    operational_suffix: null
+    operational_suffix_: null
+    passenger_reservations_booking_designator: Y
+    passenger_reservations_booking_modifier: null
+    passenger_terminal_arrival: null
+    passenger_terminal_departure: null
+    period_of_operation_from: 26MAR18
+    period_of_operation_to: 02APR18
+    raw: 3 HV   520101P26MAR1802APR181       BFI21002100-0700  KEF04300430+0000  73HY                                                                                                Y189VV738H189         000003
+    record_serial_number: '000003'
+    record_type: '3'
+    scheduled_time_of_aircraft_arrival: '0430'
+    scheduled_time_of_aircraft_departure: '2100'
+    scheduled_time_of_passenger_arrival: '0430'
+    scheduled_time_of_passenger_departure: '2100'
+    seats: 189
+    seats_Y: 189
+    secure_flight_indicator: null
+    service_type: P
+    spare_0: null
+    spare_1: null
+    spare_2: null
+    traffic_restriction_code: null
+    traffic_restriction_code_leg_overflow_indicator: null
+    utc_local_time_variation_arrival: '+0000'
+    utc_local_time_variation_departure: '-0700'
+  flights:
+  - VV: 738H189
+    ad: D
+    aircraft_configuration_version: Y189VV738H189
+    aircraft_owner: null
+    aircraft_rotation_layover: null
+    aircraft_type: 73H
+    airline_designator: HV
+    airline_designator_: null
+    arrival_station: KEF
+    cabin_crew_employer: null
+    cockpit_crew_employer: null
+    date: '2018-03-26'
+    date_variation: null
+    days_of_operation: '1'
+    departure_station: BFI
+    flight_number: '52'
+    flight_number_: null
+    flight_transit_layover: null
+    frequency_rate: null
+    itinerary_variation_identifier: '01'
+    itinerary_variation_identifier_overflow: null
+    joint_operation_airline_designators: null
+    leg_sequence_number: '01'
+    meal_service_note: null
+    minimum_connecting_time_international_domestic_status: null
+    operating_airline_disclosure: null
+    operational_suffix: null
+    operational_suffix_: null
+    passenger_reservations_booking_designator: Y
+    passenger_reservations_booking_modifier: null
+    passenger_terminal_arrival: null
+    passenger_terminal_departure: null
+    period_of_operation_from: 26MAR18
+    period_of_operation_to: 02APR18
+    raw: 3 HV   520101P26MAR1802APR181       BFI21002100-0700  KEF04300430+0000  73HY                                                                                                Y189VV738H189         000003
+    record_serial_number: '000003'
+    record_type: '3'
+    scheduled_time_of_aircraft_arrival: '0430'
+    scheduled_time_of_aircraft_departure: '2100'
+    scheduled_time_of_passenger_arrival: '0430'
+    scheduled_time_of_passenger_departure: '2100'
+    seats: 189
+    seats_Y: 189
+    secure_flight_indicator: null
+    service_type: P
+    spare_0: null
+    spare_1: null
+    spare_2: null
+    traffic_restriction_code: null
+    traffic_restriction_code_leg_overflow_indicator: null
+    utc_local_time_variation_arrival: '+0000'
+    utc_local_time_variation_departure: '-0700'
+  - VV: 738H189
+    ad: D
+    aircraft_configuration_version: Y189VV738H189
+    aircraft_owner: null
+    aircraft_rotation_layover: null
+    aircraft_type: 73H
+    airline_designator: HV
+    airline_designator_: null
+    arrival_station: KEF
+    cabin_crew_employer: null
+    cockpit_crew_employer: null
+    date: '2018-04-02'
+    date_variation: null
+    days_of_operation: '1'
+    departure_station: BFI
+    flight_number: '52'
+    flight_number_: null
+    flight_transit_layover: null
+    frequency_rate: null
+    itinerary_variation_identifier: '01'
+    itinerary_variation_identifier_overflow: null
+    joint_operation_airline_designators: null
+    leg_sequence_number: '01'
+    meal_service_note: null
+    minimum_connecting_time_international_domestic_status: null
+    operating_airline_disclosure: null
+    operational_suffix: null
+    operational_suffix_: null
+    passenger_reservations_booking_designator: Y
+    passenger_reservations_booking_modifier: null
+    passenger_terminal_arrival: null
+    passenger_terminal_departure: null
+    period_of_operation_from: 26MAR18
+    period_of_operation_to: 02APR18
+    raw: 3 HV   520101P26MAR1802APR181       BFI21002100-0700  KEF04300430+0000  73HY                                                                                                Y189VV738H189         000003
+    record_serial_number: '000003'
+    record_type: '3'
+    scheduled_time_of_aircraft_arrival: '0430'
+    scheduled_time_of_aircraft_departure: '2100'
+    scheduled_time_of_passenger_arrival: '0430'
+    scheduled_time_of_passenger_departure: '2100'
+    seats: 189
+    seats_Y: 189
+    secure_flight_indicator: null
+    service_type: P
+    spare_0: null
+    spare_1: null
+    spare_2: null
+    traffic_restriction_code: null
+    traffic_restriction_code_leg_overflow_indicator: null
+    utc_local_time_variation_arrival: '+0000'
+    utc_local_time_variation_departure: '-0700'
