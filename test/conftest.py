@@ -2,7 +2,7 @@ import pytest
 # from glob import glob
 import yaml
 path_to_data = 'test/data/'
-path_to_data = 'data/'
+# path_to_data = 'data/'
 
 
 @pytest.fixture
