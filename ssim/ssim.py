@@ -183,6 +183,7 @@ def _uniformize_sim_as_sir(slot, iata_airport: str):
     assert iata_airport.upper()==iata_airport, "iata_airport is all capital letters: %r" % iata_airport
     uniform_slots = []
 
+    seats = _explode_aircraft_configuration_string(slot['aircraft_configuration_version'],slot['raw'])
     if slot['arrival_station']==iata_airport:
         uniform_slots.append({
             'ad': 'A',
@@ -195,7 +196,7 @@ def _uniformize_sim_as_sir(slot, iata_airport: str):
             'service_type': slot['service_type'],
             'days_of_operation': slot['days_of_operation'],
             'frequency_rate': slot['frequency_rate'],
-            'seats': slot['seats'] if 'seats' in slot.keys() else None,
+            'seats': seats['seats'] if 'seats' in seats.keys() else None,
             'second_station': slot['departure_station'],
             'period_of_operation_from': slot['period_of_operation_from'],
             'period_of_operation_to': slot['period_of_operation_to'],
@@ -217,7 +218,7 @@ def _uniformize_sim_as_sir(slot, iata_airport: str):
             'second_station': slot['arrival_station'],
             'frequency_rate': slot['frequency_rate'],
             'station': slot['arrival_station'],
-            'seats': slot['seats'] if 'seats' in slot.keys() else None,
+            'seats': seats['seats'] if 'seats' in seats.keys() else None,
             'period_of_operation_from': slot['period_of_operation_from'],
             'period_of_operation_to': slot['period_of_operation_to'],
             'raw': slot['raw'],
@@ -240,7 +241,7 @@ def _uniformize_sir(slot):
             'service_type': slot['arrival_service_type'],
             'days_of_operation': slot['days_of_operation'],
             'frequency_rate': slot['frequency_rate'],
-            'seats': slot['seats'],
+            'seats': int(slot['seats']) if slot['seats'].isdigit() else slot['seats'],
             'second_station': slot['origin_station'],
             'period_of_operation_from': slot['period_of_operation_from'],
             'period_of_operation_to': slot['period_of_operation_to'],
@@ -262,7 +263,7 @@ def _uniformize_sir(slot):
             'second_station': slot['destination_station'],
             'frequency_rate': slot['frequency_rate'],
             'station': slot['next_station'],
-            'seats': slot['seats'],
+            'seats': int(slot['seats']) if slot['seats'].isdigit() else slot['seats'],
             'period_of_operation_from': slot['period_of_operation_from'],
             'period_of_operation_to': slot['period_of_operation_to'],
             'raw': slot['raw'],
