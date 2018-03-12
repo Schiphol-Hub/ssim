@@ -1,0 +1,5 @@
+- string: Y30
+
+  aircraft_configuration:
+    seats: 30
+    seats_Y: 30

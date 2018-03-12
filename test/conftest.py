@@ -53,3 +53,11 @@ def sim_records():
         slots = yaml.load(f.read())
 
     return slots
+
+
+@pytest.fixture
+def aircraft_configuration_strings():
+    with open(path_to_data + 'aircraft_configuration_strings.yml') as f:
+        aircraft_configuration_strings = yaml.load(f.read())
+
+    return aircraft_configuration_strings
