@@ -6,7 +6,7 @@
 
 import logging
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 from dateutil.rrule import rrule, WEEKLY
 import sys
 import os
@@ -77,8 +77,14 @@ def _expand(record, date_format='%d%b%y'):
                   dtstart=datetime.strptime(record['period_of_operation_from'], date_format),
                   until=datetime.strptime(record['period_of_operation_to'], date_format),
                   byweekday=days_of_operation)
-
-    records = [_merge_two_dicts(record, {'date': x.strftime('%Y-%m-%d')}) for x in dates]
+    
+    #if flight is overnight, add one day
+    if 'overnight_indicator' in record.keys() and record['overnight_indicator']:
+        td = timedelta(days=1)
+    else:
+        td = timedelta(days=0)
+    
+    records = [_merge_two_dicts(record, {'date': (x+td).strftime('%Y-%m-%d')}) for x in dates]
 
     return records
 
@@ -182,6 +188,13 @@ def _uniformize_sim_as_sir(slot, iata_airport: str):
     assert len(iata_airport)==3, "iata_airport is not exactly three characters: %r" % iata_airport
     assert iata_airport.upper()==iata_airport, "iata_airport is all capital letters: %r" % iata_airport
     uniform_slots = []
+    
+    #it's very hard to see if a flight is overnight. In case time of dep is 
+    #higher than time of arr, it is likely to arrive overnight
+    overnight_indicator_arrival = False
+    if slot['arrival_station'] and slot['departure_station']:
+        if slot['scheduled_time_of_aircraft_arrival']<slot['scheduled_time_of_aircraft_departure']:
+            overnight_indicator_arrival = True
 
     seats = _explode_aircraft_configuration_string(slot['aircraft_configuration_version'],slot['raw'])
     if slot['arrival_station']==iata_airport:
@@ -202,7 +215,8 @@ def _uniformize_sim_as_sir(slot, iata_airport: str):
             'period_of_operation_to': slot['period_of_operation_to'],
             'station': slot['departure_station'],
             'raw': slot['raw'],
-            'scheduled_time': slot['scheduled_time_of_aircraft_arrival']})
+            'scheduled_time': slot['scheduled_time_of_aircraft_arrival'],
+            'overnight_indicator': overnight_indicator_arrival})
 
     if slot['departure_station']==iata_airport:
         uniform_slots.append({
@@ -222,7 +236,8 @@ def _uniformize_sim_as_sir(slot, iata_airport: str):
             'period_of_operation_from': slot['period_of_operation_from'],
             'period_of_operation_to': slot['period_of_operation_to'],
             'raw': slot['raw'],
-            'scheduled_time': slot['scheduled_time_of_aircraft_departure']})
+            'scheduled_time': slot['scheduled_time_of_aircraft_departure'],
+            'overnight_indicator': False})
 
     return uniform_slots
 
@@ -428,13 +443,16 @@ def read(file, iata_airport = None):
     return slots
 
 
-def expand_slots(slots):
+def expand_slots(slots,season = None):
     """
     Expands a list of slots into flights.
 
     Parameters
     ----------.
     :param slots: list, a list of slot dicts.
+    :param season: indication of season to import. SSIM files can contain 
+    00XXX00 as date indicators, which means from beginning/until end of season.
+    Argument is required and only used when file contains 00XXX00.
 
     Returns
     -------
