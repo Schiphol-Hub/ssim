@@ -6,7 +6,7 @@
 
 import logging
 import re
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from dateutil.rrule import rrule, WEEKLY
 import sys
 import os
@@ -22,6 +22,56 @@ year_adjustment = {
     'W': {'JAN': 1, 'FEB': 1, 'MAR': 1, 'APR': 1, 'MAY': 1, 'JUN': 1,
           'JUL': 1, 'AUG': 1, 'SEP': 1, 'OCT': 0, 'NOV': 0, 'DEC': 0}
 }
+
+infinity_indicators = ['00XXX00'] #indicates that something should run until start/end of season
+
+def find_season_dates(season: str):
+    """
+    Get first and last dat eof Iata Season
+
+    Parameters
+    ----------.
+    season: string, indicating IATA season  (W17, S23). Note that W17 starts 
+    in October 2016
+
+    Returns
+    -------
+    tuple of dates, indicating first and last day of season
+    """
+
+    if season[0]=='W':
+        march_year = 2000+int(season[1:3]) + 1
+        march_extra_day = 0
+        october_extra_day = 1
+    elif season[0]=='S':
+        march_year = 2000+int(season[1:3])
+        march_extra_day = 1
+        october_extra_day = 0
+    else:
+        raise ValueError('Season should be like "S17" or "W12" rather than ' + season)
+    october_year = 2000+int(season[1:3])
+    
+    october_day = date(october_year,10,29)
+    while october_day.isoweekday()!=(6+october_extra_day):
+        october_day -= timedelta(days=1)
+        
+    march_day = date(march_year,3,30)
+    while march_day.isoweekday()!=(6+march_extra_day):
+        march_day  -= timedelta(days=1)
+    
+    if season[0]=='W':
+        first_day = october_day
+        last_day = march_day
+    else:
+        first_day = march_day
+        last_day = october_day
+
+    season_dates = []
+    while first_day<=last_day:
+        season_dates.append(first_day)
+        first_day+=timedelta(days=1)
+    
+    return season_dates[0], season_dates[-1]
 
 
 def _flatten(l):
@@ -43,7 +93,7 @@ def _strip_dict_values(d):
     return d
 
 
-def _expand(record, date_format='%d%b%y'):
+def _expand(record, date_format='%d%b%y', season=None):
     """
     Expands records into individual flights.
 
@@ -71,11 +121,30 @@ def _expand(record, date_format='%d%b%y'):
         frequency_rate = '1'
 
     frequency_rate = int(frequency_rate)
-
+    
+    #if 00XXX00, use start/end of season instead
+    period_of_operation_from = record['period_of_operation_from']
+    if period_of_operation_from in infinity_indicators:
+        if season:
+            period_of_operation_from = find_season_dates(season)[0]
+        else:
+            raise ValueError("Found infinity indicator " + period_of_operation_from + " in file, but no season specified. Pleas sepcify season. \n" + record['raw'])
+    else:
+        period_of_operation_from = datetime.strptime(period_of_operation_from, date_format)
+            
+    period_of_operation_to = record['period_of_operation_to']
+    if period_of_operation_to in infinity_indicators:
+        if season:
+            period_of_operation_to = find_season_dates(season)[-1]
+        else:
+            raise ValueError("Found infinity indicator " + period_of_operation_to + " in file, but no season specified. Pleas sepcify season. \n" + record['raw'])
+    else:
+        period_of_operation_to = datetime.strptime(period_of_operation_to, date_format)
+    
     dates = rrule(freq=WEEKLY,
                   interval=frequency_rate,
-                  dtstart=datetime.strptime(record['period_of_operation_from'], date_format),
-                  until=datetime.strptime(record['period_of_operation_to'], date_format),
+                  dtstart=period_of_operation_from,
+                  until=period_of_operation_to,
                   byweekday=days_of_operation)
     
     #if flight is overnight, add one day
@@ -105,12 +174,14 @@ def _parse_sim(text):
     """
 
     # record_1 = regexes['sim']['record_1'].search(text).groupdict()
-    # record_2 = regexes['sim']['record_2'].search(text).groupdict()
+    record_2 = regexes['sim']['record_2'].search(text).groupdict()
     record_3 = regexes['sim']['record_3'].finditer(text)
     # record_4 = regexes['sim']['record_4'].finditer(text)
     # record_5 = regexes['sim']['record_5'].search(text).groupdict()
 
-    # time_mode = record_2['time_mode']
+    time_mode = record_2['time_mode']
+    if time_mode!='U':
+        raise NotImplementedError("Support for times other than U not yet implemented. Found time mode " + time_mode)
     flight_leg_records = list(map(lambda x: x.groupdict(), record_3))
     flight_leg_records = [_strip_dict_values(x) for x in flight_leg_records]
     # segment_data_records = list(map(lambda x: x.groupdict(), record_4))
@@ -458,8 +529,8 @@ def expand_slots(slots,season = None):
     -------
     :return: flattened_flights: list, a list of flight dicts.
     """
-
-    flights = map(_expand, slots)
+    
+    flights = [_expand(slot, season=season) for slot in slots]
     flattened_flights = _flatten(flights)
 
     logging.info('Expanded %i slots into %i flights.' % (len(slots), len(flattened_flights)))
