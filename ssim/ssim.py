@@ -111,7 +111,7 @@ def _expand(record, date_format='%d%b%y', season=None):
         days_of_operation = re.sub('\s|0', '', record['days_of_operation'])
         days_of_operation = [int(weekday) - 1 for weekday in days_of_operation]
     else:
-        days_of_operation = range(1, 8)
+        days_of_operation = range(0, 7)
 
     if 'frequency_rate' in record and record['frequency_rate'] is not None:
         frequency_rate = record['frequency_rate'].strip()
