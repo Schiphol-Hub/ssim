@@ -27,9 +27,9 @@ slots:
     seat_number: '150'
     aircraft_type_3_letter: '319'
     origin_of_flight: 'LNZ'
-    scheduled_time_of_arrival_utc: '0900'
-    arrival_type_of_flight: 'C'
-    arrival_frequency_rate: null
+    scheduled_time_of_arrival_utc_utc: '0900'
+    service_type: 'C'
+    frequency_rate: null
     additional_information: null
     raw: 'NABC1234 08FEB08FEB 0000500 150319 LNZ0900 C'
 
@@ -41,10 +41,10 @@ slots:
     days_of_operation: '0000060'
     seat_number: '150'
     aircraft_type_3_letter: '319'
-    scheduled_time_of_departure_utc: '1200'
+    scheduled_time_of_departure_utc_utc: '1200'
     destination_of_flight: 'LNZ'
-    departure_type_of_flight: 'C'
-    departure_frequency_rate: null
+    service_type: 'C'
+    frequency_rate: null
     additional_information: null
     raw: 'N ABC5678 09FEB09FEB 0000060 150319 1200LNZ C'
 
@@ -59,14 +59,12 @@ slots:
     seat_number: '150'
     aircraft_type_3_letter: '319'
     origin_of_flight: 'LNZ'
-    scheduled_time_of_arrival_utc: '1430'
-    scheduled_time_of_departure_utc: '1455'
+    scheduled_time_of_arrival_utc_utc: '1430'
+    scheduled_time_of_departure_utc_utc: '1455'
     overnight_indicator: null
     destination_of_flight: 'LNZ'
-    arrival_type_of_flight: 'C'
-    arrival_frequency_rate: null
-    departure_type_of_flight: 'C'
-    departure_frequency_rate: null
+    service_type: 'C'
+    frequency_rate: null
     additional_information: null
     raw: 'NABC1234 ABC5678 10FEB10FEB 0000007 150319 LNZ1430 1455LNZ CC'
 

@@ -16,7 +16,6 @@
     second_station: RMF
     service_type: C
     station: RMF
-
   flights:
   - action_code: H
     ad: A

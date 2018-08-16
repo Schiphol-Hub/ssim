@@ -32,8 +32,8 @@ slots:
     aircraft_type_3_letter: '73H'
     origin_of_flight: 'RMF'
     previous_stop_of_flight: 'RMF'
-    scheduled_time_of_arrival_utc: '0000'
-    arrival_type_of_flight: 'C'
+    scheduled_time_of_arrival_utc_utc: '0000'
+    arrival_service_type: 'C'
     arrival_frequency_rate: '2'
     additional_information: '/RA.0010 /'
     raw: 'HHV246 07APR05MAY 0000500 18973H RMFRMF0000 C2 /RA.0010 /'
@@ -46,10 +46,10 @@ slots:
     days_of_operation: '0200000'
     seat_number: '000'
     aircraft_type_3_letter: '73P'
-    scheduled_time_of_departure_utc: '0010'
+    scheduled_time_of_departure_utc_utc: '0010'
     destination_of_flight: 'EMA'
     next_stop_of_flight: 'EMA'
-    departure_type_of_flight: 'H'
+    departure_service_type: 'H'
     departure_frequency_rate: null
     additional_information: '/RD.0020 /'
     raw: 'H BCS1444 15AUG10OCT 0200000 00073P 0010EMAEMA H /RD.0020 /'
@@ -64,8 +64,8 @@ slots:
     aircraft_type_3_letter: '73H'
     origin_of_flight: 'ACE'
     previous_stop_of_flight: 'ACE'
-    scheduled_time_of_arrival_utc: '0000'
-    arrival_type_of_flight: 'J'
+    scheduled_time_of_arrival_utc_utc: '0000'
+    arrival_service_type: 'J'
     arrival_frequency_rate: null
     additional_information: null
     raw: 'HHV5684 26MAR 18973H ACEACE0000 J'
@@ -78,10 +78,10 @@ slots:
     days_of_operation: ''
     seat_number: '186'
     aircraft_type_3_letter: '738'
-    scheduled_time_of_departure_utc: '0015'
+    scheduled_time_of_departure_utc_utc: '0015'
     destination_of_flight: 'SAW'
     next_stop_of_flight: 'SAW'
-    departure_type_of_flight: 'J'
+    departure_service_type: 'J'
     departure_frequency_rate: null
     additional_information: null
     raw: 'H KL3106 26MAR 186738 0015SAWSAW J'
@@ -96,8 +96,8 @@ slots:
     aircraft_type_3_letter: '738'
     origin_of_flight: 'SAW'
     previous_stop_of_flight: 'SAW'
-    scheduled_time_of_arrival_utc: '0000'
-    arrival_type_of_flight: 'J'
+    scheduled_time_of_arrival_utc_utc: '0000'
+    arrival_service_type: 'J'
     arrival_frequency_rate: null
     additional_information: null
     raw: 'HHV588 26MAR 186738 SAWSAW2400 J'
