@@ -3,8 +3,8 @@ import pytest
 # from glob import glob
 import yaml
 
-# path_to_data = "test/data/"
-path_to_data = 'data/'
+path_to_data = "test/data/"
+# path_to_data = 'data/'
 
 
 # TODO: this fixture is no longer used, move it's data into sir_records.yml

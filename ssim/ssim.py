@@ -25,7 +25,8 @@ year_adjustment = {
 
 infinity_indicators = ['00XXX00'] #indicates that something should run until start/end of season
 
-def find_season_dates(season: str):
+def find_season_dates(season):
+    # type: (str) -> (str, str)
     """
     Get first and last dat eof Iata Season
 
@@ -255,7 +256,8 @@ def _parse_sir(text):
 
     return flight_leg_records
 
-def _uniformize_sim_as_sir(slot, iata_airport: str):
+def _uniformize_sim_as_sir(slot, iata_airport):
+    # type: (dict, str) -> dict
     """
     Processes a SIM from the perspective of an airport.
 
@@ -477,7 +479,8 @@ def _uniformize_sim(s):
     
     for i in range(0,len(uniform_slots)):
         seats = _explode_aircraft_configuration_string(uniform_slots[i]['aircraft_configuration_version'],s['raw'])
-        uniform_slots[i] = {**seats,**uniform_slots[i]}
+        # uniform_slots[i] = {**seats,**uniform_slots[i]}
+        uniform_slots[i] = _merge_two_dicts(seats, uniform_slots[i])
     
     return uniform_slots
 
@@ -546,7 +549,8 @@ def expand_slots(slots,season = None):
     logging.info('Expanded %i slots into %i flights.' % (len(slots), len(flattened_flights)))
     return flattened_flights
 
-def _explode_aircraft_configuration_string(aircraft_configuration_string: str, raw_line: str = "") -> dict:
+def _explode_aircraft_configuration_string(aircraft_configuration_string, raw_line = ""):
+    # type: (str, str) -> dict
     """
     Explodes a string containing aircraft information to.
 
