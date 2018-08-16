@@ -11,11 +11,7 @@ path_to_data = "test/data/"
 @pytest.fixture
 def slotfiles():
     # slotfiles_files = glob(path_to_data + 'slots_*.yml')
-    slotfiles_files = [
-        "slots_austria.yml",
-        "slots_belgium.yml",
-        "slots_netherlands.yml",
-    ]
+    slotfiles_files = ["slots_austria.yml", "slots_belgium.yml", "slots_netherlands.yml"]
     slotfile_list = []
     for slotfile in slotfiles_files:
         with open(path_to_data + slotfile) as f:

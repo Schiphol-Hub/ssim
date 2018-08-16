@@ -11,8 +11,6 @@ from ssim.ssim import _explode_aircraft_configuration_string
 def test_explode_aircraft_configuration_string(aircraft_configuration_strings):
     for aircraft_configuration_string in aircraft_configuration_strings:
         assert (
-            _explode_aircraft_configuration_string(
-                aircraft_configuration_string["string"]
-            )
+            _explode_aircraft_configuration_string(aircraft_configuration_string["string"])
             == aircraft_configuration_string["aircraft_configuration"]
         )
