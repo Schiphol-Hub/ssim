@@ -179,11 +179,21 @@ def _parse_sim(text):
     # record_4 = regexes['sim']['record_4'].finditer(text)
     # record_5 = regexes['sim']['record_5'].search(text).groupdict()
 
-    time_mode = record_2['time_mode']
-    if time_mode!='U':
-        raise NotImplementedError("Support for times other than U not yet implemented. Found time mode " + time_mode)
     flight_leg_records = list(map(lambda x: x.groupdict(), record_3))
     flight_leg_records = [_strip_dict_values(x) for x in flight_leg_records]
+
+    if record_2["time_mode"] == "U":
+        [x.update({"scheduled_time_of_aircraft_arrival": x["scheduled_time_of_aircraft_arrival"] + "+0000"}) for x in flight_leg_records]
+        [x.update({"scheduled_time_of_passenger_arrival": x["scheduled_time_of_passenger_arrival"] + "+0000"}) for x in flight_leg_records]
+        [x.update({"scheduled_time_of_aircraft_departure": x["scheduled_time_of_aircraft_departure"] + "+0000"}) for x in flight_leg_records]
+        [x.update({"scheduled_time_of_passenger_departure": x["scheduled_time_of_passenger_departure"] + "+0000"}) for x in flight_leg_records]
+
+    elif record_2["time_mode"] == "L":
+        [x.update({"scheduled_time_of_aircraft_arrival": x["scheduled_time_of_aircraft_arrival"] + x["utc_local_time_variation_arrival"]}) for x in flight_leg_records]
+        [x.update({"scheduled_time_of_passenger_arrival": x["scheduled_time_of_passenger_arrival"] + x["utc_local_time_variation_arrival"]}) for x in flight_leg_records]
+        [x.update({"scheduled_time_of_aircraft_departure": x["scheduled_time_of_aircraft_departure"] + x["utc_local_time_variation_departure"]}) for x in flight_leg_records]
+        [x.update({"scheduled_time_of_passenger_departure": x["scheduled_time_of_passenger_departure"] + x["utc_local_time_variation_departure"]}) for x in flight_leg_records]
+
     # segment_data_records = list(map(lambda x: x.groupdict(), record_4))
 
     return flight_leg_records
