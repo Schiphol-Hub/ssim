@@ -1,5 +1,22 @@
 - string: Y30
-
   aircraft_configuration:
     seats: 30
     seats_Y: 30
+
+- string: Y149VV73W
+  aircraft_configuration:
+    seats: 149
+    seats_Y: 149
+    VV: 73W
+
+- string: Y189VV738H
+  aircraft_configuration:
+    seats: 189
+    seats_Y: 189
+    VV: 738H
+
+- string: Y189VV738H189
+  aircraft_configuration:
+    seats: 189
+    seats_Y: 189
+    VV: 738H189
