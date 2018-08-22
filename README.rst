@@ -30,7 +30,7 @@ Using with python:
 
     import ssim
 
-    slots, header, footer = ssim.read('slotfile_example.SCR')
+    slots = ssim.read('slotfile_example.SCR')
     flights = ssim.expand_slots(slots)
 
 If using pandas then:
