@@ -152,12 +152,18 @@ def _expand(record, date_format="%d%b%y", season=None):
     period_of_operation_from = record["period_of_operation_from"]
     if period_of_operation_from in infinity_indicators:
         if season:
+            log_text = (
+                "Found infinity indicator %s as start date -> "
+                "set to start of season %s"
+                % (period_of_operation_from, season)
+            )
+            logging.warning(log_text)
             period_of_operation_from = find_season_dates(season)[0]
         else:
             raise ValueError(
                 "Found infinity indicator "
                 + period_of_operation_from
-                + " in file, but no season specified. Pleas sepcify season. \n"
+                + " in file, but no season specified. Pleas specify season. \n"
                 + record["raw"]
             )
     else:
@@ -166,12 +172,18 @@ def _expand(record, date_format="%d%b%y", season=None):
     period_of_operation_to = record["period_of_operation_to"]
     if period_of_operation_to in infinity_indicators:
         if season:
+            log_text = (
+                "Found infinity indicator %s as end date -> "
+                "set to end of season %s"
+                % (period_of_operation_to, season)
+            )
+            logging.warning(log_text)
             period_of_operation_to = find_season_dates(season)[-1]
         else:
             raise ValueError(
                 "Found infinity indicator "
                 + period_of_operation_to
-                + " in file, but no season specified. Pleas sepcify season. \n"
+                + " in file, but no season specified. Pleas specify season. \n"
                 + record["raw"]
             )
     else:
