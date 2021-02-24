@@ -49,7 +49,10 @@ year_adjustment = {
 }
 
 infinity_indicators = ["00XXX00"]  # indicates that something should run until start/end of season
-
+# According to the Standard Schedules Information Manual (IATA, March 2011)
+# the information following the characters "VV" refers to the aircraft version
+# reference code, and is thereby not of interest to determine the configuration
+acv_splitter = "VV" 
 
 def find_season_dates(season):
     # type: (str) -> (str, str)
@@ -690,8 +693,13 @@ def _explode_aircraft_configuration_string(aircraft_configuration_string, raw_li
     if aircraft_configuration_string.isdigit():
         return {"seats": int(aircraft_configuration_string)}
 
-    string_remainder = aircraft_configuration_string.rstrip()
+    # remove unnecessary elements from aircraft_configuration_string
+    acv_string = aircraft_configuration_string.rstrip().replace(' ', '')
+    # split acv_string on acv_splitter, which separates relevant acv info
+    # from aircraft version reference code
+    acv_context = acv_string.split(acv_splitter)
 
+    # all possible seat class designators
     seat_class_designators = [
         "P",
         "F",
@@ -721,62 +729,62 @@ def _explode_aircraft_configuration_string(aircraft_configuration_string, raw_li
         "R",
     ]
 
-    cargo_designators = ["LL", "PP"]  # unit load devices (containers)  # pallets
+    # unit load devices (containers), number of pallets
+    cargo_designators = [
+        "LL", 
+        "PP"
+    ]  
 
-    integer_designators = {"seats": seat_class_designators, "cargo": cargo_designators}
+    # general designator-units
+    general_designators = [
+        "BB"
+    ]  
+
+    # combine all approved designators per designator-group
+    allowed_designators = {
+        **{x: "seats" for x in seat_class_designators},
+        **{y: "cargo" for y in cargo_designators},
+        **{z: "general" for z in general_designators}
+    }
 
     acv_info = {}
 
-    # seat designator should be in fixed order according to standard
-    for designator_type, designators in integer_designators.items():
-        for designator in designators:
-            if string_remainder.startswith(designator) and (  # only continue if string starts with designator and...
-                len(designator) > 1
-                or not (  # either have a multi length designator
-                    (len(string_remainder) > 1 and string_remainder[1] == string_remainder[0])
-                    or string_remainder.startswith("V V")
-                )
-            ):  #
+    # if aircraft version reference code found in acv_string, store it in dict
+    if len(acv_context) > 1:
+        acv_info[acv_splitter] = acv_context[1]
+    # find all designator-value pairs, and loop over them to group information
+    included_designators = re.findall(r'(\w+?)(\d+)', acv_context[0])
+    for designator_pair in included_designators:
+        # verification that a designator pair includes both unit and value
+        assert len(designator_pair) == 2, \
+            "designator_pair does not contain type and number information"
 
-                acv_info_key = designator_type + "_" + designator
+        designator = designator_pair[0]
+        acv_info_val = int(designator_pair[1])
+        
+        # determine designator-group, and warn user if no group found
+        if designator in allowed_designators.keys():
+            acv_info_type = allowed_designators[designator]
+        else:
+            log_text = (
+                "Designator (%s) is not recognised as valid type. "
+                "Please check schedule"
+                % designator
+            )
+            if raw_line:
+                log_text += "\n Raw slot line: " + raw_line
+            logging.warning(log_text)
+            acv_info_type = "unknown"
+        acv_info_key = acv_info_type + "_" + designator            
 
-                # for next iteration, remove designator from beginning of string
-                string_remainder = string_remainder[len(designator):]
+        # if designator-group is seats, add found value to seats-total
+        if acv_info_type == "seats":
+            if acv_info_type in acv_info.keys():
+                acv_info[acv_info_type] += acv_info_val
+            else:
+                acv_info[acv_info_type] = acv_info_val
 
-                # standard specifies that there may be an int following. If not return empty string (to later on destinguish from NaN if data gets put in a data frame)
-                acv_info_val = ""
-                acv_regex = re.search(r"^\d*", string_remainder).group()
-
-                # if int found, add it to total and remove it from string to process as well
-                if acv_regex:
-                    acv_info_val = int(acv_regex)
-                    if designator_type == "seats":
-                        if designator_type in acv_info.keys():
-                            acv_info[designator_type] += acv_info_val
-                        else:
-                            acv_info[designator_type] = acv_info_val
-
-                    string_remainder = string_remainder[len(acv_regex):]
-
-                # store found information
-                acv_info[acv_info_key] = acv_info_val
-
-    # remainer are general designators
-    if string_remainder.startswith("BB"):
-        acv_info["BB"] = ""
-
-    # aircraft type
-    if string_remainder.startswith("VV"):
-        acv_info["VV"] = string_remainder[2:]
-    elif string_remainder.startswith("V V"):  # aircraft type alt. Assuming it won't appear together with VV.
-        acv_info["V V"] = string_remainder[3:]
-    elif len(string_remainder.strip()):
-        log_text = (
-            "After trying to process aircraft configuration string, there should be no remainder. However, the following string remains in this instance: (%s)"
-            % string_remainder
-        )
-        if raw_line:
-            log_text += "\n Raw slot line: " + raw_line
-        logging.warning(log_text)
+        # store found information
+        acv_info[acv_info_key] = acv_info_val
 
     return acv_info
