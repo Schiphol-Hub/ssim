@@ -10,6 +10,7 @@ from datetime import datetime, timedelta, date
 from dateutil.rrule import rrule, WEEKLY
 import sys
 import os
+import chardet
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), ".")))
 from regexes import regexes
@@ -616,7 +617,13 @@ def read(file, iata_airport=None):
     footer: dict, describing the footer of the slotfile.
     """
 
-    with open(file, "r") as f:
+    # determine encoding format from raw sample
+    # this allows import of format other than UTF-8
+    byte_count = min(32, os.path.getsize(file))
+    raw = open(file, 'rb').read(byte_count)
+    result = chardet.detect(raw)
+    encoding = result['encoding']
+    with open(file, "r", encoding=encoding) as f:
         text = f.read()
 
     slots = []
