@@ -20,3 +20,19 @@
     seats: 189
     seats_Y: 189
     VV: 738H189
+
+- string: J50Y202O24VV10
+  aircraft_configuration:
+    seats: 276
+    seats_J: 50
+    seats_O: 24
+    seats_Y: 202
+    VV: '10'
+
+- string: J50O24Y202VV10
+  aircraft_configuration:
+    seats: 276
+    seats_J: 50
+    seats_O: 24
+    seats_Y: 202
+    VV: '10'
