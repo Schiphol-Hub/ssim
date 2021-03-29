@@ -10,7 +10,6 @@ from datetime import datetime, timedelta, date
 from dateutil.rrule import rrule, WEEKLY
 import sys
 import os
-import chardet
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), ".")))
 from regexes import regexes
@@ -47,11 +46,15 @@ year_adjustment = {
         "DEC": 0,
     },
 }
+    
+# indicates that something should run until start/end of season
+infinity_indicators = ["00XXX00"]
 
-infinity_indicators = ["00XXX00"]  # indicates that something should run until start/end of season
 # According to the Standard Schedules Information Manual (IATA, March 2011)
 # the information following the characters "VV" refers to the aircraft version
-# reference code, and is thereby not of interest to determine the configuration
+# reference code and is thereby not of interest to determine the configuration.
+# Since the script removes all spaces from the configuration string, "VV" is 
+# sufficient to separate the configuration part from the aircraft version part
 acv_splitter = "VV" 
 
 def find_season_dates(season):
@@ -602,16 +605,17 @@ def _uniformize_sim(s):
     return uniform_slots
 
 
-def read(file, iata_airport=None):
+def read(file, iata_airport=None, encoding='UTF-8'):
     """
     Reads, detects filetype, parses and processes a valid flight records file.
 
     Parameters
     ----------.
-    file : path to a slotfile.
+    file: path to a slotfile.
     airport_iata: 3 letter capital string indicating iata airport. If passed
     along with SIM file, it will return data from perspective of airport (as 
     SIR)
+    encoding: string, encoding format of the slotfile to be read
 
     Returns
     -------
@@ -620,12 +624,6 @@ def read(file, iata_airport=None):
     footer: dict, describing the footer of the slotfile.
     """
 
-    # determine encoding format from raw sample
-    # this allows import of format other than UTF-8
-    byte_count = min(32, os.path.getsize(file))
-    raw = open(file, 'rb').read(byte_count)
-    result = chardet.detect(raw)
-    encoding = result['encoding']
     with open(file, "r", encoding=encoding) as f:
         text = f.read()
 
@@ -694,7 +692,7 @@ def _explode_aircraft_configuration_string(aircraft_configuration_string, raw_li
         return {"seats": int(aircraft_configuration_string)}
 
     # remove unnecessary elements from aircraft_configuration_string
-    acv_string = aircraft_configuration_string.rstrip().replace(' ', '')
+    acv_string = aircraft_configuration_string.strip().replace(' ', '')
     # split acv_string on acv_splitter, which separates relevant acv info
     # from aircraft version reference code
     acv_context = acv_string.split(acv_splitter)
