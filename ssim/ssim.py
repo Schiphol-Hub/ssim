@@ -586,7 +586,7 @@ def _uniformize_sim(s):
     return uniform_slots
 
 
-def read(file, iata_airport=None):
+def read(file, iata_airport=None, encoding=None):
     """
     Reads, detects filetype, parses and processes a valid flight records file.
 
@@ -596,6 +596,7 @@ def read(file, iata_airport=None):
     airport_iata: 3 letter capital string indicating iata airport. If passed
     along with SIM file, it will return data from perspective of airport (as 
     SIR)
+    encoding: is the name of the encoding used to decode the file.
 
     Returns
     -------
@@ -604,7 +605,7 @@ def read(file, iata_airport=None):
     footer: dict, describing the footer of the slotfile.
     """
 
-    with open(file, "r") as f:
+    with open(file, "r", encoding=encoding) as f:
         text = f.read()
 
     slots = []
