@@ -609,12 +609,12 @@ def read(file, iata_airport=None):
 
     slots = []
 
-    if regexes["sir"]["header"].match(text):
+    if regexes["sir"]["header"].search(text):
         logging.info("Reading and parsing SIR file: %s." % file)
         slots = _parse_sir(text)
         slots = _flatten([_uniformize_sir(x) for x in slots])
 
-    elif regexes["sim"]["record_1"].match(text):
+    elif regexes["sim"]["record_1"].search(text):
         if iata_airport:
             logging.info("Reading and parsing SIM file: %s." % file)
             slots = _parse_sim(text)
