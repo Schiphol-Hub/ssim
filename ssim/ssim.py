@@ -8,6 +8,8 @@ import logging
 import re
 from datetime import datetime, timedelta, date
 from dateutil.rrule import rrule, WEEKLY
+from itertools import groupby
+from operator import itemgetter
 import sys
 import os
 
@@ -194,6 +196,34 @@ def _expand(record, date_format="%d%b%y", season=None):
     records = [_merge_two_dicts(record, {"date": (x + td).strftime("%Y-%m-%d")}) for x in dates]
 
     return records
+
+
+def _get_rate_info(dates):
+    """
+    Get rate info from dates
+    Parameters
+    ----------
+    dates: list of dates to get rate info from
+
+    Returns
+    -------
+    rate_info: list of dicts, containing rate info
+    """
+    weekday_frequencies = []
+    for weekday, sub_dates in groupby(dates, lambda x: x.weekday() + 1):
+        d = sorted(sub_dates)
+        deltas = set((x - y).days for x, y in zip(d[1:], d))
+        assert len(deltas) == 1
+        weekday_frequencies.append((deltas.pop(), weekday))
+
+    rate_info = []
+    for frequency_rate, weekday in groupby(weekday_frequencies, key=itemgetter(0)):
+        weekday = list(weekday)
+        rate_info.append({
+            "days_of_operation": "".join(f"{i}" if i in [x[1] for x in weekday] else "0" for i in range(1, 8)),
+            "frequency_rate": None if frequency_rate == 7 else int(frequency_rate/7),
+        })
+    return rate_info
 
 
 def _parse_sim(text):
@@ -649,6 +679,34 @@ def expand_slots(slots, season=None):
 
     logging.info("Expanded %i slots into %i flights." % (len(slots), len(flattened_flights)))
     return flattened_flights
+
+
+def compress_flights(flights):
+    """
+    Compresses flights into a single slot if they have all the same information except for the date.
+
+    Parameters
+    ----------
+    flights: list of flight dicts
+
+    Returns
+    -------
+    slots: list of flight dicts
+
+    """
+    all_dates = [x.pop("date") for x in flights]
+    slots = []
+    no_frequency = {"days_of_operation": None, "frequency_rate": 1}
+    fmt = "%Y-%m-%d"
+
+    for flight, flight_dates in groupby(zip(flights, all_dates), itemgetter(0)):
+        dates = sorted([datetime.strptime(x[1], fmt).date() for x in flight_dates], key=lambda y: y.weekday())
+
+        if len(dates) == 1:
+            slots.append({**flight, "date": dates.pop(), **no_frequency})
+        else:
+            slots += [{**flight, **x} for x in _get_rate_info(dates)]
+    return slots
 
 
 def _explode_aircraft_configuration_string(aircraft_configuration_string, raw_line=""):
